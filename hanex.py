@@ -4,12 +4,20 @@ import requests
 from bs4 import BeautifulSoup
 import locale
 import datetime
+import os
+from dotenv import load_dotenv
+
+
+# Подгрузка ключей из файла .env
+load_dotenv()
+bot_token = os.getenv("BOT_TOKEN")
+
 
 # Настройка локали для форматирования чисел
 locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
 
 API_TOKEN = "7888621171:AAEpwt5kDXtAVOW3ecSzv7zWOGnSzfUicQM"
-bot = telebot.TeleBot(API_TOKEN)
+bot = telebot.TeleBot(bot_token)
 
 # Хранение идентификатора последнего сообщения об ошибке
 last_error_message_id = {}
