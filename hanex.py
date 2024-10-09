@@ -30,7 +30,14 @@ def main_menu():
     feedback_button = types.KeyboardButton("✉️ Написать менеджеру")
     about_button = types.KeyboardButton("ℹ️ О компании HanExport")
     channel_button = types.KeyboardButton("📢 Наш Telegram-канал")
-    keyboard.add(calculate_button, feedback_button, about_button, channel_button)
+    instagram_button = types.KeyboardButton("📸 Посетить наш Instagram")
+    keyboard.add(
+        calculate_button,
+        feedback_button,
+        about_button,
+        channel_button,
+        instagram_button,
+    )
     return keyboard
 
 
@@ -96,6 +103,13 @@ def handle_message(message):
     elif user_message == "📢 Наш Telegram-канал":
         bot.send_message(
             message.chat.id, "Перейдите по ссылке на наш канал: https://t.me/hanexport1"
+        )
+
+    # Обработка кнопки "Посетить наш Instagram"
+    elif user_message == "📸 Посетить наш Instagram":
+        bot.send_message(
+            message.chat.id,
+            "Посетите наш Instagram по ссылке: https://www.instagram.com/han.export/",
         )
 
     # Проверка, является ли сообщение ссылкой на автомобиль
