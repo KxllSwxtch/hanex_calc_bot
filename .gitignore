@@ -1,2 +1,4 @@
 .env
 .vscode/
+captcha-solver.py
+hanex_backup.py
