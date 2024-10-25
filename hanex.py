@@ -1,49 +1,48 @@
 import telebot
-from telebot import types
+import os
+import re
 import requests
-from bs4 import BeautifulSoup
+import json
 import locale
 import datetime
-import os
+from telebot import types
 from dotenv import load_dotenv
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from urllib.parse import urlparse, parse_qs
 
-
-# Подгрузка ключей из файла .env
+# Load keys from .env file
 load_dotenv()
 bot_token = os.getenv("BOT_TOKEN")
-
-
-# Настройка локали для форматирования чисел
-locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
-
 API_TOKEN = "7888621171:AAEpwt5kDXtAVOW3ecSzv7zWOGnSzfUicQM"
 bot = telebot.TeleBot(bot_token)
 
-# Хранение идентификатора последнего сообщения об ошибке
+# Set locale for number formatting
+locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
+
+# Storage for the last error message ID
 last_error_message_id = {}
 
+car_data = {}
 
-# Функция для создания главного меню
+
+# Main menu creation function
 def main_menu():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-    calculate_button = types.KeyboardButton("🔍 Рассчитать автомобиль до Владивостока")
-    feedback_button = types.KeyboardButton("✉️ Написать менеджеру")
-    about_button = types.KeyboardButton("ℹ️ О компании HanExport")
-    channel_button = types.KeyboardButton("📢 Наш Telegram-канал")
-    whatsapp_button = types.KeyboardButton("📞 Связаться через WhatsApp")
-    instagram_button = types.KeyboardButton("📸 Посетить наш Instagram")
     keyboard.add(
-        calculate_button,
-        feedback_button,
-        about_button,
-        channel_button,
-        whatsapp_button,
-        instagram_button,
+        types.KeyboardButton("🔍 Рассчитать автомобиль до Владивостока"),
+        types.KeyboardButton("✉️ Написать менеджеру"),
+        types.KeyboardButton("ℹ️ О компании HanExport"),
+        types.KeyboardButton("📢 Наш Telegram-канал"),
+        types.KeyboardButton("📞 Связаться через WhatsApp"),
+        types.KeyboardButton("📸 Посетить наш Instagram"),
     )
     return keyboard
 
 
-# Функция для старта
+# Start command handler
 @bot.message_handler(commands=["start"])
 def send_welcome(message):
     user_first_name = message.from_user.first_name
@@ -55,237 +54,192 @@ def send_welcome(message):
     bot.send_message(message.chat.id, welcome_message, reply_markup=main_menu())
 
 
-# Функция для расчета возраста автомобиля
-def calculate_age(year):
-    current_year = datetime.datetime.now().year
-    age = current_year - year
-    if age < 3:
-        return "до 3-х лет"
-    elif 3 <= age < 5:
-        return "от 3-х до 5-ти лет"
-    elif 5 <= age < 7:
-        return "от 5-ти до 7-ми лет"
-    else:
-        return "от 7-ми лет и старше"
-
-
-# Форматирование чисел
-def format_number(number):
-    return locale.format_string("%d", number, grouping=True)
-
-
-# Обработка входящих сообщений
-@bot.message_handler(func=lambda message: True)
-def handle_message(message):
-    user_message = message.text
-
-    # Обработка кнопки "Рассчитать автомобиль до Владивостока"
-    if user_message == "🔍 Рассчитать автомобиль до Владивостока":
-        bot.send_message(
-            message.chat.id,
-            "Пожалуйста, введите ссылку на автомобиль с сайта www.encar.com:",
-        )
-
-    # Обработка кнопки "Написать менеджеру"
-    elif user_message == "✉️ Написать менеджеру":
-        bot.send_message(
-            message.chat.id, "Вы можете связаться с менеджером по ссылке: @hanexport11"
-        )
-
-    # Обработка кнопки "Связаться через WhatsApp"
-    elif user_message == "📞 Связаться через WhatsApp":
-        whatsapp_link = "https://wa.me/821084266744"
-        bot.send_message(
-            message.chat.id,
-            f"Вы можете связаться с нами через WhatsApp по ссылке: {whatsapp_link}",
-        )
-
-    # Обработка кнопки "О компании HanExport"
-    elif user_message == "ℹ️ О компании HanExport":
-        about_message = (
-            "HanExport — это компания, специализирующаяся на экспорте автомобилей "
-            "из Южной Кореи в Россию. 🚘 Мы предлагаем широкий ассортимент автомобилей "
-            "по конкурентоспособным ценам и гарантируем высокий уровень обслуживания. 🌟"
-        )
-        bot.send_message(message.chat.id, about_message)
-
-    # Обработка кнопки "Наш Telegram-канал"
-    elif user_message == "📢 Наш Telegram-канал":
-        bot.send_message(
-            message.chat.id, "Перейдите по ссылке на наш канал: https://t.me/hanexport1"
-        )
-
-    # Обработка кнопки "Посетить наш Instagram"
-    elif user_message == "📸 Посетить наш Instagram":
-        bot.send_message(
-            message.chat.id,
-            "Посетите наш Instagram по ссылке: https://www.instagram.com/han.export/",
-        )
-
-    # Проверка, является ли сообщение ссылкой на автомобиль
-    elif "encar.com" in user_message:
-        calculate_cost(user_message, message)
-    else:
-        send_error_message(
-            message,
-            "⚠️ Пожалуйста, выберите действие из меню или введите действительную ссылку на авто с сайта www.encar.com.",
-        )
-
-
+# Error message handling
 def send_error_message(message, error_text):
     global last_error_message_id
 
-    # Удаляем предыдущее сообщение об ошибке, если оно существует
+    # Remove previous error message if it exists
     if last_error_message_id.get(message.chat.id):
         try:
             bot.delete_message(message.chat.id, last_error_message_id[message.chat.id])
         except Exception:
-            pass  # Игнорируем ошибки, если сообщение уже удалено или не существует
+            pass
 
-    # Отправляем новое сообщение об ошибке и сохраняем его идентификатор
+    # Send new error message and store its ID
     error_message = bot.reply_to(message, error_text)
     last_error_message_id[message.chat.id] = error_message.id
 
 
-# Настройка локали для форматирования чисел
-locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
-
-
-# Функция для форматирования чисел
-def format_number(number):
-    return locale.format_string("%d", number, grouping=True)
-
-
-# Функция для расчета возраста автомобиля по году выпуска
-def calculate_age(year):
-    current_year = 2024  # Замените на актуальный год, если потребуется
-    return current_year - int(year)
-
-
-# Функция для парсинга данных с сайта encar.com
+# Function to get car info using Selenium
 def get_car_info(url):
-    # Отправляем запрос на страницу автомобиля
-    response = requests.get(url)
+    # Configure WebDriver
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-infobars")
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_argument(
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
+    )
 
-    print(response)
+    service = Service(
+        "/opt/homebrew/bin/chromedriver"
+    )  # Specify your chromedriver path
 
-    # Проверяем успешность запроса
-    if response.status_code == 200:
-        # Создаем объект BeautifulSoup для парсинга HTML
-        soup = BeautifulSoup(response.text, "html.parser")
+    try:
+        # Start the WebDriver
+        driver = webdriver.Chrome(service=service, options=chrome_options)
+        driver.get(url)
 
-        # Парсинг данных: цена, год, объем двигателя
-        try:
-            # Извлекаем год автомобиля (второй li со span с классом blind)
-            year_li = soup.select_one("ul.list_carinfo li:nth-child(2) span.blind")
-            year = int(year_li.text.strip()) if year_li else None
-            print(f"Год автомобиля: {year}")  # Отладочное сообщение
+        # Check for reCAPTCHA
+        if "reCAPTCHA" in driver.page_source:
+            print("reCAPTCHA detected, please solve it manually.")
+            input("Press Enter after solving reCAPTCHA...")
 
-            # Извлекаем объем двигателя (пятый li)
-            engine_li = soup.select_one("ul.list_carinfo li:nth-child(5)")
-            engine_volume = engine_li.text.strip() if engine_li else None
-            print(f"Объем двигателя: {engine_volume}")  # Отладочное сообщение
+        # Parse the URL to get carid
+        parsed_url = urlparse(url)
+        query_params = parse_qs(parsed_url.query)
+        car_id = query_params.get("carid", [None])[0]
 
-            # Извлекаем стоимость автомобиля (span с классом txt_num)
-            price_span = soup.select_one("span.txt_num")
-            price = price_span.text.strip().replace(",", "") if price_span else None
-            print(f"Стоимость автомобиля: {price}")  # Отладочное сообщение
+        # Find the gallery container
+        gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+        items = gallery_element.find_elements(By.XPATH, ".//*")
 
-            # Возвращаем результат
-            return {
-                "year": year,
-                "engine_volume": engine_volume,
-                "price": int(price) if price else None,
-            }
-        except Exception as e:
-            print(f"Ошибка при парсинге данных: {e}")
-            return None
-    else:
-        print(f"Ошибка запроса: {response.status_code}")  # Отладочное сообщение
+        car_date = ""
+        car_engine_capacity = ""
+        car_price = ""
+
+        for index, item in enumerate(items):
+            if index == 10:
+                car_date = item.text
+            if index == 18:
+                car_engine_capacity = item.text
+
+        # Find the key info element
+        keyinfo_element = driver.find_element(By.CSS_SELECTOR, "div.wrap_keyinfo")
+        keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
+        keyinfo_texts = [item.text for item in keyinfo_items if item.text.strip() != ""]
+
+        for index, info in enumerate(keyinfo_texts):
+            if index == 12:
+                car_price = info
+
+        # Format values for the URL
+        formatted_price = car_price.replace(",", "")
+        formatted_engine_capacity = car_engine_capacity.replace(",", "")[0:-2]
+        cleaned_date = "".join(filter(str.isdigit, car_date))
+        formatted_date = f"01{cleaned_date[2:4]}{cleaned_date[:2]}"
+
+        # Construct the new URL
+        new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
+
+        return new_url
+
+    except Exception as e:
+        print(f"Произошла ошибка: {e}")
         return None
 
+    finally:
+        driver.quit()
 
-# Основная функция для расчета стоимости
+
+# Function to calculate the total cost
 def calculate_cost(link, message):
-    # Уведомление о начале обработки
+    global car_data
     bot.send_message(message.chat.id, "Данные переданы в обработку ⏳")
 
-    # Получаем данные с сайта encar.com
-    car_info = get_car_info(link)
-
-    if car_info:
-        year = car_info["year"]
-        engine_volume = car_info["engine_volume"]
-        price = car_info["price"]
-
-        if year and engine_volume and price:
-            # Форматирование объема двигателя
-            engine_volume_formatted = f"{engine_volume} cc"
-
-            # Форматирование возраста
-            age_formatted = calculate_age(year)
-
-            # Примерные расчеты
-            delivery_fee = 1000  # Фиксированная стоимость доставки
-            taxes = price * 0.1  # Примерные налоги (10%)
-            total_cost = price + delivery_fee + taxes
-
-            # Форматируем стоимость
-            total_cost_formatted = format_number(total_cost)
-            price_formatted = format_number(price)
-
-            # Формирование сообщения с результатом
-            result_message = (
-                f"Возраст: {age_formatted} лет\n"
-                f"Стоимость: {price_formatted} KRW\n"
-                f"Объём двигателя: {engine_volume_formatted}\n\n"
-                f"Стоимость автомобиля под ключ во Владивосток: {total_cost_formatted} RUB\n\n"
-                f"🔗 [Ссылка на автомобиль]({link})\n\n"
-                "Данное авто попадает под санкции, пожалуйста уточните возможность отправки в вашу страну у менеджера @hanexport11\n\n"
-                'Стоимость "под ключ" включает в себя все расходы до г. Владивосток, а именно: '
-                "оформление экспорта в Корее, фрахт, услуги брокера, склады временного хранения, "
-                "прохождение лаборатории для получения СБКТС и таможенную пошлину.\n\n"
-                "Актуальные курсы валют вы можете посмотреть в Меню.\n\n"
-                "По вопросам заказа авто вы можете обратиться к нашему менеджеру @hanexport11\n\n"
-                "🔗[Официальный телеграм канал](https://t.me/hanexport1)\n"
-            )
-
-            # Отправка сообщения с результатами
-            bot.send_message(message.chat.id, result_message, parse_mode="Markdown")
-
-            # Кнопки
-            keyboard = types.InlineKeyboardMarkup()
-            keyboard.add(
-                types.InlineKeyboardButton(
-                    "📊 Детализация расчёта", callback_data="detail"
-                )
-            )
-            keyboard.add(
-                types.InlineKeyboardButton(
-                    "📝 Технический отчёт об автомобиле",
-                    callback_data="technical_report",
-                )
-            )
-            keyboard.add(
-                types.InlineKeyboardButton(
-                    "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
-                )
-            )
-            keyboard.add(
-                types.InlineKeyboardButton(
-                    "🔍 Рассчитать стоимость другого автомобиля",
-                    callback_data="calculate_another",
-                )
-            )
-
-            # Отправка кнопок под сообщением
-            bot.send_message(
-                message.chat.id, "Что делаем дальше?", reply_markup=keyboard
-            )
+    # Check if the link is from the mobile version
+    if "fem.encar.com" in link:
+        # Extract all digits from the mobile link
+        car_id_match = re.findall(r"\d+", link)
+        if car_id_match:
+            car_id = car_id_match[0]  # Use the first match of digits
+            # Create the new URL
+            link = f"https://www.encar.com/dc/dc_cardetailview.do?carid={car_id}"
         else:
-            bot.send_message(
-                message.chat.id,
-                "🚫 Не удалось извлечь все необходимые данные. Проверьте ссылку.",
+            send_error_message(message, "🚫 Не удалось извлечь carid из ссылки.")
+            return
+
+    # Get car info and new URL
+    new_url = get_car_info(link)
+
+    if new_url:
+        response = requests.get(new_url)
+
+        if response.status_code == 200:
+            json_response = response.json()
+            car_data = json_response
+
+            # # TODO: REMOVE WHEN FINISHED
+            # print(json_response)
+
+            # Extract year from the car date string
+            year = json_response.get("result")["car"]["date"].split()[-1]
+            engine_volume = json_response.get("result")["car"]["engineVolume"]
+            price = json_response.get("result")["price"]["car"]["krw"]
+
+            if year and engine_volume and price:
+                engine_volume_formatted = f"{engine_volume} cc"
+                age_formatted = calculate_age(year)
+
+                total_cost = json_response.get("result")["price"]["grandTotal"]
+                total_cost_formatted = format_number(total_cost)
+                price_formatted = format_number(price)
+
+                result_message = (
+                    f"Возраст: {age_formatted}\n"
+                    f"Стоимость: {price_formatted} KRW\n"
+                    f"Объём двигателя: {engine_volume_formatted}\n\n"
+                    f"Стоимость автомобиля под ключ во Владивосток: {total_cost_formatted} RUB\n\n"
+                    f"🔗 [Ссылка на автомобиль]({link})\n\n"
+                    "Данное авто попадает под санкции, пожалуйста уточните возможность отправки в вашу страну у менеджера @hanexport11\n\n"
+                    'Стоимость "под ключ" включает в себя все расходы до г. Владивосток, а именно: '
+                    "оформление экспорта в Корее, фрахт, услуги брокера, склады временного хранения, "
+                    "прохождение лаборатории для получения СБКТС и таможенную пошлину.\n\n"
+                    "Актуальные курсы валют вы можете посмотреть в Меню.\n\n"
+                    "По вопросам заказа авто вы можете обратиться к нашему менеджеру @hanexport11\n\n"
+                    "🔗[Официальный телеграм канал](https://t.me/hanexport1)\n"
+                )
+
+                bot.send_message(message.chat.id, result_message, parse_mode="Markdown")
+
+                # Inline buttons for further actions
+                keyboard = types.InlineKeyboardMarkup()
+                keyboard.add(
+                    types.InlineKeyboardButton(
+                        "📊 Детализация расчёта", callback_data="detail"
+                    ),
+                )
+                keyboard.add(
+                    types.InlineKeyboardButton(
+                        "📝 Технический отчёт об автомобиле",
+                        callback_data="technical_report",
+                    ),
+                )
+                keyboard.add(
+                    types.InlineKeyboardButton(
+                        "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
+                    ),
+                )
+                keyboard.add(
+                    types.InlineKeyboardButton(
+                        "🔍 Рассчитать стоимость другого автомобиля",
+                        callback_data="calculate_another",
+                    ),
+                )
+
+                bot.send_message(
+                    message.chat.id, "Что делаем дальше?", reply_markup=keyboard
+                )
+            else:
+                bot.send_message(
+                    message.chat.id,
+                    "🚫 Не удалось извлечь все необходимые данные. Проверьте ссылку.",
+                )
+        else:
+            send_error_message(
+                message,
+                "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
             )
     else:
         send_error_message(
@@ -294,58 +248,143 @@ def calculate_cost(link, message):
         )
 
 
-# Обработка нажатия кнопки "📊 Детализация расчёта"
-@bot.callback_query_handler(func=lambda call: call.data == "detail")
-def handle_detail_query(call):
-    # Примерные значения для детализации
-    price_in_rub = format_number(111500000)  # Примерная цена автомобиля в рублях
-    export_document_fee = format_number(
-        0
-    )  # Стоимость оформления экспортных документов и доставки
-    broker_fees = format_number(100000)  # Брокерские расходы, СВХ, СБКТС
-    customs_duty = format_number(8130000)  # Таможенные пошлины
+# Callback query handler
+@bot.callback_query_handler(func=lambda call: True)
+def handle_callback_query(call):
+    global car_data
 
-    detail_message = (
-        "📊 **Детализация расчёта**\n\n"
-        f"**Стоимость автомобиля:** {price_in_rub} RUB\n"
-        f"**Оформление экспортных документов и доставка:** {export_document_fee} RUB\n"
-        f"**Брокерские расходы (СВХ, СБКТС):** {broker_fees} RUB\n"
-        f"**Таможенные пошлины:** {customs_duty} RUB\n\n"
-        "Итого: "
-        + format_number(111500000 + 1000 + 11150000)
-        + " RUB"  # Итоговая стоимость
-    )
+    print(car_data)
 
-    bot.send_message(call.message.chat.id, detail_message, parse_mode="Markdown")
+    if call.data.startswith("detail"):
+        details = {
+            "car_price_korea": car_data.get("result")["price"]["car"]["rub"],
+            "dealer_fee": car_data.get("result")["price"]["korea"]["ab"]["rub"],
+            "korea_logistics": car_data.get("result")["price"]["korea"]["logistic"][
+                "rub"
+            ],
+            "customs_fee": car_data.get("result")["price"]["korea"]["dutyCleaning"][
+                "rub"
+            ],
+            "delivery_fee": car_data.get("result")["price"]["korea"]["delivery"]["rub"],
+            "dealer_commission": car_data.get("result")["price"]["korea"][
+                "dealerCommission"
+            ]["rub"],
+            "russiaDuty": car_data.get("result")["price"]["russian"]["duty"]["rub"],
+            "recycle_fee": car_data.get("result")["price"]["russian"]["recyclingFee"][
+                "rub"
+            ],
+            "registration": car_data.get("result")["price"]["russian"]["registration"][
+                "rub"
+            ],
+            "sbkts": car_data.get("result")["price"]["russian"]["sbkts"]["rub"],
+            "svhAndExpertise": car_data.get("result")["price"]["russian"][
+                "svhAndExpertise"
+            ]["rub"],
+            "delivery": car_data.get("result")["price"]["russian"]["delivery"]["rub"],
+        }
 
-    # Кнопки после детализации
-    keyboard = types.InlineKeyboardMarkup()
-    keyboard.add(
-        types.InlineKeyboardButton(
-            "🔍 Рассчитать стоимость другого автомобиля",
-            callback_data="calculate_another",
-        ),
-    )
-    keyboard.add(
-        types.InlineKeyboardButton(
-            "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
-        ),
-    )
+        # Construct cost breakdown message
+        detail_message = (
+            "📝 Детализация расчёта:\n\n"
+            f"Стоимость авто: {format_number(details['car_price_korea'])}₽\n"
+            f"Услуги HanExport: {format_number(details['dealer_fee'])}₽\n"
+            f"Логистика по Южной Корее: {format_number(details['korea_logistics'])}₽\n"
+            f"Таможенная очистка: {format_number(details['customs_fee'])}₽\n"
+            f"Доставка до Владивостока: {format_number(details['delivery_fee'])}₽\n"
+            f"Комиссия дилера: {format_number(details['dealer_commission'])}₽\n"
+            f"Единая таможенная ставка (ЕТС): {format_number(details['russiaDuty'])}₽\n"
+            f"Утилизационный сбор: {format_number(details['recycle_fee'])}₽\n"
+            f"Оформление: {format_number(details['registration'])}₽\n"
+            f"СБКТС: {format_number(details['sbkts'])}₽\n"
+            f"СВХ + Экспертиза: {format_number(details['svhAndExpertise'])}₽\n"
+            f"Перегон: {format_number(details['delivery'])}₽\n"
+        )
 
-    bot.send_message(call.message.chat.id, "Что делаем дальше?", reply_markup=keyboard)
-    bot.answer_callback_query(call.id)  # Подтверждаем обработку нажатия кнопки
+        bot.send_message(call.message.chat.id, detail_message)
+
+        # Inline buttons for further actions
+        keyboard = types.InlineKeyboardMarkup()
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "📉 Рассчитать стоимость другого автомобиля",
+                callback_data="calculate_another",
+            )
+        )
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
+            )
+        )
+
+        bot.send_message(
+            call.message.chat.id, "Что делаем дальше?", reply_markup=keyboard
+        )
+
+    elif call.data == "calculate_another":
+        bot.send_message(
+            call.message.chat.id,
+            "Пожалуйста, введите ссылку на автомобиль с сайта www.encar.com:",
+        )
 
 
-# Обработка нажатия кнопки "🔍 Рассчитать стоимость другого автомобиля"
-@bot.callback_query_handler(func=lambda call: call.data == "calculate_another")
-def handle_calculate_another(call):
-    bot.send_message(
-        call.message.chat.id,
-        "Пожалуйста, введите ссылку на автомобиль с сайта www.encar.com:",
-    )
-    bot.answer_callback_query(call.id)  # Подтверждаем обработку нажатия кнопки
+# Message handler for processing the car calculation request
+@bot.message_handler(func=lambda message: True)
+def handle_message(message):
+    user_message = message.text
+
+    if user_message == "🔍 Рассчитать автомобиль до Владивостока":
+        bot.send_message(
+            message.chat.id,
+            "Пожалуйста, введите ссылку на автомобиль с сайта www.encar.com:",
+        )
+    elif user_message == "✉️ Написать менеджеру":
+        bot.send_message(
+            message.chat.id, "Вы можете связаться с менеджером по ссылке: @hanexport11"
+        )
+    elif user_message == "📞 Связаться через WhatsApp":
+        whatsapp_link = "https://wa.me/821084266744"
+        bot.send_message(
+            message.chat.id,
+            f"Вы можете связаться с нами через WhatsApp по ссылке: {whatsapp_link}",
+        )
+    elif user_message == "ℹ️ О компании HanExport":
+        about_message = (
+            "HanExport — это компания, специализирующаяся на экспорте автомобилей "
+            "из Южной Кореи. Мы предлагаем широкий выбор автомобилей и прозрачные условия "
+            "для наших клиентов."
+        )
+        bot.send_message(message.chat.id, about_message)
+    elif user_message == "📢 Наш Telegram-канал":
+        channel_link = "https://t.me/hanexport1"
+        bot.send_message(
+            message.chat.id, f"Подписывайтесь на наш Telegram-канал: {channel_link}"
+        )
+    elif user_message == "📸 Посетить наш Instagram":
+        instagram_link = "https://www.instagram.com/hanexport1"
+        bot.send_message(message.chat.id, f"Посетите наш Instagram: {instagram_link}")
+
+    # Process the car URL
+    elif user_message.startswith("http"):
+        calculate_cost(user_message, message)
 
 
-# Запуск бота
+# Utility function to calculate the age category
+def calculate_age(year):
+    current_year = datetime.datetime.now().year
+    age = current_year - int(year)
+
+    if age < 3:
+        return f"До {age} лет"
+    elif 3 <= age < 5:
+        return f"от {age} до {age + 2} лет"
+    else:
+        return f"от {age} лет"
+
+
+def format_number(number):
+    return locale.format_string("%d", number, grouping=True)
+
+
+# Run the bot
 if __name__ == "__main__":
     bot.polling(none_stop=True)
