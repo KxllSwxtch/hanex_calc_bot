@@ -5,6 +5,7 @@ import requests
 import json
 import locale
 import datetime
+import logging
 from telebot import types
 from dotenv import load_dotenv
 from selenium import webdriver
@@ -12,6 +13,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from urllib.parse import urlparse, parse_qs
+
+# Configure logging
+logging.basicConfig(
+    filename="bot.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 # Load keys from .env file
 load_dotenv()
@@ -55,7 +63,7 @@ def send_welcome(message):
     bot.send_message(message.chat.id, welcome_message, reply_markup=main_menu())
 
 
-# Error message handling
+# Error handling function
 def send_error_message(message, error_text):
     global last_error_message_id
 
@@ -63,12 +71,13 @@ def send_error_message(message, error_text):
     if last_error_message_id.get(message.chat.id):
         try:
             bot.delete_message(message.chat.id, last_error_message_id[message.chat.id])
-        except Exception:
-            pass
+        except Exception as e:
+            logging.error(f"Error deleting message: {e}")
 
     # Send new error message and store its ID
     error_message = bot.reply_to(message, error_text)
     last_error_message_id[message.chat.id] = error_message.id
+    logging.error(f"Error sent to user {message.chat.id}: {error_text}")
 
 
 # Function to get car info using Selenium
@@ -105,30 +114,70 @@ def get_car_info(url):
         car_id = query_params.get("carid", [None])[0]
         car_id_external = car_id
 
-        # Find the gallery container
-        gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
-        items = gallery_element.find_elements(By.XPATH, ".//*")
-
+        # Initialize variables for car details
         car_date = ""
         car_engine_capacity = ""
         car_price = ""
 
-        for index, item in enumerate(items):
-            if index == 10:
-                car_date = item.text
-            if index == 18:
-                car_engine_capacity = item.text
+        # Check for product_left
+        try:
+            product_left = driver.find_element(By.CLASS_NAME, "product_left")
+            product_left_splitted = product_left.text.split("\n")
 
-        # Find the key info element
-        keyinfo_element = driver.find_element(By.CSS_SELECTOR, "div.wrap_keyinfo")
-        keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
-        keyinfo_texts = [item.text for item in keyinfo_items if item.text.strip() != ""]
+            car_date = product_left_splitted[3]
+            car_engine_capacity = product_left_splitted[6]
+            car_price = re.sub(
+                r"\D", "", product_left_splitted[1]
+            )  # Удаляем все, кроме цифр
 
-        for index, info in enumerate(keyinfo_texts):
-            if index == 12:
-                car_price = info
+            formatted_price = car_price.replace(",", "")
+            formatted_engine_capacity = car_engine_capacity.replace(",", "")[0:-2]
+            cleaned_date = "".join(filter(str.isdigit, car_date))
+            formatted_date = f"01{cleaned_date[2:4]}{cleaned_date[:2]}"
 
-        # Format values for the URL
+            # Construct the new URL
+            new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
+            return new_url
+        except Exception as e:
+            print(
+                f"Элемент product_left не найден, ошибка: {e}. Переходим к gallery_photo."
+            )
+            # If product_left is not found, try to find the gallery container
+            try:
+                gallery_element = driver.find_element(
+                    By.CSS_SELECTOR, "div.gallery_photo"
+                )
+                items = gallery_element.find_elements(By.XPATH, ".//*")
+
+                for index, item in enumerate(items):
+                    if index == 10:
+                        car_date = item.text
+                    if index == 18:
+                        car_engine_capacity = item.text
+
+                # If gallery_photo is found, also try to get car price from wrap_keyinfo
+                try:
+                    keyinfo_element = driver.find_element(
+                        By.CSS_SELECTOR, "div.wrap_keyinfo"
+                    )
+                    keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
+                    keyinfo_texts = [
+                        item.text for item in keyinfo_items if item.text.strip() != ""
+                    ]
+
+                    for index, info in enumerate(keyinfo_texts):
+                        if index == 12:
+                            car_price = re.sub(
+                                r"\D", "", info
+                            )  # Удаляем все, кроме цифр
+
+                except Exception:
+                    print("Элемент wrap_keyinfo не найден.")
+
+            except Exception:
+                print("Не удалось найти элемент gallery_photo.")
+
+        # Форматируем значения для URL
         formatted_price = car_price.replace(",", "")
         formatted_engine_capacity = car_engine_capacity.replace(",", "")[0:-2]
         cleaned_date = "".join(filter(str.isdigit, car_date))
@@ -194,7 +243,7 @@ def calculate_cost(link, message):
                     f"Возраст: {age_formatted}\n"
                     f"Стоимость: {price_formatted} KRW\n"
                     f"Объём двигателя: {engine_volume_formatted}\n\n"
-                    f"Стоимость автомобиля под ключ во Владивосток: {total_cost_formatted}₽\n\n"
+                    f"Стоимость автомобиля под ключ до Владивостока: \n**{total_cost_formatted}₽**\n\n"
                     f"🔗 [Ссылка на автомобиль]({link})\n\n"
                     "Данное авто попадает под санкции, пожалуйста уточните возможность отправки в вашу страну у менеджера @hanexport11\n\n"
                     'Стоимость "под ключ" включает в себя все расходы до г. Владивосток, а именно: '
