@@ -16,7 +16,6 @@ from urllib.parse import urlparse, parse_qs
 # Load keys from .env file
 load_dotenv()
 bot_token = os.getenv("BOT_TOKEN")
-API_TOKEN = "7888621171:AAEpwt5kDXtAVOW3ecSzv7zWOGnSzfUicQM"
 bot = telebot.TeleBot(bot_token)
 
 # Set locale for number formatting
@@ -25,7 +24,9 @@ locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
 # Storage for the last error message ID
 last_error_message_id = {}
 
+# global variables
 car_data = {}
+car_id_external = ""
 
 
 # Main menu creation function
@@ -72,6 +73,8 @@ def send_error_message(message, error_text):
 
 # Function to get car info using Selenium
 def get_car_info(url):
+    global car_id_external
+
     # Configure WebDriver
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -100,6 +103,7 @@ def get_car_info(url):
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
+        car_id_external = car_id
 
         # Find the gallery container
         gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
@@ -146,6 +150,9 @@ def get_car_info(url):
 # Function to calculate the total cost
 def calculate_cost(link, message):
     global car_data
+
+    print("НОВЫЙ ЗАПРОС")
+
     bot.send_message(message.chat.id, "Данные переданы в обработку ⏳")
 
     # Check if the link is from the mobile version
@@ -170,9 +177,6 @@ def calculate_cost(link, message):
             json_response = response.json()
             car_data = json_response
 
-            # # TODO: REMOVE WHEN FINISHED
-            # print(json_response)
-
             # Extract year from the car date string
             year = json_response.get("result")["car"]["date"].split()[-1]
             engine_volume = json_response.get("result")["car"]["engineVolume"]
@@ -190,7 +194,7 @@ def calculate_cost(link, message):
                     f"Возраст: {age_formatted}\n"
                     f"Стоимость: {price_formatted} KRW\n"
                     f"Объём двигателя: {engine_volume_formatted}\n\n"
-                    f"Стоимость автомобиля под ключ во Владивосток: {total_cost_formatted} RUB\n\n"
+                    f"Стоимость автомобиля под ключ во Владивосток: {total_cost_formatted}₽\n\n"
                     f"🔗 [Ссылка на автомобиль]({link})\n\n"
                     "Данное авто попадает под санкции, пожалуйста уточните возможность отправки в вашу страну у менеджера @hanexport11\n\n"
                     'Стоимость "под ключ" включает в себя все расходы до г. Владивосток, а именно: '
@@ -248,12 +252,64 @@ def calculate_cost(link, message):
         )
 
 
+def get_insurance_total(car_id):
+    # Configure WebDriver
+    chrome_options = Options()
+    chrome_options.add_argument("--disable-infobars")
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_argument(
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
+    )
+
+    service = Service("/opt/homebrew/bin/chromedriver")
+
+    # Define the URL
+    url = f"http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id}&wtClick_carview=044"
+
+    try:
+        driver = webdriver.Chrome(service=service, options=chrome_options)
+        driver.get(url)
+
+        # Check for reCAPTCHA presence
+        if "reCAPTCHA" in driver.page_source:
+            print("reCAPTCHA detected, please solve it manually.")
+            input("Press Enter after solving reCAPTCHA...")
+
+        try:
+            smlist_element = driver.find_element(By.CLASS_NAME, "smlist")
+            # Выводим содержимое элемента
+            smlist_list = smlist_element.text.split("\n")
+            damage_to_my_car = (
+                "0" if smlist_list[-2] == "없음" else smlist_list[-2].split(", ")[1]
+            )
+            damage_to_other_car = (
+                "0" if smlist_list[-1] == "없음" else smlist_list[-1].split(", ")[1]
+            )
+
+            damage_to_my_car_formatted = ",".join(re.findall(r"\d+", damage_to_my_car))
+            damage_to_other_car_formatted = ",".join(
+                re.findall(r"\d+", damage_to_other_car)
+            )
+        except Exception as e:
+            print(f"Не удалось найти элемент с классом 'smlist': {e}")
+
+        # Optional: Process the text to extract relevant data
+        return [damage_to_my_car_formatted, damage_to_other_car_formatted]
+
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        return "Error retrieving insurance details."
+
+    finally:
+        driver.quit()
+
+
 # Callback query handler
 @bot.callback_query_handler(func=lambda call: True)
 def handle_callback_query(call):
-    global car_data
-
-    print(car_data)
+    global car_data, car_id_external
 
     if call.data.startswith("detail"):
         details = {
@@ -320,6 +376,38 @@ def handle_callback_query(call):
             call.message.chat.id, "Что делаем дальше?", reply_markup=keyboard
         )
 
+    elif call.data == "technical_report":
+        # Retrieve insurance information
+        insurance_info = get_insurance_total(car_id_external)
+
+        # Construct the message for the technical report
+        tech_report_message = (
+            f"Страховые выплаты по представленному автомобилю: {insurance_info[0]}₩\n\n"
+            f"Страховые выплаты другим участникам ДТП: {insurance_info[1]}₩\n\n"
+            f"[🔗 Ссылка на схему повреждений кузовных элементов 🔗](https://fem.encar.com/cars/report/inspect/{car_id_external})"
+        )
+
+        # Inline buttons for further actions
+        keyboard = types.InlineKeyboardMarkup()
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "📉 Рассчитать стоимость другого автомобиля",
+                callback_data="calculate_another",
+            )
+        )
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
+            )
+        )
+
+        bot.send_message(
+            call.message.chat.id,
+            tech_report_message,
+            parse_mode="Markdown",
+            reply_markup=keyboard,
+        )
+
     elif call.data == "calculate_another":
         bot.send_message(
             call.message.chat.id,
@@ -374,11 +462,11 @@ def calculate_age(year):
     age = current_year - int(year)
 
     if age < 3:
-        return f"До {age} лет"
+        return f"До 3 лет"
     elif 3 <= age < 5:
-        return f"от {age} до {age + 2} лет"
+        return f"от 3 до 5 лет"
     else:
-        return f"от {age} лет"
+        return f"от 5 лет"
 
 
 def format_number(number):
