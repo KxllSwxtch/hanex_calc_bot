@@ -37,6 +37,75 @@ car_data = {}
 car_id_external = ""
 
 
+# Функция для установки команд меню
+def set_bot_commands():
+    commands = [
+        types.BotCommand("start", "Запустить бота"),
+        types.BotCommand("cbr", "Курсы валют"),
+        types.BotCommand("currencyrates", "Актуальный курс оплаты"),
+    ]
+    bot.set_my_commands(commands)
+
+
+# Вызов функции для установки команд
+set_bot_commands()
+
+
+# Функция для получения курсов валют с API
+def get_currency_rates():
+    url = "https://www.cbr-xml-daily.ru/daily_json.js"
+    response = requests.get(url)
+    data = response.json()
+
+    # Получаем курсы валют
+    eur = data["Valute"]["EUR"]["Value"]
+    usd = data["Valute"]["USD"]["Value"]
+    krw = data["Valute"]["KRW"]["Value"]
+    cny = data["Valute"]["CNY"]["Value"]
+
+    # Форматируем текст
+    rates_text = (
+        f"Курс валют ЦБ:\n\n"
+        f"EUR {eur:.4f} ₽\n"
+        f"USD {usd:.4f} ₽\n"
+        f"KRW {krw:.4f} ₽\n"
+        f"CNY {cny:.4f} ₽"
+    )
+
+    return rates_text
+
+
+# Обработчик команды /cbr
+@bot.message_handler(commands=["cbr"])
+def cbr_command(message):
+    try:
+        rates_text = get_currency_rates()
+
+        # Создаем клавиатуру с кнопкой для расчета автомобиля
+        keyboard = types.InlineKeyboardMarkup()
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "🔍 Рассчитать стоимость автомобиля", callback_data="calculate_another"
+            )
+        )
+
+        # Отправляем сообщение с курсами и клавиатурой
+        bot.send_message(message.chat.id, rates_text, reply_markup=keyboard)
+    except Exception as e:
+        bot.send_message(
+            message.chat.id, "Не удалось получить курсы валют. Попробуйте позже."
+        )
+        print(f"Ошибка при получении курсов валют: {e}")
+
+
+# Обработчик команды /currencyrates
+@bot.message_handler(commands=["currencyrates"])
+def currencyrates_command(message):
+    bot.send_message(
+        message.chat.id, "Актуальные курсы валют: ..."
+    )  # Логика для курсов валют
+
+
 # Main menu creation function
 def main_menu():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
