@@ -9,6 +9,7 @@ import logging
 from telebot import types
 from dotenv import load_dotenv
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -207,10 +208,9 @@ def get_car_info(url):
             # Construct the new URL
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
             return new_url
-        except Exception as e:
-            print(
-                f"Элемент product_left не найден, ошибка: {e}. Переходим к gallery_photo."
-            )
+        except NoSuchElementException:
+            print("Элемент product_left не найден. Переходим к gallery_photo.")
+
             # If product_left is not found, try to find the gallery container
             try:
                 gallery_element = driver.find_element(
@@ -239,12 +239,10 @@ def get_car_info(url):
                             car_price = re.sub(
                                 r"\D", "", info
                             )  # Удаляем все, кроме цифр
-
                 except Exception:
                     print("Элемент wrap_keyinfo не найден.")
-
-            except Exception:
-                print("Не удалось найти элемент gallery_photo.")
+            except NoSuchElementException:
+                print("Элемент gallery_photo также не найден.")
 
         # Форматируем значения для URL
         formatted_price = car_price.replace(",", "")
@@ -542,6 +540,12 @@ def handle_message(message):
         bot.send_message(
             message.chat.id,
             "Пожалуйста, введите ссылку на автомобиль с сайта www.encar.com:",
+        )
+    elif not re.match(r"^https?://(www|fem)\.encar\.com/.*", user_message):
+        # Если сообщение не является корректной ссылкой
+        bot.send_message(
+            message.chat.id,
+            "Пожалуйста, введите корректную ссылку на автомобиль с сайта www.encar.com или fem.encar.com.",
         )
     elif user_message == "✉️ Написать менеджеру":
         bot.send_message(
