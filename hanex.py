@@ -2,7 +2,6 @@ import telebot
 import os
 import re
 import requests
-import json
 import locale
 import datetime
 import logging
