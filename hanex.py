@@ -1,3 +1,5 @@
+import pickle
+import time
 import telebot
 import os
 import re
@@ -13,6 +15,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from urllib.parse import urlparse, parse_qs
+
 
 # Configure logging
 logging.basicConfig(
@@ -35,6 +38,13 @@ last_error_message_id = {}
 # global variables
 car_data = {}
 car_id_external = ""
+
+# Удаляем файл cookies, если он существует
+if os.path.exists("cookies.pkl"):
+    os.remove("cookies.pkl")
+    print("Файл cookies удалён. Следующий запрос будет считаться новым.")
+else:
+    print("Файл cookies отсутствует. Код будет выполнен с нуля.")
 
 
 # Функция для установки команд меню
@@ -149,6 +159,26 @@ def send_error_message(message, error_text):
     logging.error(f"Error sent to user {message.chat.id}: {error_text}")
 
 
+# Предварительный "разогревающий" запрос
+def warmup_request(driver):
+    driver.get("https://fem.encar.com/company")  # Страница без reCAPTCHA
+    time.sleep(2)  # Подождём немного
+    # Сохраняем cookies
+    with open("cookies.pkl", "wb") as file:
+        pickle.dump(driver.get_cookies(), file)
+
+
+def load_cookies(driver):
+    # Загрузка cookies, если они были сохранены
+    try:
+        with open("cookies.pkl", "rb") as file:
+            cookies = pickle.load(file)
+            for cookie in cookies:
+                driver.add_cookie(cookie)
+    except FileNotFoundError:
+        print("Файл cookies не найден. Выполняем запрос без cookies.")
+
+
 # Function to get car info using Selenium
 def get_car_info(url):
     global car_id_external
@@ -170,6 +200,12 @@ def get_car_info(url):
     try:
         # Start the WebDriver
         driver = webdriver.Chrome(service=service, options=chrome_options)
+
+        try:
+            load_cookies(driver)
+        except:
+            warmup_request(driver)
+
         driver.get(url)
 
         # Check for reCAPTCHA
@@ -301,7 +337,13 @@ def calculate_cost(link, message):
                 engine_volume_formatted = f"{engine_volume} cc"
                 age_formatted = calculate_age(year)
 
-                total_cost = json_response.get("result")["price"]["grandTotal"]
+                total_cost = int(
+                    json_response.get("result")["price"]["grandTotal"]
+                ) - int(
+                    json_response.get("result")["price"]["russian"]["recyclingFee"][
+                        "rub"
+                    ]
+                )
                 total_cost_formatted = format_number(total_cost)
                 price_formatted = format_number(price)
 
@@ -464,7 +506,6 @@ def handle_callback_query(call):
             f"Доставка до Владивостока: {format_number(details['delivery_fee'])}₽\n"
             f"Комиссия дилера: {format_number(details['dealer_commission'])}₽\n"
             f"Единая таможенная ставка (ЕТС): {format_number(details['russiaDuty'])}₽\n"
-            f"Утилизационный сбор: {format_number(details['recycle_fee'])}₽\n"
             f"Оформление: {format_number(details['registration'])}₽\n"
             f"СБКТС: {format_number(details['sbkts'])}₽\n"
             f"СВХ + Экспертиза: {format_number(details['svhAndExpertise'])}₽\n"
