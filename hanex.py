@@ -499,19 +499,19 @@ def handle_callback_query(call):
         # Construct cost breakdown message
         detail_message = (
             "📝 Детализация расчёта:\n\n"
-            f"Стоимость авто: {format_number(details['car_price_korea'])}₽\n"
-            f"Услуги HanExport: {format_number(details['dealer_fee'])}₽\n"
-            f"Логистика по Южной Корее: {format_number(details['korea_logistics'])}₽\n"
-            f"Таможенная очистка: {format_number(details['customs_fee'])}₽\n"
-            f"Доставка до Владивостока: {format_number(details['delivery_fee'])}₽\n"
-            f"Комиссия дилера: {format_number(details['dealer_commission'])}₽\n"
-            f"Единая таможенная ставка (ЕТС): {format_number(details['russiaDuty'])}₽\n"
-            f"Оформление: {format_number(details['registration'])}₽\n"
-            f"СБКТС: {format_number(details['sbkts'])}₽\n"
-            f"СВХ + Экспертиза: {format_number(details['svhAndExpertise'])}₽\n"
+            f"Стоимость авто: <b>{format_number(details['car_price_korea'])}₽</b>\n\n"
+            f"Услуги HanExport: <b>{format_number(details['dealer_fee'])}₽</b>\n\n"
+            f"Логистика по Южной Корее: <b>{format_number(details['korea_logistics'])}₽</b>\n\n"
+            f"Таможенная очистка: <b>{format_number(details['customs_fee'])}₽</b>\n\n"
+            f"Доставка до Владивостока: <b>{format_number(details['delivery_fee'])}₽</b>\n\n"
+            f"Комиссия дилера: <b>{format_number(details['dealer_commission'])}₽</b>\n\n"
+            f"Единая таможенная ставка (ЕТС): <b>{format_number(details['russiaDuty'])}₽</b>\n\n"
+            f"Оформление: <b>{format_number(details['registration'])}₽</b>\n\n"
+            f"СБКТС: <b>{format_number(details['sbkts'])}₽</b>\n\n"
+            f"СВХ + Экспертиза: <b>{format_number(details['svhAndExpertise'])}₽</b>\n\n"
         )
 
-        bot.send_message(call.message.chat.id, detail_message)
+        bot.send_message(call.message.chat.id, detail_message, parse_mode="HTML")
 
         # Inline buttons for further actions
         keyboard = types.InlineKeyboardMarkup()
