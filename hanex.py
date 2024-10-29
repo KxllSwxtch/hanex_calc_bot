@@ -509,7 +509,6 @@ def handle_callback_query(call):
             f"Оформление: {format_number(details['registration'])}₽\n"
             f"СБКТС: {format_number(details['sbkts'])}₽\n"
             f"СВХ + Экспертиза: {format_number(details['svhAndExpertise'])}₽\n"
-            f"Перегон: {format_number(details['delivery'])}₽\n"
         )
 
         bot.send_message(call.message.chat.id, detail_message)
@@ -571,22 +570,22 @@ def handle_callback_query(call):
         )
 
 
-# Message handler for processing the car calculation request
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
-    user_message = message.text
+    user_message = message.text.strip()
 
+    # Проверяем нажатие кнопки "Рассчитать автомобиль"
     if user_message == "🔍 Рассчитать автомобиль до Владивостока":
         bot.send_message(
             message.chat.id,
             "Пожалуйста, введите ссылку на автомобиль с сайта www.encar.com:",
         )
-    elif not re.match(r"^https?://(www|fem)\.encar\.com/.*", user_message):
-        # Если сообщение не является корректной ссылкой
-        bot.send_message(
-            message.chat.id,
-            "Пожалуйста, введите корректную ссылку на автомобиль с сайта www.encar.com или fem.encar.com.",
-        )
+
+    # Проверка на корректность ссылки
+    elif re.match(r"^https?://(www|fem)\.encar\.com/.*", user_message):
+        calculate_cost(user_message, message)
+
+    # Проверка на другие команды
     elif user_message == "✉️ Написать менеджеру":
         bot.send_message(
             message.chat.id, "Вы можете связаться с менеджером по ссылке: @hanexport11"
@@ -613,9 +612,12 @@ def handle_message(message):
         instagram_link = "https://www.instagram.com/hanexport1"
         bot.send_message(message.chat.id, f"Посетите наш Instagram: {instagram_link}")
 
-    # Process the car URL
-    elif user_message.startswith("http"):
-        calculate_cost(user_message, message)
+    # Если сообщение не соответствует ни одному из условий
+    else:
+        bot.send_message(
+            message.chat.id,
+            "Пожалуйста, введите корректную ссылку на автомобиль с сайта www.encar.com или fem.encar.com.",
+        )
 
 
 # Utility function to calculate the age category
