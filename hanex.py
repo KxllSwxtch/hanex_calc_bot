@@ -14,6 +14,8 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from urllib.parse import urlparse, parse_qs
 
 
@@ -410,7 +412,7 @@ def calculate_cost(link, message):
 
 
 def get_insurance_total(car_id):
-    # Configure WebDriver
+    # Настройка WebDriver с нужными опциями
     chrome_options = Options()
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
@@ -422,42 +424,72 @@ def get_insurance_total(car_id):
 
     service = Service("/opt/homebrew/bin/chromedriver")
 
-    # Define the URL
+    # Формируем URL с использованием car_id
     url = f"http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id}&wtClick_carview=044"
 
     try:
+        # Запускаем WebDriver
         driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.get(url)
 
-        # Check for reCAPTCHA presence
+        # Проверяем наличие reCAPTCHA на странице
         if "reCAPTCHA" in driver.page_source:
-            print("reCAPTCHA detected, please solve it manually.")
-            input("Press Enter after solving reCAPTCHA...")
+            print("reCAPTCHA обнаружена, пожалуйста, решите её вручную.")
+            input("Нажмите Enter после решения reCAPTCHA...")
 
         try:
+            # Ищем элемент с классом 'smlist'
             smlist_element = driver.find_element(By.CLASS_NAME, "smlist")
-            # Выводим содержимое элемента
-            smlist_list = smlist_element.text.split("\n")
+            # Находим таблицу внутри элемента
+            table = smlist_element.find_element(By.TAG_NAME, "table")
+
+            # Получаем все строки таблицы
+            rows = table.find_elements(By.TAG_NAME, "tr")
+
+            # Извлекаем данные из пятого и шестого tr, если они существуют
             damage_to_my_car = (
-                "0" if smlist_list[-2] == "없음" else smlist_list[-2].split(", ")[1]
+                rows[4].find_elements(By.TAG_NAME, "td")[1].text
+                if len(rows) > 4
+                else "Нет данных"
             )
             damage_to_other_car = (
-                "0" if smlist_list[-1] == "없음" else smlist_list[-1].split(", ")[1]
+                rows[5].find_elements(By.TAG_NAME, "td")[1].text
+                if len(rows) > 5
+                else "Нет данных"
             )
 
-            damage_to_my_car_formatted = ",".join(re.findall(r"\d+", damage_to_my_car))
-            damage_to_other_car_formatted = ",".join(
-                re.findall(r"\d+", damage_to_other_car)
-            )
+            # Функция для извлечения и форматирования больших чисел
+            def extract_large_number(damage_text):
+                # Если в тексте присутствует "없음", возвращаем 0
+                if "없음" in damage_text:
+                    return "0"
+
+                # Извлекаем все числа, убирая 원 и другие нежелательные символы
+                numbers = re.findall(r"[\d,]+(?=\s*원)", damage_text)
+
+                # Если есть большие числа, возвращаем первое найденное большое число
+                if numbers:
+                    return numbers[0]
+                else:
+                    return "0"
+
+            # Извлекаем и форматируем данные
+            damage_to_my_car_formatted = extract_large_number(damage_to_my_car)
+            damage_to_other_car_formatted = extract_large_number(damage_to_other_car)
+
         except Exception as e:
             print(f"Не удалось найти элемент с классом 'smlist': {e}")
+            return [
+                "Ошибка: Не удалось найти нужные данные",
+                "Ошибка: Не удалось найти нужные данные",
+            ]
 
-        # Optional: Process the text to extract relevant data
+        # Возвращаем отформатированные данные
         return [damage_to_my_car_formatted, damage_to_other_car_formatted]
 
     except Exception as e:
-        print(f"Error occurred: {e}")
-        return "Error retrieving insurance details."
+        print(f"Произошла ошибка при получении данных: {e}")
+        return "Ошибка при получении деталей страховки."
 
     finally:
         driver.quit()
@@ -535,33 +567,69 @@ def handle_callback_query(call):
         # Retrieve insurance information
         insurance_info = get_insurance_total(car_id_external)
 
-        # Construct the message for the technical report
-        tech_report_message = (
-            f"Страховые выплаты по представленному автомобилю: {insurance_info[0]}₩\n\n"
-            f"Страховые выплаты другим участникам ДТП: {insurance_info[1]}₩\n\n"
-            f"[🔗 Ссылка на схему повреждений кузовных элементов 🔗](https://fem.encar.com/cars/report/inspect/{car_id_external})"
-        )
-
-        # Inline buttons for further actions
-        keyboard = types.InlineKeyboardMarkup()
-        keyboard.add(
-            types.InlineKeyboardButton(
-                "📉 Рассчитать стоимость другого автомобиля",
-                callback_data="calculate_another",
+        # Проверка на наличие ошибки
+        if "Ошибка" in insurance_info[0] or "Ошибка" in insurance_info[1]:
+            error_message = (
+                "Страховая история недоступна. \n\n"
+                f'<a href="https://fem.encar.com/cars/detail/{car_id_external}">🔗 Ссылка на автомобиль 🔗</a>'
             )
-        )
-        keyboard.add(
-            types.InlineKeyboardButton(
-                "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
-            )
-        )
 
-        bot.send_message(
-            call.message.chat.id,
-            tech_report_message,
-            parse_mode="Markdown",
-            reply_markup=keyboard,
-        )
+            # Inline buttons for further actions
+            keyboard = types.InlineKeyboardMarkup()
+            keyboard.add(
+                types.InlineKeyboardButton(
+                    "📉 Рассчитать стоимость другого автомобиля",
+                    callback_data="calculate_another",
+                )
+            )
+            keyboard.add(
+                types.InlineKeyboardButton(
+                    "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
+                )
+            )
+
+            # Отправка сообщения об ошибке
+            bot.send_message(
+                call.message.chat.id,
+                error_message,
+                parse_mode="HTML",
+                reply_markup=keyboard,
+            )
+        else:
+            current_car_insurance_payments = (
+                "0" if len(insurance_info[0]) == 0 else insurance_info[0]
+            )
+            other_car_insurance_payments = (
+                "0" if len(insurance_info[1]) == 0 else insurance_info[1]
+            )
+
+            # Construct the message for the technical report
+            tech_report_message = (
+                f"Страховые выплаты по представленному автомобилю: \n<b>{current_car_insurance_payments} ₩</b>\n\n"
+                f"Страховые выплаты другим участникам ДТП: \n<b>{other_car_insurance_payments} ₩</b>\n\n"
+                f'<a href="https://fem.encar.com/cars/report/inspect/{car_id_external}">🔗 Ссылка на схему повреждений кузовных элементов 🔗</a>'
+            )
+
+            # Inline buttons for further actions
+            keyboard = types.InlineKeyboardMarkup()
+            keyboard.add(
+                types.InlineKeyboardButton(
+                    "📉 Рассчитать стоимость другого автомобиля",
+                    callback_data="calculate_another",
+                )
+            )
+            keyboard.add(
+                types.InlineKeyboardButton(
+                    "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
+                )
+            )
+
+            bot.send_message(
+                call.message.chat.id,
+                tech_report_message,
+                parse_mode="HTML",
+                reply_markup=keyboard,
+            )
 
     elif call.data == "calculate_another":
         bot.send_message(
