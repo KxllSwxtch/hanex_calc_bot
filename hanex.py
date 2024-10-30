@@ -52,7 +52,6 @@ def set_bot_commands():
     commands = [
         types.BotCommand("start", "Запустить бота"),
         types.BotCommand("cbr", "Курсы валют"),
-        types.BotCommand("currencyrates", "Актуальный курс оплаты"),
     ]
     bot.set_my_commands(commands)
 
