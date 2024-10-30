@@ -1,4 +1,3 @@
-import pickle
 import time
 import telebot
 import os
@@ -14,9 +13,8 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from urllib.parse import urlparse, parse_qs
+from googletrans import Translator
 
 
 # Configure logging
@@ -41,12 +39,12 @@ last_error_message_id = {}
 car_data = {}
 car_id_external = ""
 
-# Удаляем файл cookies, если он существует
-if os.path.exists("cookies.pkl"):
-    os.remove("cookies.pkl")
-    print("Файл cookies удалён. Следующий запрос будет считаться новым.")
-else:
-    print("Файл cookies отсутствует. Код будет выполнен с нуля.")
+
+# Перевод текста с корейского на английский
+def translate_text(text):
+    translator = Translator()
+    translated = translator.translate(text, src="ko", dest="en")
+    return translated.text
 
 
 # Функция для установки команд меню
@@ -161,31 +159,47 @@ def send_error_message(message, error_text):
     logging.error(f"Error sent to user {message.chat.id}: {error_text}")
 
 
-# Предварительный "разогревающий" запрос
-def warmup_request(driver):
-    driver.get("https://fem.encar.com/company")  # Страница без reCAPTCHA
-    time.sleep(2)  # Подождём немного
-    # Сохраняем cookies
-    with open("cookies.pkl", "wb") as file:
-        pickle.dump(driver.get_cookies(), file)
+# CapSolver API key
+CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
+SITE_KEY = os.getenv("SITE_KEY")
+CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"  # Укажите путь к chromedriver
 
 
-def load_cookies(driver):
-    # Загрузка cookies, если они были сохранены
-    try:
-        with open("cookies.pkl", "rb") as file:
-            cookies = pickle.load(file)
-            for cookie in cookies:
-                driver.add_cookie(cookie)
-    except FileNotFoundError:
-        print("Файл cookies не найден. Выполняем запрос без cookies.")
+def solve_recaptcha_v3(url):
+    payload = {
+        "clientKey": CAPSOLVER_API_KEY,
+        "task": {
+            "type": "ReCaptchaV3TaskProxyLess",
+            "websiteKey": SITE_KEY,
+            "websiteURL": url,
+            "pageAction": "/dc/dc_cardetailview_do",
+        },
+    }
+    res = requests.post("https://api.capsolver.com/createTask", json=payload)
+    resp = res.json()
+    task_id = resp.get("taskId")
+    if not task_id:
+        print("Не удалось создать задачу:", res.text)
+        return None
+    print(f"Получен taskId: {task_id} / Ожидание результата...")
+
+    while True:
+        time.sleep(1)
+        payload = {"clientKey": CAPSOLVER_API_KEY, "taskId": task_id}
+        res = requests.post("https://api.capsolver.com/getTaskResult", json=payload)
+        resp = res.json()
+        if resp.get("status") == "ready":
+            print("reCAPTCHA успешно решена")
+            return resp.get("solution", {}).get("gRecaptchaResponse")
+        if resp.get("status") == "failed" or resp.get("errorId"):
+            print("Решение не удалось! Ответ:", res.text)
+            return None
 
 
 # Function to get car info using Selenium
 def get_car_info(url):
     global car_id_external
 
-    # Configure WebDriver
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-infobars")
@@ -194,65 +208,70 @@ def get_car_info(url):
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
     )
-
-    service = Service(
-        "/opt/homebrew/bin/chromedriver"
-    )  # Specify your chromedriver path
+    service = Service(CHROMEDRIVER_PATH)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
-        # Start the WebDriver
-        driver = webdriver.Chrome(service=service, options=chrome_options)
-
-        try:
-            load_cookies(driver)
-        except:
-            warmup_request(driver)
-
         driver.get(url)
 
-        # Check for reCAPTCHA
+        # Проверка на наличие reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
-            print("reCAPTCHA detected, please solve it manually.")
-            input("Press Enter after solving reCAPTCHA...")
+            print("Обнаружена reCAPTCHA. Пытаемся решить...")
+            recaptcha_response = solve_recaptcha_v3(url)
+            if recaptcha_response:
+                driver.execute_script(
+                    f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
+                )
+                driver.execute_script("document.forms[0].submit();")
+                time.sleep(3)  # Подождем, пока страница загрузится после отправки формы
+            else:
+                print("Решение reCAPTCHA не удалось.")
+                return None
 
-        # Parse the URL to get carid
+        # Парсим URL для получения carid
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
         car_id_external = car_id
 
-        # Initialize variables for car details
+        # Инициализация переменных для информации о машине
+        car_title = ""
         car_date = ""
         car_engine_capacity = ""
         car_price = ""
 
-        # Check for product_left
+        # Проверка элемента product_left
         try:
             product_left = driver.find_element(By.CLASS_NAME, "product_left")
             product_left_splitted = product_left.text.split("\n")
 
+            prod_name = product_left.find_element(By.CLASS_NAME, "prod_name")
+
+            car_title = prod_name.text.strip()
             car_date = product_left_splitted[3]
             car_engine_capacity = product_left_splitted[6]
-            car_price = re.sub(
-                r"\D", "", product_left_splitted[1]
-            )  # Удаляем все, кроме цифр
+            car_price = re.sub(r"\D", "", product_left_splitted[1])
 
             formatted_price = car_price.replace(",", "")
             formatted_engine_capacity = car_engine_capacity.replace(",", "")[0:-2]
             cleaned_date = "".join(filter(str.isdigit, car_date))
             formatted_date = f"01{cleaned_date[2:4]}{cleaned_date[:2]}"
 
-            # Construct the new URL
+            # Создание URL для передачи данных
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
-            return new_url
+            return [new_url, car_title]
+
         except NoSuchElementException:
             print("Элемент product_left не найден. Переходим к gallery_photo.")
 
-            # If product_left is not found, try to find the gallery container
             try:
                 gallery_element = driver.find_element(
                     By.CSS_SELECTOR, "div.gallery_photo"
                 )
+
+                prod_name = gallery_element.find_element(By.CLASS_NAME, "prod_name")
+                car_title = prod_name.text
+
                 items = gallery_element.find_elements(By.XPATH, ".//*")
 
                 for index, item in enumerate(items):
@@ -261,7 +280,6 @@ def get_car_info(url):
                     if index == 18:
                         car_engine_capacity = item.text
 
-                # If gallery_photo is found, also try to get car price from wrap_keyinfo
                 try:
                     keyinfo_element = driver.find_element(
                         By.CSS_SELECTOR, "div.wrap_keyinfo"
@@ -273,24 +291,22 @@ def get_car_info(url):
 
                     for index, info in enumerate(keyinfo_texts):
                         if index == 12:
-                            car_price = re.sub(
-                                r"\D", "", info
-                            )  # Удаляем все, кроме цифр
-                except Exception:
+                            car_price = re.sub(r"\D", "", info)
+                except NoSuchElementException:
                     print("Элемент wrap_keyinfo не найден.")
             except NoSuchElementException:
                 print("Элемент gallery_photo также не найден.")
 
-        # Форматируем значения для URL
+        # Форматирование значений для URL
         formatted_price = car_price.replace(",", "")
         formatted_engine_capacity = car_engine_capacity.replace(",", "")[0:-2]
         cleaned_date = "".join(filter(str.isdigit, car_date))
         formatted_date = f"01{cleaned_date[2:4]}{cleaned_date[:2]}"
 
-        # Construct the new URL
+        # Конечный URL
         new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
 
-        return new_url
+        return [new_url, car_title]
 
     except Exception as e:
         print(f"Произошла ошибка: {e}")
@@ -321,7 +337,8 @@ def calculate_cost(link, message):
             return
 
     # Get car info and new URL
-    new_url = get_car_info(link)
+    [new_url, car_title] = get_car_info(link)
+    car_title_translated = translate_text(car_title)
 
     if new_url:
         response = requests.get(new_url)
@@ -350,6 +367,7 @@ def calculate_cost(link, message):
                 price_formatted = format_number(price)
 
                 result_message = (
+                    f"{car_title_translated}\n\n"
                     f"Возраст: {age_formatted}\n"
                     f"Стоимость: {price_formatted} KRW\n"
                     f"Объём двигателя: {engine_volume_formatted}\n\n"
