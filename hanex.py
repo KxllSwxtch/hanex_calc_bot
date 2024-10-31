@@ -265,6 +265,20 @@ def get_car_info(url):
         car_id = query_params.get("carid", [None])[0]
         car_id_external = car_id
 
+        # Проверка элемента areaLeaseRent на наличие лизинга
+        try:
+            lease_area = driver.find_element(By.ID, "areaLeaseRent")
+            title_element = lease_area.find_element(By.CLASS_NAME, "title")
+
+            if "리스정보" in title_element.text or "렌트정보" in title_element.text:
+                return [
+                    "",
+                    "Данная машина находится в лизинге. Свяжитесь с менеджером.",
+                ]
+
+        except NoSuchElementException:
+            print("Элемент areaLeaseRent не найден или нет информации о лизинге.")
+
         # Инициализация переменных для информации о машине
         car_title = ""
         car_date = ""
@@ -368,10 +382,44 @@ def calculate_cost(link, message):
             return
 
     # Get car info and new URL
-    [new_url, car_title] = get_car_info(link)
-    car_title_translated = translate_text(car_title)
+    result = get_car_info(link)
 
-    if new_url:
+    if result is None:
+        send_error_message(
+            message,
+            "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
+        )
+        return
+
+    new_url, car_title = result
+
+    # Проверка на наличие информации о лизинге
+    if not new_url and len(car_title) > 1:
+        # Inline buttons for further actions
+        keyboard = types.InlineKeyboardMarkup()
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "Написать менеджеру", url="https://t.me/hanexport11"
+            ),
+        )
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "🔍 Рассчитать стоимость другого автомобиля",
+                callback_data="calculate_another",
+            ),
+        )
+        bot.send_message(
+            message.chat.id,
+            car_title,  # сообщение что машина лизинговая
+            parse_mode="Markdown",
+            reply_markup=keyboard,
+        )
+        return  # Завершаем функцию, чтобы избежать дальнейшей обработки
+
+    if car_title:
+        car_title_translated = translate_text(car_title)
+
+    if new_url and car_title:
         response = requests.get(new_url)
 
         if response.status_code == 200:
@@ -405,11 +453,6 @@ def calculate_cost(link, message):
                     f"Стоимость автомобиля под ключ до Владивостока: \n**{total_cost_formatted}₽**\n\n"
                     f"🔗 [Ссылка на автомобиль]({link})\n\n"
                     "Данное авто попадает под санкции, пожалуйста уточните возможность отправки в вашу страну у менеджера @hanexport11\n\n"
-                    'Стоимость "под ключ" включает в себя все расходы до г. Владивосток, а именно: '
-                    "оформление экспорта в Корее, фрахт, услуги брокера, склады временного хранения, "
-                    "прохождение лаборатории для получения СБКТС и таможенную пошлину.\n\n"
-                    "Актуальные курсы валют вы можете посмотреть в Меню.\n\n"
-                    "По вопросам заказа авто вы можете обратиться к нашему менеджеру @hanexport11\n\n"
                     "🔗[Официальный телеграм канал](https://t.me/hanexport1)\n"
                 )
 
