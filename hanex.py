@@ -1,4 +1,5 @@
 import time
+import pickle
 import telebot
 import os
 import re
@@ -15,6 +16,12 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from urllib.parse import urlparse, parse_qs
 from googletrans import Translator
+
+# CapSolver API key
+CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
+SITE_KEY = os.getenv("SITE_KEY")
+CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"  # Укажите путь к chromedriver
+COOKIES_FILE = "cookies.pkl"
 
 
 # Configure logging
@@ -69,7 +76,10 @@ def get_currency_rates():
     # Получаем курсы валют
     eur = data["Valute"]["EUR"]["Value"]
     usd = data["Valute"]["USD"]["Value"]
+
     krw = data["Valute"]["KRW"]["Value"]
+    krw_nominal = data["Valute"]["KRW"]["Nominal"]
+
     cny = data["Valute"]["CNY"]["Value"]
 
     # Форматируем текст
@@ -77,7 +87,7 @@ def get_currency_rates():
         f"Курс валют ЦБ:\n\n"
         f"EUR {eur:.4f} ₽\n"
         f"USD {usd:.4f} ₽\n"
-        f"KRW {krw:.4f} ₽\n"
+        f"KRW {krw/krw_nominal:.4f} ₽\n"
         f"CNY {cny:.4f} ₽"
     )
 
@@ -158,19 +168,13 @@ def send_error_message(message, error_text):
     logging.error(f"Error sent to user {message.chat.id}: {error_text}")
 
 
-# CapSolver API key
-CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
-SITE_KEY = os.getenv("SITE_KEY")
-CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"  # Укажите путь к chromedriver
-
-
-def solve_recaptcha_v3(url):
+def solve_recaptcha_v3():
     payload = {
         "clientKey": CAPSOLVER_API_KEY,
         "task": {
             "type": "ReCaptchaV3TaskProxyLess",
             "websiteKey": SITE_KEY,
-            "websiteURL": url,
+            "websiteURL": "http://www.encar.com:80",
             "pageAction": "/dc/dc_cardetailview_do",
         },
     }
@@ -200,6 +204,8 @@ def get_car_info(url):
     global car_id_external
 
     chrome_options = Options()
+    chrome_options = Options()
+    chrome_options.add_argument("user-data-dir=./profile")  # Путь к папке профиля
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
@@ -210,22 +216,48 @@ def get_car_info(url):
     service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
+    # Проверяем, есть ли файл с куки
+    if os.path.exists(COOKIES_FILE):
+        with open("cookies.pkl", "rb") as cookies_file:
+            cookies = pickle.load(cookies_file)
+            driver.get(url)
+            for cookie in cookies:
+                driver.add_cookie(cookie)
+
     try:
         driver.get(url)
 
-        # Проверка на наличие reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
-            recaptcha_response = solve_recaptcha_v3(url)
-            if recaptcha_response:
-                driver.execute_script(
-                    f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
-                )
-                driver.execute_script("document.forms[0].submit();")
-                time.sleep(3)  # Подождем, пока страница загрузится после отправки формы
-            else:
-                print("Решение reCAPTCHA не удалось.")
-                return None
+            driver.refresh()
+
+            # if recaptcha_response:
+            #     # Заполняем g-recaptcha-response
+            #     driver.execute_script(
+            #         f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
+            #     )
+
+            #     # Извлекаем токен
+            #     recaptcha_token = driver.find_element_by_id(
+            #         "recaptcha-token"
+            #     ).get_attribute("value")
+
+            #     # Отправляем форму
+            #     driver.execute_script("document.forms[0].submit();")
+            #     time.sleep(5)  # Подождите, чтобы страница успела загрузиться
+
+            #     # Проверяем, была ли форма отправлена успешно
+            #     if recaptcha_token:
+            #         print("Форма отправлена успешно.")
+            #     else:
+            #         print("Не удалось получить токен reCAPTCHA.")
+
+            #     # Обновите URL после отправки формы
+            #     driver.get(url)
+
+        # Сохранение куки после успешного решения reCAPTCHA или загрузки страницы
+        with open(COOKIES_FILE, "wb") as cookies_file:
+            pickle.dump(driver.get_cookies(), cookies_file)
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
@@ -309,7 +341,7 @@ def get_car_info(url):
 
     except Exception as e:
         print(f"Произошла ошибка: {e}")
-        return None
+        return None, None
 
     finally:
         driver.quit()
