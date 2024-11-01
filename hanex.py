@@ -280,7 +280,7 @@ def get_car_info(url):
             if recaptcha_response:
                 # Ждем, пока элемент g-recaptcha-response станет доступен
                 try:
-                    wait = WebDriverWait(driver, 10)  # Ожидание до 10 секунд
+                    wait = WebDriverWait(driver, 3)  # Ожидание до 10 секунд
                     recaptcha_element = wait.until(
                         EC.presence_of_element_located((By.ID, "g-recaptcha-response"))
                     )
