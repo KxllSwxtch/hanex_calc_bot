@@ -377,7 +377,9 @@ def get_car_info(url):
 def calculate_cost(link, message):
     global car_data
 
+    print("\n\n#################")
     print("НОВЫЙ ЗАПРОС")
+    print("#################\n\n")
 
     bot.send_message(message.chat.id, "Данные переданы в обработку ⏳")
 
@@ -406,7 +408,7 @@ def calculate_cost(link, message):
     new_url, car_title = result
 
     # Проверка на наличие информации о лизинге
-    if not new_url and len(car_title) > 1:
+    if not new_url and car_title:
         # Inline buttons for further actions
         keyboard = types.InlineKeyboardMarkup()
         keyboard.add(
