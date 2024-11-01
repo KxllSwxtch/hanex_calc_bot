@@ -4,3 +4,4 @@ captcha-solver.py
 hanex_backup.py
 __pycache__/
 profile/
+venv/
