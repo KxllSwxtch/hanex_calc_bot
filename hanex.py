@@ -221,7 +221,7 @@ def get_car_info(url):
     chrome_options = Options()
     chrome_options.add_argument("user-data-dir=./profile")  # Путь к папке профиля
     chrome_options.add_argument("--disable-gpu")
-    # chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
