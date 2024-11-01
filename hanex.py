@@ -20,8 +20,8 @@ from googletrans import Translator
 # CapSolver API key
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
 SITE_KEY = os.getenv("SITE_KEY")
-# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-CHROMEDRIVER_PATH = "/opt/homeb rew/bin/chromedriver"
+CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 COOKIES_FILE = "cookies.pkl"
 
 session = requests.Session()
