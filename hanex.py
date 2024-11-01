@@ -569,12 +569,10 @@ def get_insurance_total(car_id):
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
-
     chrome_options.add_argument("--window-size=1920,1080")  # Устанавливает размер окна
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-
     chrome_options.add_argument("--enable-logging")
     chrome_options.add_argument("--v=1")  # Уровень логирования
     chrome_options.add_argument(
@@ -596,52 +594,48 @@ def get_insurance_total(car_id):
             print("reCAPTCHA обнаружена, пожалуйста, решите её вручную.")
             input("Нажмите Enter после решения reCAPTCHA...")
 
-        try:
-            # Ищем элемент с классом 'smlist'
-            smlist_element = driver.find_element(By.CLASS_NAME, "smlist")
-            # Находим таблицу внутри элемента
-            table = smlist_element.find_element(By.TAG_NAME, "table")
+        # Явное ожидание появления элемента 'smlist'
+        wait = WebDriverWait(driver, 10)  # Ждем до 10 секунд
+        smlist_element = wait.until(
+            EC.presence_of_element_located((By.CLASS_NAME, "smlist"))
+        )
 
-            # Получаем все строки таблицы
-            rows = table.find_elements(By.TAG_NAME, "tr")
+        # Находим таблицу внутри элемента
+        table = smlist_element.find_element(By.TAG_NAME, "table")
 
-            # Извлекаем данные из пятого и шестого tr, если они существуют
-            damage_to_my_car = (
-                rows[4].find_elements(By.TAG_NAME, "td")[1].text
-                if len(rows) > 4
-                else "Нет данных"
-            )
-            damage_to_other_car = (
-                rows[5].find_elements(By.TAG_NAME, "td")[1].text
-                if len(rows) > 5
-                else "Нет данных"
-            )
+        # Получаем все строки таблицы
+        rows = table.find_elements(By.TAG_NAME, "tr")
 
-            # Функция для извлечения и форматирования больших чисел
-            def extract_large_number(damage_text):
-                # Если в тексте присутствует "없음", возвращаем 0
-                if "없음" in damage_text:
-                    return "0"
+        # Извлекаем данные из пятого и шестого tr, если они существуют
+        damage_to_my_car = (
+            rows[4].find_elements(By.TAG_NAME, "td")[1].text
+            if len(rows) > 4
+            else "Нет данных"
+        )
+        damage_to_other_car = (
+            rows[5].find_elements(By.TAG_NAME, "td")[1].text
+            if len(rows) > 5
+            else "Нет данных"
+        )
 
-                # Извлекаем все числа, убирая 원 и другие нежелательные символы
-                numbers = re.findall(r"[\d,]+(?=\s*원)", damage_text)
+        # Функция для извлечения и форматирования больших чисел
+        def extract_large_number(damage_text):
+            # Если в тексте присутствует "없음", возвращаем 0
+            if "없음" in damage_text:
+                return "0"
 
-                # Если есть большие числа, возвращаем первое найденное большое число
-                if numbers:
-                    return numbers[0]
-                else:
-                    return "0"
+            # Извлекаем все числа, убирая 원 и другие нежелательные символы
+            numbers = re.findall(r"[\d,]+(?=\s*원)", damage_text)
 
-            # Извлекаем и форматируем данные
-            damage_to_my_car_formatted = extract_large_number(damage_to_my_car)
-            damage_to_other_car_formatted = extract_large_number(damage_to_other_car)
+            # Если есть большие числа, возвращаем первое найденное большое число
+            if numbers:
+                return numbers[0]
+            else:
+                return "0"
 
-        except Exception as e:
-            print(f"Не удалось найти элемент с классом 'smlist': {e}")
-            return [
-                "Ошибка: Не удалось найти нужные данные",
-                "Ошибка: Не удалось найти нужные данные",
-            ]
+        # Извлекаем и форматируем данные
+        damage_to_my_car_formatted = extract_large_number(damage_to_my_car)
+        damage_to_other_car_formatted = extract_large_number(damage_to_other_car)
 
         # Возвращаем отформатированные данные
         return [damage_to_my_car_formatted, damage_to_other_car_formatted]
