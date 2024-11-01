@@ -250,27 +250,26 @@ def get_car_info(url):
     try:
         driver.get(url)
 
-        # if "reCAPTCHA" in driver.page_source:
-        #     print("Обнаружена reCAPTCHA. Пытаемся решить...")
-        # driver.refresh()
+        if "reCAPTCHA" in driver.page_source:
+            print("Обнаружена reCAPTCHA. Пытаемся решить...")
 
-        #     recaptcha_response = solve_recaptcha_v3()
+            recaptcha_response = solve_recaptcha_v3()
 
-        #     if recaptcha_response:
-        #         # Заполняем g-recaptcha-response
-        #         driver.execute_script(
-        #             f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
-        #         )
+            if recaptcha_response:
+                # Заполняем g-recaptcha-response
+                driver.execute_script(
+                    f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
+                )
 
-        #         # Отправляем форму
-        #         driver.execute_script("document.forms[0].submit();")
-        #         time.sleep(5)  # Подождите, чтобы страница успела загрузиться
+                # Отправляем форму
+                driver.execute_script("document.forms[0].submit();")
+                time.sleep(10)  # Подождите, чтобы страница успела загрузиться
 
-        #         # Обновите URL после отправки формы
-        #         driver.get(url)
+                # Обновите URL после отправки формы
+                driver.get(url)
 
-        # # Сохранение куки после успешного решения reCAPTCHA или загрузки страницы
-        # save_cookies()
+        # Сохранение куки после успешного решения reCAPTCHA или загрузки страницы
+        save_cookies()
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
