@@ -2,6 +2,7 @@ import time
 import pickle
 import telebot
 import os
+import asyncio
 import re
 import requests
 import locale
@@ -18,7 +19,8 @@ from urllib.parse import urlparse, parse_qs
 from googletrans import Translator
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException  # Добавлено
+from selenium.common.exceptions import TimeoutException
+from aiohttp import ClientSession
 
 
 # CapSolver API key
@@ -55,14 +57,16 @@ car_id_external = ""
 
 
 # Перевод текста с корейского на английский
-def translate_text(text):
+async def translate_text(text):
     if not text:
         print("Переданный текст для перевода пуст.")
         return None
 
     try:
         translator = Translator()
-        translated = translator.translate(text, src="ko", dest="en")
+        translated = await asyncio.to_thread(
+            lambda: translator.translate(text, src="ko", dest="en")
+        )
         return translated.text
     except Exception as e:
         print(f"Ошибка при переводе: {e}")
@@ -839,4 +843,5 @@ def format_number(number):
 
 # Run the bot
 if __name__ == "__main__":
-    bot.polling(none_stop=True)
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(bot.polling(none_stop=True))
