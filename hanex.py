@@ -592,6 +592,7 @@ def get_insurance_total():
         driver.get(url)
 
         # Пробуем найти элемент 'smlist' без явного ожидания
+        time.sleep(2)
         try:
             smlist_element = driver.find_element(By.CLASS_NAME, "smlist")
         except NoSuchElementException:
