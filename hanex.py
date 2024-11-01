@@ -273,36 +273,38 @@ def get_car_info(url):
 
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
+            check_and_handle_alert(driver)
+            driver.refresh()
 
-            recaptcha_response = solve_recaptcha_v3()
+            # recaptcha_response = solve_recaptcha_v3()
 
-            if recaptcha_response:
-                # Ждем, пока элемент g-recaptcha-response станет доступен
-                try:
-                    wait = WebDriverWait(driver, 1)  # Ожидание до 10 секунд
-                    recaptcha_element = wait.until(
-                        EC.presence_of_element_located((By.ID, "g-recaptcha-response"))
-                    )
+            # if recaptcha_response:
+            #     # Ждем, пока элемент g-recaptcha-response станет доступен
+            #     try:
+            #         wait = WebDriverWait(driver, 1)  # Ожидание до 10 секунд
+            #         recaptcha_element = wait.until(
+            #             EC.presence_of_element_located((By.ID, "g-recaptcha-response"))
+            #         )
 
-                    # Заполняем g-recaptcha-response
-                    driver.execute_script(
-                        f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
-                    )
+            #         # Заполняем g-recaptcha-response
+            #         driver.execute_script(
+            #             f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
+            #         )
 
-                    # Отправляем форму
-                    driver.execute_script("document.forms[0].submit();")
-                    time.sleep(1)  # Подождите, чтобы страница успела загрузиться
+            #         # Отправляем форму
+            #         driver.execute_script("document.forms[0].submit();")
+            #         time.sleep(1)  # Подождите, чтобы страница успела загрузиться
 
-                    check_and_handle_alert(driver)
+            #         check_and_handle_alert(driver)
 
-                    # Обновите URL после отправки формы
-                    driver.get(url)
+            #         # Обновите URL после отправки формы
+            #         driver.get(url)
 
-                    check_and_handle_alert(driver)
-                except TimeoutException:
-                    print(
-                        "Элемент g-recaptcha-response не был найден в течение 10 секунд."
-                    )
+            #         check_and_handle_alert(driver)
+            #     except TimeoutException:
+            #         print(
+            #             "Элемент g-recaptcha-response не был найден в течение 10 секунд."
+            #         )
 
         # Сохранение куки после успешного решения reCAPTCHA или загрузки страницы
         save_cookies(driver)
