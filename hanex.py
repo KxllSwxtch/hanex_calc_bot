@@ -54,21 +54,6 @@ car_data = {}
 car_id_external = ""
 
 
-# Перевод текста с корейского на английский
-def translate_text(text):
-    if not text:
-        print("Переданный текст для перевода пуст.")
-        return None
-
-    try:
-        translator = Translator()
-        translated = translator.translate(text, src="ko", dest="en")
-        return translated.text
-    except Exception as e:
-        print(f"Ошибка при переводе: {e}")
-        return text  # Верните оригинальный текст в случае ошибки
-
-
 # Функция для установки команд меню
 def set_bot_commands():
     commands = [
@@ -475,10 +460,7 @@ def calculate_cost(link, message):
         )
         return  # Завершаем функцию, чтобы избежать дальнейшей обработки
 
-    if car_title:
-        car_title_translated = translate_text(car_title)
-
-    if new_url and car_title:
+    if new_url:
         response = requests.get(new_url)
 
         if response.status_code == 200:
@@ -505,7 +487,6 @@ def calculate_cost(link, message):
                 price_formatted = format_number(price)
 
                 result_message = (
-                    f"{car_title_translated}\n\n"
                     f"Возраст: {age_formatted}\n"
                     f"Стоимость: {price_formatted} KRW\n"
                     f"Объём двигателя: {engine_volume_formatted}\n\n"
