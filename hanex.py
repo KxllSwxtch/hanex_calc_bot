@@ -561,6 +561,7 @@ def calculate_cost(link, message):
         )
 
 
+# Function to get insurance total
 def get_insurance_total():
     global car_id_external
 
@@ -568,21 +569,17 @@ def get_insurance_total():
     chrome_options = Options()
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
-    chrome_options.add_argument("--window-size=1920,1080")  # Устанавливает размер окна
-    chrome_options.add_argument("--disable-infobars")
-    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_argument("--enable-logging")
-    chrome_options.add_argument("--v=1")  # Уровень логирования
     chrome_options.add_argument(
-        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
     )
 
     service = Service(CHROMEDRIVER_PATH)
 
-    # Формируем URL с использованием car_id
+    # Формируем URL
     url = f"http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id_external}&wtClick_carview=044"
 
     try:
@@ -590,55 +587,40 @@ def get_insurance_total():
         driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.get(url)
 
-        # Явное ожидание появления элемента 'smlist'
-        wait = WebDriverWait(driver, 2)  # Ждем до 10 секунд
+        # Устанавливаем короткое ожидание
+        wait = WebDriverWait(driver, 5)
         smlist_element = wait.until(
             EC.presence_of_element_located((By.CLASS_NAME, "smlist"))
         )
 
-        # Находим таблицу внутри элемента
+        # Находим таблицу
         table = smlist_element.find_element(By.TAG_NAME, "table")
-
-        # Получаем все строки таблицы
         rows = table.find_elements(By.TAG_NAME, "tr")
 
-        # Извлекаем данные из пятого и шестого tr, если они существуют
+        # Извлекаем данные
         damage_to_my_car = (
-            rows[4].find_elements(By.TAG_NAME, "td")[1].text
-            if len(rows) > 4
-            else "Нет данных"
+            rows[4].find_elements(By.TAG_NAME, "td")[1].text if len(rows) > 4 else "0"
         )
         damage_to_other_car = (
-            rows[5].find_elements(By.TAG_NAME, "td")[1].text
-            if len(rows) > 5
-            else "Нет данных"
+            rows[5].find_elements(By.TAG_NAME, "td")[1].text if len(rows) > 5 else "0"
         )
 
-        # Функция для извлечения и форматирования больших чисел
+        # Упрощенная функция для извлечения числа
         def extract_large_number(damage_text):
-            # Если в тексте присутствует "없음", возвращаем 0
             if "없음" in damage_text:
                 return "0"
-
-            # Извлекаем все числа, убирая 원 и другие нежелательные символы
             numbers = re.findall(r"[\d,]+(?=\s*원)", damage_text)
+            return numbers[0] if numbers else "0"
 
-            # Если есть большие числа, возвращаем первое найденное большое число
-            if numbers:
-                return numbers[0]
-            else:
-                return "0"
-
-        # Извлекаем и форматируем данные
+        # Форматируем данные
         damage_to_my_car_formatted = extract_large_number(damage_to_my_car)
         damage_to_other_car_formatted = extract_large_number(damage_to_other_car)
 
-        # Возвращаем отформатированные данные
         return [damage_to_my_car_formatted, damage_to_other_car_formatted]
 
     except Exception as e:
         print(f"Произошла ошибка при получении данных: {e}")
-        return "Ошибка при получении деталей страховки."
+        return ["Ошибка при получении данных", ""]
 
     finally:
         driver.quit()
