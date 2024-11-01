@@ -530,15 +530,23 @@ def calculate_cost(link, message):
 def get_insurance_total(car_id):
     # Настройка WebDriver с нужными опциями
     chrome_options = Options()
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
+
+    chrome_options.add_argument("--window-size=1920,1080")  # Устанавливает размер окна
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
-    chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+
+    chrome_options.add_argument("--enable-logging")
+    chrome_options.add_argument("--v=1")  # Уровень логирования
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
     )
 
-    service = Service("/opt/homebrew/bin/chromedriver")
+    service = Service(CHROMEDRIVER_PATH)
 
     # Формируем URL с использованием car_id
     url = f"http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id}&wtClick_carview=044"
