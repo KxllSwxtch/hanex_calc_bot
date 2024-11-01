@@ -1,4 +1,5 @@
 import time
+import aiohttp
 import pickle
 import telebot
 import os
@@ -74,23 +75,21 @@ async def translate_text(text):
 
 
 # Функция для установки команд меню
-def set_bot_commands():
+async def set_bot_commands():
     commands = [
         types.BotCommand("start", "Запустить бота"),
         types.BotCommand("cbr", "Курсы валют"),
     ]
-    bot.set_my_commands(commands)
-
-
-# Вызов функции для установки команд
-set_bot_commands()
+    await bot.set_my_commands(commands)
 
 
 # Функция для получения курсов валют с API
-def get_currency_rates():
+async def get_currency_rates():
     url = "https://www.cbr-xml-daily.ru/daily_json.js"
-    response = requests.get(url)
-    data = response.json()
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            data = await response.json()
 
     # Получаем курсы валют
     eur = data["Valute"]["EUR"]["Value"]
@@ -117,7 +116,7 @@ def get_currency_rates():
 @bot.message_handler(commands=["cbr"])
 def cbr_command(message):
     try:
-        rates_text = get_currency_rates()
+        rates_text = asyncio.run(get_currency_rates())
 
         # Создаем клавиатуру с кнопкой для расчета автомобиля
         keyboard = types.InlineKeyboardMarkup()
@@ -843,4 +842,5 @@ def format_number(number):
 
 # Run the bot
 if __name__ == "__main__":
+    asyncio.run(set_bot_commands())
     asyncio.run(bot.polling(none_stop=True))
