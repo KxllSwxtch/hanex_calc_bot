@@ -20,7 +20,7 @@ from googletrans import Translator
 # CapSolver API key
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
 SITE_KEY = os.getenv("SITE_KEY")
-CHROMEDRIVER_PATH = "/app/.chromedriver/bin/chromedriver"  # Укажите путь к chromedriver
+CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chrome-linux64/chrome"
 COOKIES_FILE = "cookies.pkl"
 
 session = requests.Session()
@@ -222,6 +222,9 @@ def get_car_info(url):
     chrome_options.add_argument("user-data-dir=./profile")  # Путь к папке профиля
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
+    chrome_options.add_argument("--window-size=1920x1080")  # Устанавливает размер окна
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
