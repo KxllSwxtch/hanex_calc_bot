@@ -219,15 +219,16 @@ def get_car_info(url):
     global car_id_external
 
     chrome_options = Options()
-    chrome_options.add_argument("user-data-dir=./profile")  # Путь к папке профиля
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
-    chrome_options.add_argument("--window-size=1920x1080")  # Устанавливает размер окна
+
+    chrome_options.add_argument("--window-size=1920,1080")  # Устанавливает размер окна
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+
     chrome_options.add_argument("--enable-logging")
     chrome_options.add_argument("--v=1")  # Уровень логирования
     chrome_options.add_argument(
