@@ -1,9 +1,7 @@
 import time
-import aiohttp
 import pickle
 import telebot
 import os
-import asyncio
 import re
 import requests
 import locale
@@ -20,8 +18,7 @@ from urllib.parse import urlparse, parse_qs
 from googletrans import Translator
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-from aiohttp import ClientSession
+from selenium.common.exceptions import TimeoutException  # Добавлено
 
 
 # CapSolver API key
@@ -58,16 +55,14 @@ car_id_external = ""
 
 
 # Перевод текста с корейского на английский
-async def translate_text(text):
+def translate_text(text):
     if not text:
         print("Переданный текст для перевода пуст.")
         return None
 
     try:
         translator = Translator()
-        translated = await asyncio.to_thread(
-            lambda: translator.translate(text, src="ko", dest="en")
-        )
+        translated = translator.translate(text, src="ko", dest="en")
         return translated.text
     except Exception as e:
         print(f"Ошибка при переводе: {e}")
@@ -83,13 +78,15 @@ def set_bot_commands():
     bot.set_my_commands(commands)
 
 
-# Функция для получения курсов валют с API
-async def get_currency_rates():
-    url = "https://www.cbr-xml-daily.ru/daily_json.js"
+# Вызов функции для установки команд
+set_bot_commands()
 
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            data = await response.json()
+
+# Функция для получения курсов валют с API
+def get_currency_rates():
+    url = "https://www.cbr-xml-daily.ru/daily_json.js"
+    response = requests.get(url)
+    data = response.json()
 
     # Получаем курсы валют
     eur = data["Valute"]["EUR"]["Value"]
@@ -116,7 +113,7 @@ async def get_currency_rates():
 @bot.message_handler(commands=["cbr"])
 def cbr_command(message):
     try:
-        rates_text = asyncio.run(get_currency_rates())
+        rates_text = get_currency_rates()
 
         # Создаем клавиатуру с кнопкой для расчета автомобиля
         keyboard = types.InlineKeyboardMarkup()
@@ -842,5 +839,4 @@ def format_number(number):
 
 # Run the bot
 if __name__ == "__main__":
-    set_bot_commands()
-    asyncio.run(bot.polling(none_stop=True))
+    bot.polling(none_stop=True)
