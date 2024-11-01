@@ -229,6 +229,19 @@ def load_cookies(driver):
                 driver.add_cookie(cookie)
 
 
+def check_and_handle_alert(driver):
+    try:
+        WebDriverWait(driver, 3).until(EC.alert_is_present())
+        alert = driver.switch_to.alert
+        print(f"Обнаружено всплывающее окно: {alert.text}")
+        alert.accept()  # Закрывает alert
+        print("Всплывающее окно было закрыто.")
+    except TimeoutException:
+        print("Нет активного всплывающего окна.")
+    except Exception as alert_exception:
+        print(f"Ошибка при обработке alert: {alert_exception}")
+
+
 # Function to get car info using Selenium
 def get_car_info(url):
     global car_id_external
@@ -238,12 +251,10 @@ def get_car_info(url):
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
-
     chrome_options.add_argument("--window-size=1920,1080")  # Устанавливает размер окна
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-
     chrome_options.add_argument("--enable-logging")
     chrome_options.add_argument("--v=1")  # Уровень логирования
     chrome_options.add_argument(
@@ -256,9 +267,11 @@ def get_car_info(url):
     driver.get(url)
     load_cookies(driver)
 
-    driver.get(url)
-
     try:
+        driver.get(url)
+
+        check_and_handle_alert(driver)
+
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
 
@@ -281,8 +294,12 @@ def get_car_info(url):
                     driver.execute_script("document.forms[0].submit();")
                     time.sleep(2)  # Подождите, чтобы страница успела загрузиться
 
+                    check_and_handle_alert(driver)
+
                     # Обновите URL после отправки формы
                     driver.get(url)
+
+                    check_and_handle_alert(driver)
                 except TimeoutException:
                     print(
                         "Элемент g-recaptcha-response не был найден в течение 10 секунд."
