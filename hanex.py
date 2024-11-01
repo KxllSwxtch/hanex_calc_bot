@@ -267,8 +267,6 @@ def get_car_info(url):
     load_cookies(driver)
 
     try:
-        driver.get(url)
-
         check_and_handle_alert(driver)
 
         if "reCAPTCHA" in driver.page_source:
