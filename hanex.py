@@ -18,7 +18,8 @@ from urllib.parse import urlparse, parse_qs
 from googletrans import Translator
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException  # Добавлено
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoAlertPresentException
 
 
 # CapSolver API key
@@ -388,6 +389,15 @@ def get_car_info(url):
         return None, None
 
     finally:
+        # Обработка всплывающих окон (alerts)
+        try:
+            alert = driver.switch_to.alert
+            alert.accept()  # Или alert.dismiss(), если хотите закрыть alert
+        except NoAlertPresentException:
+            print("Нет активного всплывающего окна.")
+        except Exception as alert_exception:
+            print(f"Ошибка при обработке alert: {alert_exception}")
+
         driver.quit()
 
 
