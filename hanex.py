@@ -16,6 +16,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from urllib.parse import urlparse, parse_qs
 from googletrans import Translator
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # CapSolver API key
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
@@ -252,17 +254,28 @@ def get_car_info(url):
             recaptcha_response = solve_recaptcha_v3()
 
             if recaptcha_response:
-                # Заполняем g-recaptcha-response
-                driver.execute_script(
-                    f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
-                )
+                # Ждем, пока элемент g-recaptcha-response станет доступен
+                try:
+                    wait = WebDriverWait(driver, 10)  # Ожидание до 10 секунд
+                    recaptcha_element = wait.until(
+                        EC.presence_of_element_located((By.ID, "g-recaptcha-response"))
+                    )
 
-                # Отправляем форму
-                driver.execute_script("document.forms[0].submit();")
-                time.sleep(5)  # Подождите, чтобы страница успела загрузиться
+                    # Заполняем g-recaptcha-response
+                    driver.execute_script(
+                        f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
+                    )
 
-                # Обновите URL после отправки формы
-                driver.get(url)
+                    # Отправляем форму
+                    driver.execute_script("document.forms[0].submit();")
+                    time.sleep(5)  # Подождите, чтобы страница успела загрузиться
+
+                    # Обновите URL после отправки формы
+                    driver.get(url)
+                except TimeoutException:
+                    print(
+                        "Элемент g-recaptcha-response не был найден в течение 10 секунд."
+                    )
 
         # Сохранение куки после успешного решения reCAPTCHA или загрузки страницы
         save_cookies(driver)
