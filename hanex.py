@@ -240,12 +240,12 @@ def get_car_info(url):
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     # Проверяем, есть ли файл с куки
-    if os.path.exists(COOKIES_FILE):
-        with open("cookies.pkl", "rb") as cookies_file:
-            cookies = pickle.load(cookies_file)
-            driver.get(url)
-            for cookie in cookies:
-                driver.add_cookie(cookie)
+    # if os.path.exists(COOKIES_FILE):
+    #     with open("cookies.pkl", "rb") as cookies_file:
+    #         cookies = pickle.load(cookies_file)
+    #         driver.get(url)
+    #         for cookie in cookies:
+    #             driver.add_cookie(cookie)
 
     try:
         driver.get(url)
