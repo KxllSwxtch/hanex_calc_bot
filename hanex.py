@@ -250,9 +250,9 @@ def get_car_info(url):
     try:
         driver.get(url)
 
-        if "reCAPTCHA" in driver.page_source:
-            print("Обнаружена reCAPTCHA. Пытаемся решить...")
-            driver.refresh()
+        # if "reCAPTCHA" in driver.page_source:
+        #     print("Обнаружена reCAPTCHA. Пытаемся решить...")
+        # driver.refresh()
 
         #     recaptcha_response = solve_recaptcha_v3()
 
