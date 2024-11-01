@@ -563,6 +563,10 @@ def calculate_cost(link, message):
 
 # Function to get insurance total
 def get_insurance_total():
+    print("\n\n####################")
+    print("[ЗАПРОС] ТЕХНИЧЕСКИЙ ОТЧËТ ОБ АВТОМОБИЛЕ")
+    print("####################\n\n")
+
     global car_id_external
 
     # Настройка WebDriver с нужными опциями
@@ -587,11 +591,12 @@ def get_insurance_total():
         driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.get(url)
 
-        # Устанавливаем короткое ожидание
-        wait = WebDriverWait(driver, 5)
-        smlist_element = wait.until(
-            EC.presence_of_element_located((By.CLASS_NAME, "smlist"))
-        )
+        # Пробуем найти элемент 'smlist' без явного ожидания
+        try:
+            smlist_element = driver.find_element(By.CLASS_NAME, "smlist")
+        except NoSuchElementException:
+            print("Элемент 'smlist' не найден.")
+            return ["Нет данных", "Нет данных"]
 
         # Находим таблицу
         table = smlist_element.find_element(By.TAG_NAME, "table")
@@ -632,6 +637,10 @@ def handle_callback_query(call):
     global car_data, car_id_external
 
     if call.data.startswith("detail"):
+        print("\n\n####################")
+        print("[ЗАПРОС] ДЕТАЛИЗАЦИЯ РАСЧËТА")
+        print("####################\n\n")
+
         details = {
             "car_price_korea": car_data.get("result")["price"]["car"]["rub"],
             "dealer_fee": car_data.get("result")["price"]["korea"]["ab"]["rub"],
