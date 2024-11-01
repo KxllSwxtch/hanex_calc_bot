@@ -31,7 +31,6 @@ COOKIES_FILE = "cookies.pkl"
 
 session = requests.Session()
 
-
 # Configure logging
 logging.basicConfig(
     filename="bot.log",
