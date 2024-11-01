@@ -20,8 +20,8 @@ from googletrans import Translator
 # CapSolver API key
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
 SITE_KEY = os.getenv("SITE_KEY")
-CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+CHROMEDRIVER_PATH = "/opt/homeb rew/bin/chromedriver"
 COOKIES_FILE = "cookies.pkl"
 
 session = requests.Session()
@@ -202,17 +202,18 @@ def solve_recaptcha_v3():
             return None
 
 
-def save_cookies():
+def save_cookies(driver):
     with open(COOKIES_FILE, "wb") as file:
-        pickle.dump(session.cookies, file)
+        pickle.dump(driver.get_cookies(), file)
 
 
 # Load cookies from file
-def load_cookies():
+def load_cookies(driver):
     if os.path.exists(COOKIES_FILE):
         with open(COOKIES_FILE, "rb") as file:
             cookies = pickle.load(file)
-            session.cookies.update(cookies)
+            for cookie in cookies:
+                driver.add_cookie(cookie)
 
 
 # Function to get car info using Selenium
@@ -239,17 +240,12 @@ def get_car_info(url):
     service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
-    # Проверяем, есть ли файл с куки
-    # if os.path.exists(COOKIES_FILE):
-    #     with open("cookies.pkl", "rb") as cookies_file:
-    #         cookies = pickle.load(cookies_file)
-    #         driver.get(url)
-    #         for cookie in cookies:
-    #             driver.add_cookie(cookie)
+    driver.get(url)
+    load_cookies(driver)
+
+    driver.get(url)
 
     try:
-        driver.get(url)
-
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
 
@@ -263,13 +259,13 @@ def get_car_info(url):
 
                 # Отправляем форму
                 driver.execute_script("document.forms[0].submit();")
-                time.sleep(10)  # Подождите, чтобы страница успела загрузиться
+                time.sleep(5)  # Подождите, чтобы страница успела загрузиться
 
                 # Обновите URL после отправки формы
                 driver.get(url)
 
         # Сохранение куки после успешного решения reCAPTCHA или загрузки страницы
-        save_cookies()
+        save_cookies(driver)
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
@@ -287,7 +283,6 @@ def get_car_info(url):
                     "",
                     "Данная машина находится в лизинге. Свяжитесь с менеджером.",
                 ]
-
         except NoSuchElementException:
             print("Элемент areaLeaseRent не найден или нет информации о лизинге.")
 
