@@ -392,7 +392,7 @@ def get_car_info(url):
         # Обработка всплывающих окон (alerts)
         try:
             alert = driver.switch_to.alert
-            alert.accept()  # Или alert.dismiss(), если хотите закрыть alert
+            alert.dismiss()  # Или alert.dismiss(), если хотите закрыть alert
         except NoAlertPresentException:
             print("Нет активного всплывающего окна.")
         except Exception as alert_exception:
