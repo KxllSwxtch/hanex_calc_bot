@@ -561,7 +561,9 @@ def calculate_cost(link, message):
         )
 
 
-def get_insurance_total(car_id):
+def get_insurance_total():
+    global car_id_external
+
     # Настройка WebDriver с нужными опциями
     chrome_options = Options()
     chrome_options.add_argument("--disable-gpu")
@@ -581,7 +583,7 @@ def get_insurance_total(car_id):
     service = Service(CHROMEDRIVER_PATH)
 
     # Формируем URL с использованием car_id
-    url = f"http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id}&wtClick_carview=044"
+    url = f"http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id_external}&wtClick_carview=044"
 
     try:
         # Запускаем WebDriver
