@@ -716,7 +716,7 @@ def handle_callback_query(call):
 
     elif call.data == "technical_report":
         # Retrieve insurance information
-        insurance_info = get_insurance_total(car_id_external)
+        insurance_info = get_insurance_total()
 
         # Проверка на наличие ошибки
         if "Ошибка" in insurance_info[0] or "Ошибка" in insurance_info[1]:
