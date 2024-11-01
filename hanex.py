@@ -75,12 +75,12 @@ async def translate_text(text):
 
 
 # Функция для установки команд меню
-async def set_bot_commands():
+def set_bot_commands():
     commands = [
         types.BotCommand("start", "Запустить бота"),
         types.BotCommand("cbr", "Курсы валют"),
     ]
-    await bot.set_my_commands(commands)
+    bot.set_my_commands(commands)
 
 
 # Функция для получения курсов валют с API
@@ -842,5 +842,5 @@ def format_number(number):
 
 # Run the bot
 if __name__ == "__main__":
-    asyncio.run(set_bot_commands())
+    set_bot_commands()
     asyncio.run(bot.polling(none_stop=True))
