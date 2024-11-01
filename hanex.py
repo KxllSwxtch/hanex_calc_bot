@@ -24,8 +24,8 @@ from selenium.common.exceptions import TimeoutException  # Добавлено
 # CapSolver API key
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
 SITE_KEY = os.getenv("SITE_KEY")
-CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 COOKIES_FILE = "cookies.pkl"
 
 session = requests.Session()
@@ -56,9 +56,17 @@ car_id_external = ""
 
 # Перевод текста с корейского на английский
 def translate_text(text):
-    translator = Translator()
-    translated = translator.translate(text, src="ko", dest="en")
-    return translated.text
+    if not text:
+        print("Переданный текст для перевода пуст.")
+        return None
+
+    try:
+        translator = Translator()
+        translated = translator.translate(text, src="ko", dest="en")
+        return translated.text
+    except Exception as e:
+        print(f"Ошибка при переводе: {e}")
+        return text  # Верните оригинальный текст в случае ошибки
 
 
 # Функция для установки команд меню
@@ -270,7 +278,7 @@ def get_car_info(url):
 
                     # Отправляем форму
                     driver.execute_script("document.forms[0].submit();")
-                    time.sleep(5)  # Подождите, чтобы страница успела загрузиться
+                    time.sleep(2)  # Подождите, чтобы страница успела загрузиться
 
                     # Обновите URL после отправки формы
                     driver.get(url)
