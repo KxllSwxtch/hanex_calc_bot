@@ -843,5 +843,4 @@ def format_number(number):
 
 # Run the bot
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(bot.polling(none_stop=True))
+    asyncio.run(bot.polling(none_stop=True))
