@@ -21,6 +21,7 @@ from googletrans import Translator
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
 SITE_KEY = os.getenv("SITE_KEY")
 CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 COOKIES_FILE = "cookies.pkl"
 
 session = requests.Session()
@@ -253,23 +254,23 @@ def get_car_info(url):
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
             driver.refresh()
 
-            recaptcha_response = solve_recaptcha_v3()
+        #     recaptcha_response = solve_recaptcha_v3()
 
-            if recaptcha_response:
-                # Заполняем g-recaptcha-response
-                driver.execute_script(
-                    f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
-                )
+        #     if recaptcha_response:
+        #         # Заполняем g-recaptcha-response
+        #         driver.execute_script(
+        #             f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
+        #         )
 
-                # Отправляем форму
-                driver.execute_script("document.forms[0].submit();")
-                time.sleep(5)  # Подождите, чтобы страница успела загрузиться
+        #         # Отправляем форму
+        #         driver.execute_script("document.forms[0].submit();")
+        #         time.sleep(5)  # Подождите, чтобы страница успела загрузиться
 
-                # Обновите URL после отправки формы
-                driver.get(url)
+        #         # Обновите URL после отправки формы
+        #         driver.get(url)
 
-        # Сохранение куки после успешного решения reCAPTCHA или загрузки страницы
-        save_cookies()
+        # # Сохранение куки после успешного решения reCAPTCHA или загрузки страницы
+        # save_cookies()
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
