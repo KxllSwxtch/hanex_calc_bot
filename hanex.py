@@ -23,6 +23,8 @@ SITE_KEY = os.getenv("SITE_KEY")
 CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"  # Укажите путь к chromedriver
 COOKIES_FILE = "cookies.pkl"
 
+session = requests.Session()
+
 
 # Configure logging
 logging.basicConfig(
@@ -199,14 +201,27 @@ def solve_recaptcha_v3():
             return None
 
 
+def save_cookies():
+    with open(COOKIES_FILE, "wb") as file:
+        pickle.dump(session.cookies, file)
+
+
+# Load cookies from file
+def load_cookies():
+    if os.path.exists(COOKIES_FILE):
+        with open(COOKIES_FILE, "rb") as file:
+            cookies = pickle.load(file)
+            session.cookies.update(cookies)
+
+
 # Function to get car info using Selenium
 def get_car_info(url):
     global car_id_external
 
     chrome_options = Options()
-    chrome_options = Options()
     chrome_options.add_argument("user-data-dir=./profile")  # Путь к папке профиля
-    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    # chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
@@ -231,33 +246,23 @@ def get_car_info(url):
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
             driver.refresh()
 
-            # if recaptcha_response:
-            #     # Заполняем g-recaptcha-response
-            #     driver.execute_script(
-            #         f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
-            #     )
+            recaptcha_response = solve_recaptcha_v3()
 
-            #     # Извлекаем токен
-            #     recaptcha_token = driver.find_element_by_id(
-            #         "recaptcha-token"
-            #     ).get_attribute("value")
+            if recaptcha_response:
+                # Заполняем g-recaptcha-response
+                driver.execute_script(
+                    f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
+                )
 
-            #     # Отправляем форму
-            #     driver.execute_script("document.forms[0].submit();")
-            #     time.sleep(5)  # Подождите, чтобы страница успела загрузиться
+                # Отправляем форму
+                driver.execute_script("document.forms[0].submit();")
+                time.sleep(5)  # Подождите, чтобы страница успела загрузиться
 
-            #     # Проверяем, была ли форма отправлена успешно
-            #     if recaptcha_token:
-            #         print("Форма отправлена успешно.")
-            #     else:
-            #         print("Не удалось получить токен reCAPTCHA.")
-
-            #     # Обновите URL после отправки формы
-            #     driver.get(url)
+                # Обновите URL после отправки формы
+                driver.get(url)
 
         # Сохранение куки после успешного решения reCAPTCHA или загрузки страницы
-        with open(COOKIES_FILE, "wb") as cookies_file:
-            pickle.dump(driver.get_cookies(), cookies_file)
+        save_cookies()
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
