@@ -589,13 +589,8 @@ def get_insurance_total(car_id):
         driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.get(url)
 
-        # Проверяем наличие reCAPTCHA на странице
-        if "reCAPTCHA" in driver.page_source:
-            print("reCAPTCHA обнаружена, пожалуйста, решите её вручную.")
-            input("Нажмите Enter после решения reCAPTCHA...")
-
         # Явное ожидание появления элемента 'smlist'
-        wait = WebDriverWait(driver, 10)  # Ждем до 10 секунд
+        wait = WebDriverWait(driver, 2)  # Ждем до 10 секунд
         smlist_element = wait.until(
             EC.presence_of_element_located((By.CLASS_NAME, "smlist"))
         )
