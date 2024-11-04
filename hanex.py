@@ -473,7 +473,7 @@ def calculate_cost(link, message):
             price = json_response.get("result")["price"]["car"]["krw"]
 
             if year and engine_volume and price:
-                engine_volume_formatted = f"{engine_volume} cc"
+                engine_volume_formatted = f"{format_number(int(engine_volume))} cc"
                 age_formatted = calculate_age(year)
 
                 total_cost = int(
