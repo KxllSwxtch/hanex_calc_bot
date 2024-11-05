@@ -273,10 +273,13 @@ def get_car_info(url):
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
-        car_id_external = car_id
 
-        # Проверка элемента areaLeaseRent на наличие лизинга
+        if car_id is None:
+            logging.error("car_id не найден в URL.")
+            return None, None
+
         try:
+            # Проверка элемента areaLeaseRent
             lease_area = driver.find_element(By.ID, "areaLeaseRent")
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
@@ -286,15 +289,10 @@ def get_car_info(url):
                     "Данная машина находится в лизинге. Свяжитесь с менеджером.",
                 ]
         except NoSuchElementException:
-            logging.warning(
-                "Элемент areaLeaseRent не найден или нет информации о лизинге."
-            )
+            logging.warning("Элемент areaLeaseRent не найден.")
 
-        # Инициализация переменных для информации о машине
-        car_title = ""
-        car_date = ""
-        car_engine_capacity = ""
-        car_price = ""
+        # Инициализация переменных
+        car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
 
         # Проверка элемента product_left
         try:
@@ -314,22 +312,17 @@ def get_car_info(url):
             )
             car_price = re.sub(r"\D", "", product_left_splitted[1])
 
-            # Форматируем данные
+            # Форматирование
             formatted_price = car_price.replace(",", "")
             formatted_engine_capacity = car_engine_capacity.replace(",", "")[:-2]
             cleaned_date = "".join(filter(str.isdigit, car_date))
             formatted_date = f"01{cleaned_date[2:4]}{cleaned_date[:2]}"
 
-            print(formatted_price, formatted_date, formatted_date)
-
-            # Создание URL для передачи данных
+            # Создание URL
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
             return [new_url, car_title]
-
-        except NoSuchElementException:
-            logging.warning(
-                "Элемент product_left не найден. Переходим к gallery_photo."
-            )
+        except Exception as e:
+            logging.error(f"Ошибка при обработке product_left: {e}")
 
         # Проверка элемента gallery_photo
         try:
