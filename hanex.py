@@ -258,12 +258,10 @@ def get_car_info(url):
         driver.get(url)
         check_and_handle_alert(driver)
 
-        time.sleep(2)
-
         if "reCAPTCHA" in driver.page_source:
             logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
             check_and_handle_alert(driver)
-            driver.refresh()
+            # driver.refresh()
 
         # Сохранение куки после успешного решения reCAPTCHA или загрузки страницы
         save_cookies(driver)
