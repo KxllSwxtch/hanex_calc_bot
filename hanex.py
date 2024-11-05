@@ -565,6 +565,7 @@ def get_insurance_total():
     )
 
     service = Service(CHROMEDRIVER_PATH)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
     # Формируем URL
     url = f"http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id_external}&wtClick_carview=044"
