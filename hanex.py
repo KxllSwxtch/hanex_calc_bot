@@ -570,6 +570,9 @@ def get_insurance_total():
     # Формируем URL
     url = f"http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id_external}&wtClick_carview=044"
 
+    driver.get(url)
+    load_cookies(driver)
+
     try:
         # Запускаем WebDriver
         driver = webdriver.Chrome(service=service, options=chrome_options)
