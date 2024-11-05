@@ -252,6 +252,7 @@ def get_car_info(url):
 
     # Убедитесь, что cookies загружаются после перехода на нужный домен
     driver.get(url)
+    print("Страница загружена.")
     load_cookies(driver)
 
     try:
@@ -261,10 +262,12 @@ def get_car_info(url):
         if "reCAPTCHA" in driver.page_source:
             logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
             check_and_handle_alert(driver)
-            # driver.refresh()
+            driver.refresh()
+            print("Страница обновлена после reCAPTCHA.")
 
         # Сохранение куки после успешного решения reCAPTCHA или загрузки страницы
         save_cookies(driver)
+        print("Куки сохранены.")
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
@@ -295,7 +298,9 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = driver.find_element(By.CLASS_NAME, "product_left")
+            product_left = WebDriverWait(driver, 3).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
+            )
             product_left_splitted = product_left.text.split("\n")
 
             car_title = product_left.find_element(
