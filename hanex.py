@@ -320,6 +320,8 @@ def get_car_info(url):
             cleaned_date = "".join(filter(str.isdigit, car_date))
             formatted_date = f"01{cleaned_date[2:4]}{cleaned_date[:2]}"
 
+            print(formatted_price, formatted_date, formatted_date)
+
             # Создание URL для передачи данных
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
             return [new_url, car_title]
