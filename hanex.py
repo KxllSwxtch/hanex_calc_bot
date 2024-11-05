@@ -250,14 +250,15 @@ def get_car_info(url):
     service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
+    # Убедитесь, что cookies загружаются после перехода на нужный домен
     driver.get(url)
-    load_cookies(
-        driver
-    )  # Убедитесь, что cookies загружаются после перехода на нужный домен
+    load_cookies(driver)
 
     try:
         driver.get(url)
         check_and_handle_alert(driver)
+
+        time.sleep(2)
 
         if "reCAPTCHA" in driver.page_source:
             logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
