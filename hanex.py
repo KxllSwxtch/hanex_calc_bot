@@ -25,8 +25,8 @@ from selenium.common.exceptions import NoAlertPresentException
 # CapSolver API key
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
 SITE_KEY = os.getenv("SITE_KEY")
-CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 COOKIES_FILE = "cookies.pkl"
 
 session = requests.Session()
@@ -52,6 +52,7 @@ last_error_message_id = {}
 # global variables
 car_data = {}
 car_id_external = ""
+total_car_price = 0
 
 
 # Функция для установки команд меню
@@ -69,6 +70,8 @@ set_bot_commands()
 
 # Функция для получения курсов валют с API
 def get_currency_rates():
+    print_message("КУРС ЦБ")
+
     url = "https://www.cbr-xml-daily.ru/daily_json.js"
     response = requests.get(url)
     data = response.json()
@@ -76,10 +79,7 @@ def get_currency_rates():
     # Получаем курсы валют
     eur = data["Valute"]["EUR"]["Value"]
     usd = data["Valute"]["USD"]["Value"]
-
-    krw = data["Valute"]["KRW"]["Value"]
-    krw_nominal = data["Valute"]["KRW"]["Nominal"]
-
+    krw = data["Valute"]["KRW"]["Value"] / data["Valute"]["KRW"]["Nominal"]
     cny = data["Valute"]["CNY"]["Value"]
 
     # Форматируем текст
@@ -87,7 +87,7 @@ def get_currency_rates():
         f"Курс валют ЦБ:\n\n"
         f"EUR {eur:.4f} ₽\n"
         f"USD {usd:.4f} ₽\n"
-        f"KRW {krw/krw_nominal:.4f} ₽\n"
+        f"KRW {krw:.4f} ₽\n"
         f"CNY {cny:.4f} ₽"
     )
 
@@ -228,6 +228,8 @@ def check_and_handle_alert(driver):
 
 # Function to get car info using Selenium
 def get_car_info(url):
+    print_message("ЗАПРОС НА ВЫВОД ИНФОРМАЦИИ ОБ АВТОМОБИЛЕ")
+
     global car_id_external
 
     chrome_options = Options()
@@ -259,36 +261,6 @@ def get_car_info(url):
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
             check_and_handle_alert(driver)
             driver.refresh()
-
-            # recaptcha_response = solve_recaptcha_v3()
-
-            # if recaptcha_response:
-            #     # Ждем, пока элемент g-recaptcha-response станет доступен
-            #     try:
-            #         wait = WebDriverWait(driver, 1)  # Ожидание до 10 секунд
-            #         recaptcha_element = wait.until(
-            #             EC.presence_of_element_located((By.ID, "g-recaptcha-response"))
-            #         )
-
-            #         # Заполняем g-recaptcha-response
-            #         driver.execute_script(
-            #             f'document.getElementById("g-recaptcha-response").innerHTML = "{recaptcha_response}";'
-            #         )
-
-            #         # Отправляем форму
-            #         driver.execute_script("document.forms[0].submit();")
-            #         time.sleep(1)  # Подождите, чтобы страница успела загрузиться
-
-            #         check_and_handle_alert(driver)
-
-            #         # Обновите URL после отправки формы
-            #         driver.get(url)
-
-            #         check_and_handle_alert(driver)
-            #     except TimeoutException:
-            #         print(
-            #             "Элемент g-recaptcha-response не был найден в течение 10 секунд."
-            #         )
 
         # Сохранение куки после успешного решения reCAPTCHA или загрузки страницы
         save_cookies(driver)
@@ -342,38 +314,36 @@ def get_car_info(url):
         except NoSuchElementException:
             print("Элемент product_left не найден. Переходим к gallery_photo.")
 
+        try:
+            gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+            prod_name = gallery_element.find_element(By.CLASS_NAME, "prod_name")
+            car_title = prod_name.text
+
+            # Получаем все элементы и извлекаем нужные данные
+            items = gallery_element.find_elements(By.XPATH, ".//*")
+            car_date = items[10].text if len(items) > 10 else None
+            car_engine_capacity = items[18].text if len(items) > 18 else None
+
+            # Извлечение информации о ключах
             try:
-                gallery_element = driver.find_element(
-                    By.CSS_SELECTOR, "div.gallery_photo"
+                keyinfo_element = driver.find_element(
+                    By.CSS_SELECTOR, "div.wrap_keyinfo"
                 )
+                keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
+                keyinfo_texts = [
+                    item.text for item in keyinfo_items if item.text.strip()
+                ]
 
-                prod_name = gallery_element.find_element(By.CLASS_NAME, "prod_name")
-                car_title = prod_name.text
-
-                items = gallery_element.find_elements(By.XPATH, ".//*")
-
-                for index, item in enumerate(items):
-                    if index == 10:
-                        car_date = item.text
-                    if index == 18:
-                        car_engine_capacity = item.text
-
-                try:
-                    keyinfo_element = driver.find_element(
-                        By.CSS_SELECTOR, "div.wrap_keyinfo"
-                    )
-                    keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
-                    keyinfo_texts = [
-                        item.text for item in keyinfo_items if item.text.strip() != ""
-                    ]
-
-                    for index, info in enumerate(keyinfo_texts):
-                        if index == 12:
-                            car_price = re.sub(r"\D", "", info)
-                except NoSuchElementException:
-                    print("Элемент wrap_keyinfo не найден.")
+                # Извлекаем цену, если элемент существует
+                car_price = (
+                    re.sub(r"\D", "", keyinfo_texts[12])
+                    if len(keyinfo_texts) > 12
+                    else None
+                )
             except NoSuchElementException:
-                print("Элемент gallery_photo также не найден.")
+                print("Элемент wrap_keyinfo не найден.")
+        except NoSuchElementException:
+            print("Элемент gallery_photo также не найден.")
 
         # Форматирование значений для URL
         formatted_price = car_price.replace(",", "")
@@ -405,27 +375,29 @@ def get_car_info(url):
 
 # Function to calculate the total cost
 def calculate_cost(link, message):
+    print_message("ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ")
+
     global car_data
 
-    print("\n\n#################")
-    print("НОВЫЙ ЗАПРОС")
-    print("#################\n\n")
+    # Отправляем сообщение и сохраняем его ID
+    processing_message = bot.send_message(
+        message.chat.id, "Данные переданы в обработку ⏳"
+    )
 
-    bot.send_message(message.chat.id, "Данные переданы в обработку ⏳")
-
-    # Check if the link is from the mobile version
+    # Проверка ссылки на мобильную версию
     if "fem.encar.com" in link:
-        # Extract all digits from the mobile link
         car_id_match = re.findall(r"\d+", link)
         if car_id_match:
-            car_id = car_id_match[0]  # Use the first match of digits
-            # Create the new URL
+            car_id = car_id_match[0]
             link = f"https://www.encar.com/dc/dc_cardetailview.do?carid={car_id}"
         else:
             send_error_message(message, "🚫 Не удалось извлечь carid из ссылки.")
+            bot.delete_message(
+                message.chat.id, processing_message.message_id
+            )  # Удаляем сообщение
             return
 
-    # Get car info and new URL
+    # Получение информации о автомобиле
     result = get_car_info(link)
 
     if result is None:
@@ -433,32 +405,33 @@ def calculate_cost(link, message):
             message,
             "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
         )
+        bot.delete_message(
+            message.chat.id, processing_message.message_id
+        )  # Удаляем сообщение
         return
 
     new_url, car_title = result
 
-    # Проверка на наличие информации о лизинге
     if not new_url and car_title:
-        # Inline buttons for further actions
         keyboard = types.InlineKeyboardMarkup()
         keyboard.add(
             types.InlineKeyboardButton(
                 "Написать менеджеру", url="https://t.me/hanexport11"
-            ),
+            )
         )
         keyboard.add(
             types.InlineKeyboardButton(
                 "🔍 Рассчитать стоимость другого автомобиля",
                 callback_data="calculate_another",
-            ),
+            )
         )
         bot.send_message(
-            message.chat.id,
-            car_title,  # сообщение что машина лизинговая
-            parse_mode="Markdown",
-            reply_markup=keyboard,
+            message.chat.id, car_title, parse_mode="Markdown", reply_markup=keyboard
         )
-        return  # Завершаем функцию, чтобы избежать дальнейшей обработки
+        bot.delete_message(
+            message.chat.id, processing_message.message_id
+        )  # Удаляем сообщение
+        return
 
     if new_url:
         response = requests.get(new_url)
@@ -467,7 +440,6 @@ def calculate_cost(link, message):
             json_response = response.json()
             car_data = json_response
 
-            # Extract year from the car date string
             year = json_response.get("result")["car"]["date"].split()[-1]
             engine_volume = json_response.get("result")["car"]["engineVolume"]
             price = json_response.get("result")["price"]["car"]["krw"]
@@ -498,56 +470,66 @@ def calculate_cost(link, message):
 
                 bot.send_message(message.chat.id, result_message, parse_mode="Markdown")
 
-                # Inline buttons for further actions
                 keyboard = types.InlineKeyboardMarkup()
                 keyboard.add(
                     types.InlineKeyboardButton(
                         "📊 Детализация расчёта", callback_data="detail"
-                    ),
+                    )
                 )
                 keyboard.add(
                     types.InlineKeyboardButton(
                         "📝 Технический отчёт об автомобиле",
                         callback_data="technical_report",
-                    ),
+                    )
                 )
                 keyboard.add(
                     types.InlineKeyboardButton(
                         "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
-                    ),
+                    )
                 )
                 keyboard.add(
                     types.InlineKeyboardButton(
                         "🔍 Рассчитать стоимость другого автомобиля",
                         callback_data="calculate_another",
-                    ),
+                    )
                 )
 
                 bot.send_message(
                     message.chat.id, "Что делаем дальше?", reply_markup=keyboard
                 )
+
+                # Удаляем сообщение о передаче данных в обработку
+                bot.delete_message(message.chat.id, processing_message.message_id)
+
             else:
                 bot.send_message(
                     message.chat.id,
                     "🚫 Не удалось извлечь все необходимые данные. Проверьте ссылку.",
                 )
+                bot.delete_message(
+                    message.chat.id, processing_message.message_id
+                )  # Удаляем сообщение
         else:
             send_error_message(
                 message,
                 "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
             )
+            bot.delete_message(
+                message.chat.id, processing_message.message_id
+            )  # Удаляем сообщение
     else:
         send_error_message(
             message,
             "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
         )
+        bot.delete_message(
+            message.chat.id, processing_message.message_id
+        )  # Удаляем сообщение
 
 
 # Function to get insurance total
 def get_insurance_total():
-    print("\n\n####################")
-    print("[ЗАПРОС] ТЕХНИЧЕСКИЙ ОТЧËТ ОБ АВТОМОБИЛЕ")
-    print("####################\n\n")
+    print_message("[ЗАПРОС] ТЕХНИЧЕСКИЙ ОТЧЁТ ОБ АВТОМОБИЛЕ")
 
     global car_id_external
 
@@ -573,25 +555,23 @@ def get_insurance_total():
         driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.get(url)
 
-        # Пробуем найти элемент 'smlist' без явного ожидания
+        # Ожидание загрузки элемента 'smlist'
         time.sleep(2)
-        try:
-            smlist_element = driver.find_element(By.CLASS_NAME, "smlist")
-        except NoSuchElementException:
-            print("Элемент 'smlist' не найден.")
-            return ["Нет данных", "Нет данных"]
+        smlist_element = driver.find_element(By.CLASS_NAME, "smlist")
 
-        # Находим таблицу
+        # Находим таблицу и извлекаем данные
         table = smlist_element.find_element(By.TAG_NAME, "table")
         rows = table.find_elements(By.TAG_NAME, "tr")
 
-        # Извлекаем данные
-        damage_to_my_car = (
-            rows[4].find_elements(By.TAG_NAME, "td")[1].text if len(rows) > 4 else "0"
-        )
-        damage_to_other_car = (
-            rows[5].find_elements(By.TAG_NAME, "td")[1].text if len(rows) > 5 else "0"
-        )
+        # Функция для получения данных о повреждениях
+        def get_damage_data(row_index):
+            if len(rows) > row_index:
+                return rows[row_index].find_elements(By.TAG_NAME, "td")[1].text
+            return None  # Вернем None, если данных нет
+
+        # Извлекаем данные о повреждениях
+        damage_to_my_car = get_damage_data(4)
+        damage_to_other_car = get_damage_data(5)
 
         # Упрощенная функция для извлечения числа
         def extract_large_number(damage_text):
@@ -601,14 +581,38 @@ def get_insurance_total():
             return numbers[0] if numbers else "0"
 
         # Форматируем данные
-        damage_to_my_car_formatted = extract_large_number(damage_to_my_car)
-        damage_to_other_car_formatted = extract_large_number(damage_to_other_car)
+        damage_to_my_car_formatted = (
+            extract_large_number(damage_to_my_car) if damage_to_my_car else "Нет данных"
+        )
+        damage_to_other_car_formatted = (
+            extract_large_number(damage_to_other_car)
+            if damage_to_other_car
+            else "Нет данных"
+        )
 
-        return [damage_to_my_car_formatted, damage_to_other_car_formatted]
+        # Проверяем, если нет данных
+        if damage_to_my_car_formatted == "0" and damage_to_other_car_formatted == "0":
+            return None  # Вернем None, если нет данных о страховых выплатах
 
+        return [
+            (
+                damage_to_my_car_formatted
+                if damage_to_my_car_formatted != "0"
+                else "Нет данных"
+            ),
+            (
+                damage_to_other_car_formatted
+                if damage_to_other_car_formatted != "0"
+                else "Нет данных"
+            ),
+        ]
+
+    except NoSuchElementException:
+        print("Элемент 'smlist' не найден.")
+        return None  # Вернем None, если элемент не найден
     except Exception as e:
         print(f"Произошла ошибка при получении данных: {e}")
-        return ["Ошибка при получении данных", ""]
+        return None  # Вернем None в случае ошибки
 
     finally:
         driver.quit()
@@ -651,19 +655,30 @@ def handle_callback_query(call):
             "delivery": car_data.get("result")["price"]["russian"]["delivery"]["rub"],
         }
 
+        car_price_formatted = format_number(details["car_price_korea"])
+        dealer_fee_formatted = format_number(details["dealer_fee"])
+        korea_logistics_formatted = format_number(details["korea_logistics"])
+        customs_fee_formatted = format_number(details["customs_fee"])
+        delivery_fee_formatted = format_number(details["delivery_fee"])
+        dealer_commission_formatted = format_number(details["dealer_commission"])
+        russia_duty_formatted = format_number(details["russiaDuty"])
+        registration_formatted = format_number(details["registration"])
+        sbkts_formatted = format_number(details["sbkts"])
+        svh_expertise_formatted = format_number(details["svhAndExpertise"])
+
         # Construct cost breakdown message
         detail_message = (
             "📝 Детализация расчёта:\n\n"
-            f"Стоимость авто: <b>{format_number(details['car_price_korea'])}₽</b>\n\n"
-            f"Услуги HanExport: <b>{format_number(details['dealer_fee'])}₽</b>\n\n"
-            f"Логистика по Южной Корее: <b>{format_number(details['korea_logistics'])}₽</b>\n\n"
-            f"Таможенная очистка: <b>{format_number(details['customs_fee'])}₽</b>\n\n"
-            f"Доставка до Владивостока: <b>{format_number(details['delivery_fee'])}₽</b>\n\n"
-            f"Комиссия дилера: <b>{format_number(details['dealer_commission'])}₽</b>\n\n"
-            f"Единая таможенная ставка (ЕТС): <b>{format_number(details['russiaDuty'])}₽</b>\n\n"
-            f"Оформление: <b>{format_number(details['registration'])}₽</b>\n\n"
-            f"СБКТС: <b>{format_number(details['sbkts'])}₽</b>\n\n"
-            f"СВХ + Экспертиза: <b>{format_number(details['svhAndExpertise'])}₽</b>\n\n"
+            f"Стоимость авто: <b>{car_price_formatted}₽</b>\n\n"
+            f"Услуги HanExport: <b>{dealer_fee_formatted}₽</b>\n\n"
+            f"Логистика по Южной Корее: <b>{korea_logistics_formatted}₽</b>\n\n"
+            f"Таможенная очистка: <b>{customs_fee_formatted}₽</b>\n\n"
+            f"Доставка до Владивостока: <b>{delivery_fee_formatted}₽</b>\n\n"
+            f"Комиссия дилера: <b>{dealer_commission_formatted}₽</b>\n\n"
+            f"Единая таможенная ставка (ЕТС): <b>{russia_duty_formatted}₽</b>\n\n"
+            f"Оформление: <b>{registration_formatted}₽</b>\n\n"
+            f"СБКТС: <b>{sbkts_formatted}₽</b>\n\n"
+            f"СВХ + Экспертиза: <b>{svh_expertise_formatted}₽</b>\n\n"
         )
 
         bot.send_message(call.message.chat.id, detail_message, parse_mode="HTML")
@@ -691,10 +706,14 @@ def handle_callback_query(call):
         insurance_info = get_insurance_total()
 
         # Проверка на наличие ошибки
-        if "Ошибка" in insurance_info[0] or "Ошибка" in insurance_info[1]:
+        if (
+            insurance_info is None
+            or "Ошибка" in insurance_info[0]
+            or "Ошибка" in insurance_info[1]
+        ):
             error_message = (
-                "Страховая история недоступна. \n\n"
-                f'<a href="https://fem.encar.com/cars/detail/{car_id_external}">🔗 Ссылка на автомобиль 🔗</a>'
+                "Не удалось получить данные о страховых выплатах. \n\n"
+                f'<a href="http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id_external}&wtClick_carview=044">🔗 Посмотреть страховую историю вручную 🔗</a>'
             )
 
             # Inline buttons for further actions
@@ -826,6 +845,13 @@ def calculate_age(year):
 
 def format_number(number):
     return locale.format_string("%d", number, grouping=True)
+
+
+def print_message(message):
+    print("\n\n##############")
+    print(f"{message}")
+    print("##############\n\n")
+    return None
 
 
 # Run the bot
