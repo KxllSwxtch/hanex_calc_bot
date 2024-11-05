@@ -228,7 +228,7 @@ def check_and_handle_alert(driver):
 
 # Function to get car info using Selenium
 def get_car_info(url):
-    print_message("ЗАПРОС НА ВЫВОД ИНФОРМАЦИИ ОБ АВТОМОБИЛЕ")
+    logging.info("ЗАПРОС НА ВЫВОД ИНФОРМАЦИИ ОБ АВТОМОБИЛЕ")
 
     global car_id_external
 
@@ -250,14 +250,16 @@ def get_car_info(url):
     service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
-    load_cookies(driver)
+    load_cookies(
+        driver
+    )  # Убедитесь, что cookies загружаются после перехода на нужный домен
 
     try:
         driver.get(url)
         check_and_handle_alert(driver)
 
         if "reCAPTCHA" in driver.page_source:
-            print("Обнаружена reCAPTCHA. Пытаемся решить...")
+            logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
             check_and_handle_alert(driver)
             driver.refresh()
 
@@ -281,7 +283,9 @@ def get_car_info(url):
                     "Данная машина находится в лизинге. Свяжитесь с менеджером.",
                 ]
         except NoSuchElementException:
-            print("Элемент areaLeaseRent не найден или нет информации о лизинге.")
+            logging.warning(
+                "Элемент areaLeaseRent не найден или нет информации о лизинге."
+            )
 
         # Инициализация переменных для информации о машине
         car_title = ""
@@ -294,15 +298,20 @@ def get_car_info(url):
             product_left = driver.find_element(By.CLASS_NAME, "product_left")
             product_left_splitted = product_left.text.split("\n")
 
-            prod_name = product_left.find_element(By.CLASS_NAME, "prod_name")
-
-            car_title = prod_name.text.strip()
-            car_date = product_left_splitted[3]
-            car_engine_capacity = product_left_splitted[6]
+            car_title = product_left.find_element(
+                By.CLASS_NAME, "prod_name"
+            ).text.strip()
+            car_date = (
+                product_left_splitted[3] if len(product_left_splitted) > 3 else ""
+            )
+            car_engine_capacity = (
+                product_left_splitted[6] if len(product_left_splitted) > 6 else ""
+            )
             car_price = re.sub(r"\D", "", product_left_splitted[1])
 
+            # Форматируем данные
             formatted_price = car_price.replace(",", "")
-            formatted_engine_capacity = car_engine_capacity.replace(",", "")[0:-2]
+            formatted_engine_capacity = car_engine_capacity.replace(",", "")[:-2]
             cleaned_date = "".join(filter(str.isdigit, car_date))
             formatted_date = f"01{cleaned_date[2:4]}{cleaned_date[:2]}"
 
@@ -311,17 +320,20 @@ def get_car_info(url):
             return [new_url, car_title]
 
         except NoSuchElementException:
-            print("Элемент product_left не найден. Переходим к gallery_photo.")
+            logging.warning(
+                "Элемент product_left не найден. Переходим к gallery_photo."
+            )
 
+        # Проверка элемента gallery_photo
         try:
             gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
-            prod_name = gallery_element.find_element(By.CLASS_NAME, "prod_name")
-            car_title = prod_name.text
+            car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
 
-            # Получаем все элементы и извлекаем нужные данные
             items = gallery_element.find_elements(By.XPATH, ".//*")
-            car_date = items[10].text if len(items) > 10 else None
-            car_engine_capacity = items[18].text if len(items) > 18 else None
+            if len(items) > 10:
+                car_date = items[10].text
+            if len(items) > 18:
+                car_engine_capacity = items[18].text
 
             # Извлечение информации о ключах
             try:
@@ -340,15 +352,23 @@ def get_car_info(url):
                     else None
                 )
             except NoSuchElementException:
-                print("Элемент wrap_keyinfo не найден.")
+                logging.warning("Элемент wrap_keyinfo не найден.")
         except NoSuchElementException:
-            print("Элемент gallery_photo также не найден.")
+            logging.warning("Элемент gallery_photo также не найден.")
 
         # Форматирование значений для URL
-        formatted_price = car_price.replace(",", "")
-        formatted_engine_capacity = car_engine_capacity.replace(",", "")[0:-2]
+        if car_price:
+            formatted_price = car_price.replace(",", "")
+        else:
+            formatted_price = "0"  # Задаем значение по умолчанию
+
+        formatted_engine_capacity = (
+            car_engine_capacity.replace(",", "")[:-2] if car_engine_capacity else "0"
+        )
         cleaned_date = "".join(filter(str.isdigit, car_date))
-        formatted_date = f"01{cleaned_date[2:4]}{cleaned_date[:2]}"
+        formatted_date = (
+            f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
+        )
 
         # Конечный URL
         new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
@@ -356,18 +376,18 @@ def get_car_info(url):
         return [new_url, car_title]
 
     except Exception as e:
-        print(f"Произошла ошибка: {e}")
+        logging.error(f"Произошла ошибка: {e}")
         return None, None
 
     finally:
         # Обработка всплывающих окон (alerts)
         try:
             alert = driver.switch_to.alert
-            alert.dismiss()  # Или alert.dismiss(), если хотите закрыть alert
+            alert.dismiss()
         except NoAlertPresentException:
-            print("Нет активного всплывающего окна.")
+            logging.info("Нет активного всплывающего окна.")
         except Exception as alert_exception:
-            print(f"Ошибка при обработке alert: {alert_exception}")
+            logging.error(f"Ошибка при обработке alert: {alert_exception}")
 
         driver.quit()
 
