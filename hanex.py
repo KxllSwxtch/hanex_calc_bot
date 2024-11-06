@@ -252,13 +252,11 @@ def get_car_info(url):
     service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
-    # Загружаем страницу и куки
-    driver.get(url)
-    logging.info("Страница загружена.")
-    load_cookies(driver)
-
     try:
+        driver.get(url)
         check_and_handle_alert(driver)
+
+        load_cookies(driver)
 
         if "reCAPTCHA" in driver.page_source:
             logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
@@ -267,16 +265,11 @@ def get_car_info(url):
             logging.info("Страница обновлена после reCAPTCHA.")
 
         save_cookies(driver)
-        logging.info("Куки сохранены.")
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
-
-        if car_id is None:
-            logging.error("car_id не найден в URL.")
-            return None, None
 
         # Проверка элемента areaLeaseRent
         try:
@@ -321,6 +314,7 @@ def get_car_info(url):
 
             # Создание URL
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
+            logging.info(f"Данные о машине получены: {new_url}, {car_title}")
             return [new_url, car_title]
         except Exception as e:
             logging.error(f"Ошибка при обработке product_left: {e}")
@@ -374,6 +368,7 @@ def get_car_info(url):
         # Конечный URL
         new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
 
+        logging.info(f"Данные о машине получены: {new_url}, {car_title}")
         return [new_url, car_title]
 
     except Exception as e:
