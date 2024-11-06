@@ -253,23 +253,30 @@ def get_car_info(url):
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
+        # Загружаем страницу
         driver.get(url)
-        check_and_handle_alert(driver)
+        check_and_handle_alert(driver)  # Обработка alert, если присутствует
 
         load_cookies(driver)
 
+        # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
             logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
-            check_and_handle_alert(driver)
             driver.refresh()
             logging.info("Страница обновлена после reCAPTCHA.")
+            check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
         save_cookies(driver)
+        logging.info("Куки сохранены.")
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
+
+        if car_id is None:
+            logging.error("car_id не найден в URL.")
+            return None, None
 
         # Проверка элемента areaLeaseRent
         try:
@@ -290,7 +297,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 3).until(
+            product_left = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
@@ -298,6 +305,7 @@ def get_car_info(url):
             car_title = product_left.find_element(
                 By.CLASS_NAME, "prod_name"
             ).text.strip()
+
             car_date = (
                 product_left_splitted[3] if len(product_left_splitted) > 3 else ""
             )
@@ -308,16 +316,24 @@ def get_car_info(url):
 
             # Форматирование
             formatted_price = car_price.replace(",", "")
-            formatted_engine_capacity = car_engine_capacity.replace(",", "")[:-2]
+            formatted_engine_capacity = (
+                car_engine_capacity.replace(",", "")[:-2]
+                if car_engine_capacity
+                else "0"
+            )
             cleaned_date = "".join(filter(str.isdigit, car_date))
-            formatted_date = f"01{cleaned_date[2:4]}{cleaned_date[:2]}"
+            formatted_date = (
+                f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
+            )
 
             # Создание URL
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
             logging.info(f"Данные о машине получены: {new_url}, {car_title}")
             return [new_url, car_title]
-        except Exception as e:
+        except NoSuchElementException as e:
             logging.error(f"Ошибка при обработке product_left: {e}")
+        except Exception as e:
+            logging.error(f"Неизвестная ошибка при обработке product_left: {e}")
 
         # Проверка элемента gallery_photo
         try:
@@ -380,6 +396,7 @@ def get_car_info(url):
         try:
             alert = driver.switch_to.alert
             alert.dismiss()
+            logging.info("Всплывающее окно отклонено.")
         except NoAlertPresentException:
             logging.info("Нет активного всплывающего окна.")
         except Exception as alert_exception:
