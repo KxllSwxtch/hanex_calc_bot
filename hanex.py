@@ -232,6 +232,7 @@ def get_car_info(url):
 
     global car_id_external
 
+    # Настройки для Chrome
     chrome_options = Options()
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--headless")
@@ -247,27 +248,26 @@ def get_car_info(url):
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
     )
 
+    # Инициализация драйвера
     service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
-    # Убедитесь, что cookies загружаются после перехода на нужный домен
+    # Загружаем страницу и куки
     driver.get(url)
-    print("Страница загружена.")
+    logging.info("Страница загружена.")
     load_cookies(driver)
 
     try:
-        driver.get(url)
         check_and_handle_alert(driver)
 
         if "reCAPTCHA" in driver.page_source:
             logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
             check_and_handle_alert(driver)
             driver.refresh()
-            print("Страница обновлена после reCAPTCHA.")
+            logging.info("Страница обновлена после reCAPTCHA.")
 
-        # Сохранение куки после успешного решения reCAPTCHA или загрузки страницы
         save_cookies(driver)
-        print("Куки сохранены.")
+        logging.info("Куки сохранены.")
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
@@ -278,12 +278,13 @@ def get_car_info(url):
             logging.error("car_id не найден в URL.")
             return None, None
 
+        # Проверка элемента areaLeaseRent
         try:
-            # Проверка элемента areaLeaseRent
             lease_area = driver.find_element(By.ID, "areaLeaseRent")
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
+                logging.info("Данная машина находится в лизинге.")
                 return [
                     "",
                     "Данная машина находится в лизинге. Свяжитесь с менеджером.",
