@@ -15,18 +15,18 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from urllib.parse import urlparse, parse_qs
-from googletrans import Translator
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoAlertPresentException
+from selenium.webdriver.common.proxy import Proxy, ProxyType
 
 
 # CapSolver API key
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
 SITE_KEY = os.getenv("SITE_KEY")
-CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 COOKIES_FILE = "cookies.pkl"
 
 session = requests.Session()
@@ -220,11 +220,16 @@ def load_cookies(driver):
 
 
 def check_and_handle_alert(driver):
-    WebDriverWait(driver, 4).until(EC.alert_is_present())
-    alert = driver.switch_to.alert
-    print(f"Обнаружено всплывающее окно: {alert.text}")
-    alert.accept()  # Закрывает alert
-    print("Всплывающее окно было закрыто.")
+    try:
+        WebDriverWait(driver, 2).until(EC.alert_is_present())
+        alert = driver.switch_to.alert
+        print(f"Обнаружено всплывающее окно: {alert.text}")
+        alert.accept()  # Закрывает alert
+        print("Всплывающее окно было закрыто.")
+    except TimeoutException:
+        print("Нет активного всплывающего окна.")
+    except Exception as alert_exception:
+        print(f"Ошибка при обработке alert: {alert_exception}")
 
 
 # Function to get car info using Selenium
@@ -236,6 +241,7 @@ def get_car_info(url):
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
+    chrome_options.add_argument("--window-size=1920,1080")  # Устанавливает размер окна
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
@@ -384,6 +390,16 @@ def get_car_info(url):
         return None, None
 
     finally:
+        # Обработка всплывающих окон (alerts)
+        try:
+            alert = driver.switch_to.alert
+            alert.dismiss()
+            logging.info("Всплывающее окно отклонено.")
+        except NoAlertPresentException:
+            logging.info("Нет активного всплывающего окна.")
+        except Exception as alert_exception:
+            logging.error(f"Ошибка при обработке alert: {alert_exception}")
+
         driver.quit()
 
 
@@ -413,8 +429,6 @@ def calculate_cost(link, message):
 
     # Получение информации о автомобиле
     result = get_car_info(link)
-
-    print(result)
 
     if result is None:
         send_error_message(
@@ -889,4 +903,5 @@ def print_message(message):
 # Run the bot
 if __name__ == "__main__":
     get_currency_rates()
+    set_bot_commands()
     bot.polling(none_stop=True)

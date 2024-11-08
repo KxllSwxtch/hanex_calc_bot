@@ -1221,3 +1221,593 @@ Traceback (most recent call last):
     raise ApiTelegramException(method_name, result, result_json)
 telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
 
+2024-11-08 15:21:24,410 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 15:21:24,412 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 15:21:28,277 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 15:21:28,278 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 15:21:32,694 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 15:21:32,695 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 15:21:38,034 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 15:21:38,035 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 15:21:45,394 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 15:21:45,395 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 15:21:53,790 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 15:21:53,792 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 15:22:19,910 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 15:22:19,911 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 15:22:24,075 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 15:22:24,076 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 15:22:28,183 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 15:22:28,184 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 15:23:09,591 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 15:23:09,593 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 15:23:13,447 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 15:23:13,448 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 15:24:31,959 - INFO - Куки сохранены.
+2024-11-08 15:24:31,966 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-08 15:24:32,007 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38428885?price=2200&date=010423&volume=1598, 현대 더 뉴 아반떼 (CN7) 1.6 인스퍼레이션
+2024-11-08 15:24:32,008 - INFO - Нет активного всплывающего окна.
+2024-11-08 15:30:34,791 - INFO - Куки сохранены.
+2024-11-08 15:30:34,797 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-08 15:30:44,963 - ERROR - Неизвестная ошибка при обработке product_left: Message: 
+Stacktrace:
+0   chromedriver                        0x0000000102cec248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000102ce4730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x00000001028f8260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x000000010293c50c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001029767d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010293112c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000102931d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x0000000102cb44d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000102cb8e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x0000000102c995ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000102cb9710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000102c8ab90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000102cd5828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000102cd5980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000102ce43d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 15:30:44,972 - WARNING - Элемент gallery_photo также не найден.
+2024-11-08 15:30:44,972 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38244249?price=0&date=010101&volume=0, 
+2024-11-08 15:30:44,973 - INFO - Нет активного всплывающего окна.
+2024-11-08 15:32:53,076 - INFO - Куки сохранены.
+2024-11-08 15:32:53,084 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-08 15:32:53,184 - INFO - Куки сохранены.
+2024-11-08 15:32:53,190 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-08 15:33:03,228 - ERROR - Неизвестная ошибка при обработке product_left: Message: 
+Stacktrace:
+0   chromedriver                        0x000000010124c248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000101244730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000100e58260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x0000000100e9c50c cxxbridge1$string$len + 368700
+4   chromedriver                        0x0000000100ed67d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x0000000100e9112c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000100e91d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001012144d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000101218e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001011f95ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000101219710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x00000001011eab90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000101235828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000101235980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001012443d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 15:33:03,235 - WARNING - Элемент gallery_photo также не найден.
+2024-11-08 15:33:03,235 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38244249?price=0&date=010101&volume=0, 
+2024-11-08 15:33:03,235 - INFO - Нет активного всплывающего окна.
+2024-11-08 15:33:03,333 - ERROR - Неизвестная ошибка при обработке product_left: Message: 
+Stacktrace:
+0   chromedriver                        0x0000000103320248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000103318730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000102f2c260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x0000000102f7050c cxxbridge1$string$len + 368700
+4   chromedriver                        0x0000000102faa7d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x0000000102f6512c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000102f65d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001032e84d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x00000001032ece40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001032cd5ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x00000001032ed710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x00000001032beb90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000103309828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000103309980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001033183d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 15:33:03,338 - WARNING - Элемент gallery_photo также не найден.
+2024-11-08 15:33:03,338 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38244249?price=0&date=010101&volume=0, 
+2024-11-08 15:33:03,339 - INFO - Нет активного всплывающего окна.
+2024-11-08 15:33:24,629 - INFO - Куки сохранены.
+2024-11-08 15:33:24,635 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-08 15:33:54,119 - INFO - Куки сохранены.
+2024-11-08 15:33:54,125 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-08 15:33:59,194 - ERROR - Неизвестная ошибка при обработке product_left: Message: 
+Stacktrace:
+0   chromedriver                        0x0000000102608248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000102600730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000102214260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x000000010225850c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001022927d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010224d12c cxxbridge1$string$len + 322652
+6   chromedriver                        0x000000010224dd7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001025d04d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x00000001025d4e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001025b55ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x00000001025d5710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x00000001025a6b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x00000001025f1828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x00000001025f1980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001026003d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 15:33:59,202 - WARNING - Элемент gallery_photo также не найден.
+2024-11-08 15:33:59,202 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38244249?price=0&date=010101&volume=0, 
+2024-11-08 15:33:59,203 - INFO - Нет активного всплывающего окна.
+2024-11-08 15:34:46,195 - ERROR - Произошла ошибка: Message: invalid cookie domain
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001052d4248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x00000001052cc730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000104ee00d0 cxxbridge1$string$len + 89088
+3   chromedriver                        0x0000000104f6da10 cxxbridge1$string$len + 668992
+4   chromedriver                        0x0000000104f5e7d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x0000000104f1912c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000104f19d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x000000010529c4d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x00000001052a0e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001052815ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x00000001052a1710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000105272b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x00000001052bd828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x00000001052bd980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001052cc3d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 15:34:48,711 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-08 15:36:07,447 - INFO - Куки сохранены.
+2024-11-08 15:36:07,459 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-08 15:36:12,594 - ERROR - Неизвестная ошибка при обработке product_left: Message: 
+Stacktrace:
+0   chromedriver                        0x0000000104ac0248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000104ab8730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x00000001046cc260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x000000010471050c cxxbridge1$string$len + 368700
+4   chromedriver                        0x000000010474a7d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010470512c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000104705d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x0000000104a884d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000104a8ce40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x0000000104a6d5ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000104a8d710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000104a5eb90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000104aa9828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000104aa9980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000104ab83d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 15:36:12,607 - WARNING - Элемент gallery_photo также не найден.
+2024-11-08 15:41:15,190 - ERROR - Произошла ошибка: Message: invalid cookie domain
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000104f84248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000104f7c730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000104b900d0 cxxbridge1$string$len + 89088
+3   chromedriver                        0x0000000104c1da10 cxxbridge1$string$len + 668992
+4   chromedriver                        0x0000000104c0e7d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x0000000104bc912c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000104bc9d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x0000000104f4c4d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000104f50e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x0000000104f315ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000104f51710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000104f22b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000104f6d828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000104f6d980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000104f7c3d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 15:41:17,681 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-08 15:42:35,718 - INFO - Куки сохранены.
+2024-11-08 15:42:35,726 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-08 15:42:40,792 - ERROR - Неизвестная ошибка при обработке product_left: Message: 
+Stacktrace:
+0   chromedriver                        0x0000000104a0c248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000104a04730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000104618260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x000000010465c50c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001046967d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010465112c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000104651d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001049d44d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x00000001049d8e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001049b95ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x00000001049d9710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x00000001049aab90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x00000001049f5828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x00000001049f5980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000104a043d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 15:42:40,798 - WARNING - Элемент gallery_photo также не найден.
+2024-11-08 15:43:28,497 - INFO - Куки сохранены.
+2024-11-08 15:43:28,504 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-08 15:43:38,643 - ERROR - Неизвестная ошибка при обработке product_left: Message: 
+Stacktrace:
+0   chromedriver                        0x0000000102f80248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000102f78730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000102b8c260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x0000000102bd050c cxxbridge1$string$len + 368700
+4   chromedriver                        0x0000000102c0a7d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x0000000102bc512c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000102bc5d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x0000000102f484d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000102f4ce40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x0000000102f2d5ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000102f4d710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000102f1eb90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000102f69828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000102f69980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000102f783d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 15:43:38,820 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38244249?price=2050&date=010116&volume=2967, 아우디 A7 50 TDI 콰트로 프리미엄 4G
+2024-11-08 15:43:38,821 - INFO - Нет активного всплывающего окна.
+2024-11-08 15:45:20,229 - INFO - Куки сохранены.
+2024-11-08 15:45:20,236 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-08 15:45:30,467 - ERROR - Неизвестная ошибка при обработке product_left: Message: 
+Stacktrace:
+0   chromedriver                        0x0000000104444248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x000000010443c730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000104050260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x000000010409450c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001040ce7d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010408912c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000104089d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x000000010440c4d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000104410e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001043f15ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000104411710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x00000001043e2b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x000000010442d828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x000000010442d980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x000000010443c3d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 15:45:30,478 - WARNING - Элемент gallery_photo также не найден.
+2024-11-08 15:45:30,478 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38244249?price=0&date=010101&volume=0, 
+2024-11-08 15:45:30,479 - INFO - Нет активного всплывающего окна.
+2024-11-08 15:45:50,749 - INFO - Куки сохранены.
+2024-11-08 15:45:50,760 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-08 15:46:00,930 - ERROR - Неизвестная ошибка при обработке product_left: Message: 
+Stacktrace:
+0   chromedriver                        0x000000010483c248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000104834730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000104448260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x000000010448c50c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001044c67d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010448112c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000104481d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001048044d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000104808e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001047e95ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000104809710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x00000001047dab90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000104825828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000104825980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001048343d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 15:46:01,121 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38244249?price=2050&date=010116&volume=2967, 아우디 A7 50 TDI 콰트로 프리미엄 4G
+2024-11-08 15:46:01,122 - INFO - Нет активного всплывающего окна.
+2024-11-08 15:47:17,092 - ERROR - Произошла ошибка: Message: invalid cookie domain
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001008b8248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x00000001008b0730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x00000001004c40d0 cxxbridge1$string$len + 89088
+3   chromedriver                        0x0000000100551a10 cxxbridge1$string$len + 668992
+4   chromedriver                        0x00000001005427d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x00000001004fd12c cxxbridge1$string$len + 322652
+6   chromedriver                        0x00000001004fdd7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001008804d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000100884e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001008655ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000100885710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000100856b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x00000001008a1828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x00000001008a1980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001008b03d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 15:47:17,094 - INFO - Нет активного всплывающего окна.
+2024-11-08 15:47:17,536 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-08 15:47:32,306 - ERROR - Произошла ошибка: Message: invalid cookie domain
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x000000010542c248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000105424730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x00000001050380d0 cxxbridge1$string$len + 89088
+3   chromedriver                        0x00000001050c5a10 cxxbridge1$string$len + 668992
+4   chromedriver                        0x00000001050b67d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010507112c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000105071d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001053f44d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x00000001053f8e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001053d95ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x00000001053f9710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x00000001053cab90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000105415828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000105415980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001054243d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 15:47:32,307 - INFO - Нет активного всплывающего окна.
+2024-11-08 15:47:33,125 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
