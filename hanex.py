@@ -485,6 +485,11 @@ def calculate_cost(link, message):
                     json_response.get("result")["price"]["russian"]["recyclingFee"][
                         "rub"
                     ]
+                    - int(
+                        json_response.get("result")["price"]["korea"]["dutyCleaning"][
+                            "rub"
+                        ]
+                    )
                 )
                 total_cost_formatted = format_number(total_cost)
                 price_formatted = format_number(price)
@@ -693,7 +698,6 @@ def handle_callback_query(call):
         car_price_formatted = format_number(details["car_price_korea"])
         dealer_fee_formatted = format_number(details["dealer_fee"])
         korea_logistics_formatted = format_number(details["korea_logistics"])
-        customs_fee_formatted = format_number(details["customs_fee"])
         delivery_fee_formatted = format_number(details["delivery_fee"])
         dealer_commission_formatted = format_number(details["dealer_commission"])
         russia_duty_formatted = format_number(details["russiaDuty"])
@@ -716,7 +720,6 @@ def handle_callback_query(call):
             f"Стоимость авто: <b>{car_price_formatted}₽</b>\n\n"
             f"Услуги HanExport: <b>{dealer_fee_formatted}₽</b>\n\n"
             f"Логистика по Южной Корее: <b>{korea_logistics_formatted}₽</b>\n\n"
-            f"Таможенная очистка: <b>{customs_fee_formatted}₽</b>\n\n"
             f"Доставка до Владивостока: <b>{delivery_fee_formatted}₽</b>\n\n"
             f"Комиссия дилера: <b>{dealer_commission_formatted}₽</b>\n\n"
             f"Единая таможенная ставка (ЕТС): <b>{russia_duty_formatted}₽</b>\n\n"
