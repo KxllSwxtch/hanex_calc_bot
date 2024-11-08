@@ -53,6 +53,7 @@ last_error_message_id = {}
 car_data = {}
 car_id_external = ""
 total_car_price = 0
+usd_rate = 0
 
 
 # Функция для установки команд меню
@@ -70,6 +71,8 @@ set_bot_commands()
 
 # Функция для получения курсов валют с API
 def get_currency_rates():
+    global usd_rate
+
     print_message("КУРС ЦБ")
 
     url = "https://www.cbr-xml-daily.ru/daily_json.js"
@@ -81,6 +84,9 @@ def get_currency_rates():
     usd = data["Valute"]["USD"]["Value"]
     krw = data["Valute"]["KRW"]["Value"] / data["Valute"]["KRW"]["Nominal"]
     cny = data["Valute"]["CNY"]["Value"]
+
+    # Сохраняем глобально usd
+    usd_rate = usd
 
     # Форматируем текст
     rates_text = (
@@ -649,7 +655,7 @@ def get_insurance_total():
 # Callback query handler
 @bot.callback_query_handler(func=lambda call: True)
 def handle_callback_query(call):
-    global car_data, car_id_external
+    global car_data, car_id_external, usd_rate
 
     if call.data.startswith("detail"):
         print("\n\n####################")
@@ -694,7 +700,12 @@ def handle_callback_query(call):
         sbkts_formatted = format_number(details["sbkts"])
         svh_expertise_formatted = format_number(details["svhAndExpertise"])
 
-        print(car_data)
+        engine_volume = car_data.get("result")["car"]["engineVolume"]
+
+        if int(engine_volume) < 2000:
+            delivery_fee_formatted = format_number(600 * usd_rate)
+        else:
+            delivery_fee_formatted = format_number((750 * usd_rate) + 10000)
 
         # Construct cost breakdown message
         detail_message = (
@@ -886,4 +897,5 @@ def print_message(message):
 
 # Run the bot
 if __name__ == "__main__":
+    get_currency_rates()
     bot.polling(none_stop=True)
