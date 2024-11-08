@@ -32,76 +32,58 @@ def load_cookies(driver):
 
 
 def check_and_handle_alert(driver):
-    WebDriverWait(driver, 7).until(EC.alert_is_present())
-    alert = driver.switch_to.alert
-    print(f"Обнаружено всплывающее окно: {alert.text}")
-    alert.accept()  # Закрывает alert
-    print("Всплывающее окно было закрыто.")
+    try:
+        WebDriverWait(driver, 2).until(EC.alert_is_present())
+        alert = driver.switch_to.alert
+        print(f"Обнаружено всплывающее окно: {alert.text}")
+        alert.accept()  # Закрывает alert
+        print("Всплывающее окно было закрыто.")
+    except:
+        print("упс")
 
 
 # Function to get car info using Selenium
 def get_car_info(url):
-    global car_id_external
+    proxy_server = "109.184.168.106:7788"
 
     chrome_options = Options()
     chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
+    chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_argument("--enable-logging")
-    chrome_options.add_argument("--v=1")  # Уровень логирования
+    chrome_options.add_argument("--v=1")
+    chrome_options.add_argument(f"--proxy-server={proxy_server}")
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
     )
 
-    # Инициализация драйвера
     service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
-        # Загружаем страницу
         driver.get(url)
-        check_and_handle_alert(driver)  # Обработка alert, если присутствует
+        check_and_handle_alert(driver)  # Проверка и закрытие alert
         driver.refresh()
-        time.sleep(2)
         load_cookies(driver)
 
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
             logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
             driver.refresh()
-            logging.info("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
         save_cookies(driver)
-        logging.info("Куки сохранены.")
+        logging.info("Cookies сохранены.")
 
-        # Парсим URL для получения carid
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
 
-        # Проверка элемента areaLeaseRent
-        try:
-            lease_area = driver.find_element(By.ID, "areaLeaseRent")
-            title_element = lease_area.find_element(By.CLASS_NAME, "title")
-
-            if "리스정보" in title_element.text or "렌트정보" in title_element.text:
-                logging.info("Данная машина находится в лизинге.")
-                return [
-                    "",
-                    "Данная машина находится в лизинге. Свяжитесь с менеджером.",
-                ]
-        except NoSuchElementException:
-            logging.warning("Элемент areaLeaseRent не найден.")
-
-        # Инициализация переменных
-        car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
-
-        # Проверка элемента product_left
+        # Ждем появления элемента с информацией о машине
         try:
             product_left = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
@@ -111,7 +93,6 @@ def get_car_info(url):
             car_title = product_left.find_element(
                 By.CLASS_NAME, "prod_name"
             ).text.strip()
-
             car_date = (
                 product_left_splitted[3] if len(product_left_splitted) > 3 else ""
             )
@@ -120,7 +101,7 @@ def get_car_info(url):
             )
             car_price = re.sub(r"\D", "", product_left_splitted[1])
 
-            # Форматирование
+            # Форматирование значений
             formatted_price = car_price.replace(",", "")
             formatted_engine_capacity = (
                 car_engine_capacity.replace(",", "")[:-2]
@@ -132,80 +113,29 @@ def get_car_info(url):
                 f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
             )
 
-            # Создание URL
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
             logging.info(f"Данные о машине получены: {new_url}, {car_title}")
             return [new_url, car_title]
         except NoSuchElementException as e:
             logging.error(f"Ошибка при обработке product_left: {e}")
+            return None
         except Exception as e:
-            logging.error(f"Неизвестная ошибка при обработке product_left: {e}")
-
-        # Проверка элемента gallery_photo
-        try:
-            gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
-            car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
-
-            items = gallery_element.find_elements(By.XPATH, ".//*")
-            if len(items) > 10:
-                car_date = items[10].text
-            if len(items) > 18:
-                car_engine_capacity = items[18].text
-
-            # Извлечение информации о ключах
-            try:
-                keyinfo_element = driver.find_element(
-                    By.CSS_SELECTOR, "div.wrap_keyinfo"
-                )
-                keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
-                keyinfo_texts = [
-                    item.text for item in keyinfo_items if item.text.strip()
-                ]
-
-                # Извлекаем цену, если элемент существует
-                car_price = (
-                    re.sub(r"\D", "", keyinfo_texts[12])
-                    if len(keyinfo_texts) > 12
-                    else None
-                )
-            except NoSuchElementException:
-                logging.warning("Элемент wrap_keyinfo не найден.")
-        except NoSuchElementException:
-            logging.warning("Элемент gallery_photo также не найден.")
-
-        # Форматирование значений для URL
-        if car_price:
-            formatted_price = car_price.replace(",", "")
-        else:
-            formatted_price = "0"  # Задаем значение по умолчанию
-
-        formatted_engine_capacity = (
-            car_engine_capacity.replace(",", "")[:-2] if car_engine_capacity else "0"
-        )
-        cleaned_date = "".join(filter(str.isdigit, car_date))
-        formatted_date = (
-            f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
-        )
-
-        # Конечный URL
-        new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
-
-        logging.info(f"Данные о машине получены: {new_url}, {car_title}")
-        return [new_url, car_title]
+            logging.error(f"Неизвестная ошибка при обработке: {e}")
+            return None
 
     except Exception as e:
         logging.error(f"Произошла ошибка: {e}")
-        return None, None
-
+        return None
     finally:
-        # Обработка всплывающих окон (alerts)
         try:
-            alert = driver.switch_to.alert
-            alert.dismiss()
-            logging.info("Всплывающее окно отклонено.")
-        except NoAlertPresentException:
-            logging.info("Нет активного всплывающего окна.")
+            check_and_handle_alert(driver)
         except Exception as alert_exception:
             logging.error(f"Ошибка при обработке alert: {alert_exception}")
-
         driver.quit()
+
+
+print(
+    get_car_info(
+        "http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38213585&view_type=checked&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p1_g2&tempht_arg=OG1nM3l8zq48_1"
+    )
+)
