@@ -232,7 +232,6 @@ def get_car_info(url):
     global car_id_external
 
     chrome_options = Options()
-    chrome_options.add_argument("--remote-debugging-port=9222")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
@@ -254,6 +253,8 @@ def get_car_info(url):
         # Загружаем страницу
         driver.get(url)
         check_and_handle_alert(driver)  # Обработка alert, если присутствует
+        driver.refresh()
+        time.sleep(2)
         load_cookies(driver)
 
         # Проверка на reCAPTCHA
