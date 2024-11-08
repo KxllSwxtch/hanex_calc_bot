@@ -220,7 +220,7 @@ def load_cookies(driver):
 
 
 def check_and_handle_alert(driver):
-    WebDriverWait(driver, 7).until(EC.alert_is_present())
+    WebDriverWait(driver, 4).until(EC.alert_is_present())
     alert = driver.switch_to.alert
     print(f"Обнаружено всплывающее окно: {alert.text}")
     alert.accept()  # Закрывает alert
@@ -248,8 +248,6 @@ def get_car_info(url):
     # Инициализация драйвера
     service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(service=service, options=chrome_options)
-    driver.get(url)
-    load_cookies(driver)
 
     try:
         # Загружаем страницу
@@ -386,16 +384,6 @@ def get_car_info(url):
         return None, None
 
     finally:
-        # Обработка всплывающих окон (alerts)
-        try:
-            alert = driver.switch_to.alert
-            alert.dismiss()
-            logging.info("Всплывающее окно отклонено.")
-        except NoAlertPresentException:
-            logging.info("Нет активного всплывающего окна.")
-        except Exception as alert_exception:
-            logging.error(f"Ошибка при обработке alert: {alert_exception}")
-
         driver.quit()
 
 
