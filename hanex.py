@@ -702,6 +702,8 @@ def handle_callback_query(call):
 
         engine_volume = car_data.get("result")["car"]["engineVolume"]
 
+        print(engine_volume)
+
         if int(engine_volume) < 2000:
             delivery_fee_formatted = format_number(600 * usd_rate)
         else:
