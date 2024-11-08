@@ -923,3 +923,301 @@ Traceback (most recent call last):
     raise ApiTelegramException(method_name, result, result_json)
 telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
 
+2024-11-08 11:32:17,258 - INFO - Куки сохранены.
+2024-11-08 11:32:17,264 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-08 11:32:22,689 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 11:32:22,689 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 11:32:26,574 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 11:32:26,576 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 11:32:27,403 - ERROR - Неизвестная ошибка при обработке product_left: Message: 
+Stacktrace:
+0   chromedriver                        0x0000000102c60248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000102c58730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x000000010286c260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x00000001028b050c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001028ea7d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x00000001028a512c cxxbridge1$string$len + 322652
+6   chromedriver                        0x00000001028a5d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x0000000102c284d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000102c2ce40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x0000000102c0d5ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000102c2d710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000102bfeb90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000102c49828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000102c49980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000102c583d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 11:32:27,584 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38314177?price=3280&date=010920&volume=2359, 현대 더 뉴 그랜저 IG 하이브리드 익스클루시브
+2024-11-08 11:32:27,585 - INFO - Нет активного всплывающего окна.
+2024-11-08 11:32:30,961 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 11:32:30,962 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 11:32:36,335 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 11:32:36,336 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 11:32:41,949 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 11:32:41,952 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 11:32:49,802 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 11:32:49,803 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 11:33:02,153 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 11:33:02,154 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 11:33:23,527 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 11:33:23,529 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 11:33:59,978 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 11:33:59,981 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-08 11:34:25,766 - INFO - Куки сохранены.
+2024-11-08 11:34:25,774 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-08 11:34:35,973 - ERROR - Неизвестная ошибка при обработке product_left: Message: 
+Stacktrace:
+0   chromedriver                        0x000000010288c248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000102884730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000102498260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x00000001024dc50c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001025167d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x00000001024d112c cxxbridge1$string$len + 322652
+6   chromedriver                        0x00000001024d1d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001028544d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000102858e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001028395ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000102859710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x000000010282ab90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000102875828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000102875980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001028843d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-08 11:34:36,195 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38391004?price=2070&date=010622&volume=1598, 현대 아반떼 (CN7) 1.6 모던
+2024-11-08 11:34:36,196 - INFO - Нет активного всплывающего окна.
+2024-11-08 11:35:03,674 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-08 11:35:03,677 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
