@@ -379,6 +379,8 @@ def get_car_info(url):
             f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
         )
 
+        print(formatted_date, formatted_engine_capacity, formatted_price)
+
         # Конечный URL
         new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
 
@@ -473,8 +475,6 @@ def calculate_cost(link, message):
             year = json_response.get("result")["car"]["date"].split()[-1]
             engine_volume = json_response.get("result")["car"]["engineVolume"]
             price = json_response.get("result")["price"]["car"]["krw"]
-
-            print(year, engine_volume, price)
 
             if year and engine_volume and price:
                 engine_volume_formatted = f"{format_number(int(engine_volume))} cc"
