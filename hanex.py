@@ -135,12 +135,12 @@ def currencyrates_command(message):
 def main_menu():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     keyboard.add(
-        types.KeyboardButton("🔍 Рассчитать автомобиль до Владивостока"),
-        types.KeyboardButton("✉️ Написать менеджеру"),
-        types.KeyboardButton("ℹ️ О компании HanExport"),
-        types.KeyboardButton("📢 Наш Telegram-канал"),
-        types.KeyboardButton("📞 Связаться через WhatsApp"),
-        types.KeyboardButton("📸 Посетить наш Instagram"),
+        types.KeyboardButton("Рассчитать автомобиль до Владивостока"),
+        types.KeyboardButton("Написать менеджеру"),
+        types.KeyboardButton("О компании HanExport"),
+        types.KeyboardButton("Наш Telegram-канал"),
+        types.KeyboardButton("Связаться через WhatsApp"),
+        types.KeyboardButton("Посетить наш Instagram"),
     )
     return keyboard
 
@@ -730,13 +730,13 @@ def handle_callback_query(call):
         keyboard = types.InlineKeyboardMarkup()
         keyboard.add(
             types.InlineKeyboardButton(
-                "📉 Рассчитать стоимость другого автомобиля",
+                "Рассчитать стоимость другого автомобиля",
                 callback_data="calculate_another",
             )
         )
         keyboard.add(
             types.InlineKeyboardButton(
-                "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
+                "Связаться с менеджером", url="https://t.me/hanexport11"
             )
         )
 
@@ -763,13 +763,13 @@ def handle_callback_query(call):
             keyboard = types.InlineKeyboardMarkup()
             keyboard.add(
                 types.InlineKeyboardButton(
-                    "📉 Рассчитать стоимость другого автомобиля",
+                    "Рассчитать стоимость другого автомобиля",
                     callback_data="calculate_another",
                 )
             )
             keyboard.add(
                 types.InlineKeyboardButton(
-                    "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
+                    "Связаться с менеджером", url="https://t.me/hanexport11"
                 )
             )
 
@@ -799,13 +799,13 @@ def handle_callback_query(call):
             keyboard = types.InlineKeyboardMarkup()
             keyboard.add(
                 types.InlineKeyboardButton(
-                    "📉 Рассчитать стоимость другого автомобиля",
+                    "Рассчитать стоимость другого автомобиля",
                     callback_data="calculate_another",
                 )
             )
             keyboard.add(
                 types.InlineKeyboardButton(
-                    "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
+                    "Связаться с менеджером", url="https://t.me/hanexport11"
                 )
             )
 
@@ -828,7 +828,7 @@ def handle_message(message):
     user_message = message.text.strip()
 
     # Проверяем нажатие кнопки "Рассчитать автомобиль"
-    if user_message == "🔍 Рассчитать автомобиль до Владивостока":
+    if user_message == "Рассчитать автомобиль до Владивостока":
         bot.send_message(
             message.chat.id,
             "Пожалуйста, введите ссылку на автомобиль с сайта www.encar.com:",
@@ -839,29 +839,29 @@ def handle_message(message):
         calculate_cost(user_message, message)
 
     # Проверка на другие команды
-    elif user_message == "✉️ Написать менеджеру":
+    elif user_message == "Написать менеджеру":
         bot.send_message(
             message.chat.id, "Вы можете связаться с менеджером по ссылке: @hanexport11"
         )
-    elif user_message == "📞 Связаться через WhatsApp":
+    elif user_message == "Связаться через WhatsApp":
         whatsapp_link = "https://wa.me/821084266744"
         bot.send_message(
             message.chat.id,
             f"Вы можете связаться с нами через WhatsApp по ссылке: {whatsapp_link}",
         )
-    elif user_message == "ℹ️ О компании HanExport":
+    elif user_message == "О компании HanExport":
         about_message = (
             "HanExport — это компания, специализирующаяся на экспорте автомобилей "
             "из Южной Кореи. Мы предлагаем широкий выбор автомобилей и прозрачные условия "
             "для наших клиентов."
         )
         bot.send_message(message.chat.id, about_message)
-    elif user_message == "📢 Наш Telegram-канал":
+    elif user_message == "Наш Telegram-канал":
         channel_link = "https://t.me/hanexport1"
         bot.send_message(
             message.chat.id, f"Подписывайтесь на наш Telegram-канал: {channel_link}"
         )
-    elif user_message == "📸 Посетить наш Instagram":
+    elif user_message == "Посетить наш Instagram":
         instagram_link = "https://www.instagram.com/hanexport1"
         bot.send_message(message.chat.id, f"Посетите наш Instagram: {instagram_link}")
 
