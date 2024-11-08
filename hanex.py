@@ -228,11 +228,8 @@ def check_and_handle_alert(driver):
 
 # Function to get car info using Selenium
 def get_car_info(url):
-    logging.info("ЗАПРОС НА ВЫВОД ИНФОРМАЦИИ ОБ АВТОМОБИЛЕ")
-
     global car_id_external
 
-    # Настройки для Chrome
     chrome_options = Options()
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--headless")
@@ -256,7 +253,6 @@ def get_car_info(url):
         # Загружаем страницу
         driver.get(url)
         check_and_handle_alert(driver)  # Обработка alert, если присутствует
-
         load_cookies(driver)
 
         # Проверка на reCAPTCHA
@@ -273,10 +269,6 @@ def get_car_info(url):
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
-
-        if car_id is None:
-            logging.error("car_id не найден в URL.")
-            return None, None
 
         # Проверка элемента areaLeaseRent
         try:
@@ -701,6 +693,8 @@ def handle_callback_query(call):
         registration_formatted = format_number(details["registration"])
         sbkts_formatted = format_number(details["sbkts"])
         svh_expertise_formatted = format_number(details["svhAndExpertise"])
+
+        print(car_data)
 
         # Construct cost breakdown message
         detail_message = (
