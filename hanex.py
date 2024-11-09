@@ -198,7 +198,7 @@ def check_and_handle_alert(driver):
 
     if alert_present:
         alert = driver.switch_to.alert
-        time.sleep(2)  # Небольшая задержка для стабильности
+        time.sleep(3)  # Небольшая задержка для стабильности
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()  # Закрывает alert
         print("Всплывающее окно было закрыто.")
@@ -229,8 +229,8 @@ def get_car_info(url):
 
     try:
         driver.get(url)
-        load_cookies(driver)
         check_and_handle_alert(driver)
+        load_cookies(driver)
 
         if "reCAPTCHA" in driver.page_source:
             logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
@@ -238,6 +238,7 @@ def get_car_info(url):
             logging.info("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)
 
+        driver.get(url)
         save_cookies(driver)
 
         # Извлечение car_id
