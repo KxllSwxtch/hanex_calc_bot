@@ -233,7 +233,6 @@ async def get_car_info(url):
             driver.refresh()
             logging.info("Страница обновлена после reCAPTCHA.")
 
-        await asyncio.sleep(2)
         driver.get(url)
         save_cookies(driver)
 
@@ -247,7 +246,7 @@ async def get_car_info(url):
 
         # Проверка лизинга
         try:
-            lease_area = WebDriverWait(driver, 10).until(
+            lease_area = WebDriverWait(driver, 5).until(
                 EC.presence_of_element_located((By.ID, "areaLeaseRent"))
             )
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
@@ -265,7 +264,7 @@ async def get_car_info(url):
 
         # Обработка product_left и gallery_photo в одном try
         try:
-            product_left = WebDriverWait(driver, 10).until(
+            product_left = WebDriverWait(driver, 5).until(
                 EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
@@ -386,6 +385,8 @@ def calculate_cost(link, message):
 
     # Получение информации о автомобиле
     result = asyncio.run(get_car_info(link))
+
+    print(result)
 
     if result is None:
         send_error_message(
