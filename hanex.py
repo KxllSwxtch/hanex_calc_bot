@@ -169,40 +169,9 @@ def send_error_message(message, error_text):
             logging.error(f"Error deleting message: {e}")
 
     # Send new error message and store its ID
-    error_message = bot.reply_to(message, error_text)
+    error_message = bot.reply_to(message, error_text, reply_markup=main_menu())
     last_error_message_id[message.chat.id] = error_message.id
     logging.error(f"Error sent to user {message.chat.id}: {error_text}")
-
-
-# def solve_recaptcha_v3():
-#     payload = {
-#         "clientKey": CAPSOLVER_API_KEY,
-#         "task": {
-#             "type": "ReCaptchaV3TaskProxyLess",
-#             "websiteKey": SITE_KEY,
-#             "websiteURL": "http://www.encar.com:80",
-#             "pageAction": "/dc/dc_cardetailview_do",
-#         },
-#     }
-#     res = requests.post("https://api.capsolver.com/createTask", json=payload)
-#     resp = res.json()
-#     task_id = resp.get("taskId")
-#     if not task_id:
-#         print("Не удалось создать задачу:", res.text)
-#         return None
-#     print(f"Получен taskId: {task_id} / Ожидание результата...")
-
-#     while True:
-#         time.sleep(1)
-#         payload = {"clientKey": CAPSOLVER_API_KEY, "taskId": task_id}
-#         res = requests.post("https://api.capsolver.com/getTaskResult", json=payload)
-#         resp = res.json()
-#         if resp.get("status") == "ready":
-#             print("reCAPTCHA успешно решена")
-#             return resp.get("solution", {}).get("gRecaptchaResponse")
-#         if resp.get("status") == "failed" or resp.get("errorId"):
-#             print("Решение не удалось! Ответ:", res.text)
-#             return None
 
 
 def save_cookies(driver):
@@ -433,7 +402,8 @@ def calculate_cost(link, message):
             "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
         )
         bot.delete_message(
-            message.chat.id, processing_message.message_id
+            message.chat.id,
+            processing_message.message_id,
         )  # Удаляем сообщение
         return
 
@@ -904,3 +874,34 @@ if __name__ == "__main__":
     get_currency_rates()
     set_bot_commands()
     bot.polling(none_stop=True)
+
+
+# def solve_recaptcha_v3():
+#     payload = {
+#         "clientKey": CAPSOLVER_API_KEY,
+#         "task": {
+#             "type": "ReCaptchaV3TaskProxyLess",
+#             "websiteKey": SITE_KEY,
+#             "websiteURL": "http://www.encar.com:80",
+#             "pageAction": "/dc/dc_cardetailview_do",
+#         },
+#     }
+#     res = requests.post("https://api.capsolver.com/createTask", json=payload)
+#     resp = res.json()
+#     task_id = resp.get("taskId")
+#     if not task_id:
+#         print("Не удалось создать задачу:", res.text)
+#         return None
+#     print(f"Получен taskId: {task_id} / Ожидание результата...")
+
+#     while True:
+#         time.sleep(1)
+#         payload = {"clientKey": CAPSOLVER_API_KEY, "taskId": task_id}
+#         res = requests.post("https://api.capsolver.com/getTaskResult", json=payload)
+#         resp = res.json()
+#         if resp.get("status") == "ready":
+#             print("reCAPTCHA успешно решена")
+#             return resp.get("solution", {}).get("gRecaptchaResponse")
+#         if resp.get("status") == "failed" or resp.get("errorId"):
+#             print("Решение не удалось! Ответ:", res.text)
+#             return None
