@@ -1,4 +1,3 @@
-import asyncio
 import time
 import pickle
 import telebot
@@ -193,62 +192,62 @@ def check_and_handle_alert(driver, timeout=5):
         # Ожидание появления alert в течение заданного времени
         WebDriverWait(driver, timeout).until(EC.alert_is_present())
         alert = driver.switch_to.alert
-        print(f"Обнаружено всплывающее окно: {alert.text}")
-        alert.accept()  # Закрывает alert
-        print("Всплывающее окно было закрыто.")
+        logging.info(f"Обнаружено всплывающее окно: {alert.text}")
+        alert.accept()  # Закрытие alert
+        logging.info("Всплывающее окно было закрыто.")
     except TimeoutException:
-        print("Нет активного всплывающего окна.")
+        logging.info("Нет активного всплывающего окна.")
     except NoAlertPresentException:
-        print("Alert исчез до попытки взаимодействия с ним.")
+        logging.info("Alert исчез до попытки взаимодействия с ним.")
 
 
 # Function to get car info using Selenium
-async def get_car_info(url):
+def get_car_info(url):
     global car_id_external
 
     chrome_options = Options()
-    chrome_options.add_argument("--disable-software-rasterizer")
-    chrome_options.add_argument("--disable-accelerated-2d-canvas")
-    chrome_options.add_argument("--disable-accelerated-video-decode")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--headless")
     chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--remote-debugging-port=9222")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--start-maximized")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
+    chrome_options.add_argument("--window-size=1920,1080")  # Устанавливает размер окна
+    chrome_options.add_argument("--disable-infobars")
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_argument("--enable-logging")
+    chrome_options.add_argument("--v=1")  # Уровень логирования
     chrome_options.add_argument(
-        "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Version/13.0.3 Safari/537.36"
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
     )
 
+    # Инициализация драйвера
     service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
+        # Загружаем страницу
         driver.get(url)
-        await check_and_handle_alert(driver)
-        load_cookies(driver)
+        check_and_handle_alert(driver)  # Обработка alert, если присутствует
+        load_cookies(driver)  # Загрузка cookies
 
+        # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
             logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
             driver.refresh()
             logging.info("Страница обновлена после reCAPTCHA.")
+            check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
-        driver.get(url)
-        save_cookies(driver)
+        save_cookies(driver)  # Сохранение cookies
+        logging.info("Куки сохранены.")
 
-        # Извлечение car_id
+        # Парсим URL для получения carid
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
-        if not car_id:
-            logging.warning("car_id не найден в URL. Возвращаем None.")
-            return None, None
 
-        # Проверка лизинга
+        # Проверка элемента areaLeaseRent
         try:
-            lease_area = WebDriverWait(driver, 5).until(
-                EC.presence_of_element_located((By.ID, "areaLeaseRent"))
-            )
+            lease_area = driver.find_element(By.ID, "areaLeaseRent")
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
@@ -257,105 +256,119 @@ async def get_car_info(url):
                     "",
                     "Данная машина находится в лизинге. Свяжитесь с менеджером.",
                 ]
-        except (NoSuchElementException, TimeoutException):
+        except NoSuchElementException:
             logging.warning("Элемент areaLeaseRent не найден.")
 
+        # Инициализация переменных
         car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
 
-        # Обработка product_left и gallery_photo в одном try
+        # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 5).until(
-                EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
+            product_left = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
 
             car_title = product_left.find_element(
                 By.CLASS_NAME, "prod_name"
             ).text.strip()
+
             car_date = (
                 product_left_splitted[3] if len(product_left_splitted) > 3 else ""
             )
             car_engine_capacity = (
                 product_left_splitted[6] if len(product_left_splitted) > 6 else ""
             )
-            car_price = (
-                re.sub(r"\D", "", product_left_splitted[1])
-                if len(product_left_splitted) > 1
+            car_price = re.sub(r"\D", "", product_left_splitted[1])
+
+            # Форматирование
+            formatted_price = car_price.replace(",", "")
+            formatted_engine_capacity = (
+                car_engine_capacity.replace(",", "")[:-2]
+                if car_engine_capacity
                 else "0"
             )
-
-        except (NoSuchElementException, TimeoutException):
-            logging.warning(
-                "Элемент product_left не найден, пробуем искать gallery_photo."
+            cleaned_date = "".join(filter(str.isdigit, car_date))
+            formatted_date = (
+                f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
             )
 
-            try:
-                gallery_element = driver.find_element(
-                    By.CSS_SELECTOR, "div.gallery_photo"
-                )
-                car_title = gallery_element.find_element(
-                    By.CLASS_NAME, "prod_name"
-                ).text
-                items = gallery_element.find_elements(By.XPATH, ".//*")
-                car_date = items[10].text if len(items) > 10 else car_date
-                car_engine_capacity = (
-                    items[18].text if len(items) > 18 else car_engine_capacity
-                )
-            except NoSuchElementException as gallery_error:
-                logging.error(
-                    "Не удалось найти ни product_left, ни gallery_photo: %s",
-                    gallery_error,
-                    exc_info=True,
-                )
+            # Создание URL
+            new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
+            logging.info(f"Данные о машине получены: {new_url}, {car_title}")
+            return [new_url, car_title]
+        except NoSuchElementException as e:
+            logging.error(f"Ошибка при обработке product_left: {e}")
+        except Exception as e:
+            logging.error(f"Неизвестная ошибка при обработке product_left: {e}")
 
-        # Обработка wrap_keyinfo
+        # Проверка элемента gallery_photo
         try:
-            keyinfo_element = driver.find_element(By.CSS_SELECTOR, "div.wrap_keyinfo")
-            keyinfo_texts = [
-                item.text
-                for item in keyinfo_element.find_elements(By.XPATH, ".//*")
-                if item.text.strip()
-            ]
-            car_price = (
-                re.sub(r"\D", "", keyinfo_texts[12])
-                if len(keyinfo_texts) > 12
-                else car_price
-            )
+            gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+            car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
 
+            items = gallery_element.find_elements(By.XPATH, ".//*")
+            if len(items) > 10:
+                car_date = items[10].text
+            if len(items) > 18:
+                car_engine_capacity = items[18].text
+
+            # Извлечение информации о ключах
+            try:
+                keyinfo_element = driver.find_element(
+                    By.CSS_SELECTOR, "div.wrap_keyinfo"
+                )
+                keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
+                keyinfo_texts = [
+                    item.text for item in keyinfo_items if item.text.strip()
+                ]
+
+                # Извлекаем цену, если элемент существует
+                car_price = (
+                    re.sub(r"\D", "", keyinfo_texts[12])
+                    if len(keyinfo_texts) > 12
+                    else None
+                )
+            except NoSuchElementException:
+                logging.warning("Элемент wrap_keyinfo не найден.")
         except NoSuchElementException:
-            logging.warning("Элемент wrap_keyinfo не найден.")
+            logging.warning("Элемент gallery_photo также не найден.")
 
-        # Если нет названия или ссылки на машину, выбрасываем ошибку
-        if not car_title or not car_price:
-            logging.error("Не удалось найти информацию о машине (название или цена).")
-            raise ValueError("Ссылка или название автомобиля не найдены.")
+        # Форматирование значений для URL
+        if car_price:
+            formatted_price = car_price.replace(",", "")
+        else:
+            formatted_price = "0"  # Задаем значение по умолчанию
 
-        # Форматирование значений
-        formatted_price = car_price if car_price else "0"
         formatted_engine_capacity = (
-            re.sub(r"\D", "", car_engine_capacity)[:-2] if car_engine_capacity else "0"
+            car_engine_capacity.replace(",", "")[:-2] if car_engine_capacity else "0"
         )
         cleaned_date = "".join(filter(str.isdigit, car_date))
         formatted_date = (
-            f"01{cleaned_date[2:4]}{cleaned_date[:2]}"
-            if len(cleaned_date) >= 4
-            else "010101"
+            f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
         )
 
-        logging.info(f"Форматированная цена: {formatted_price}")
-        logging.info(f"Форматированная емкость двигателя: {formatted_engine_capacity}")
-        logging.info(f"Форматированная дата: {formatted_date}")
-
+        # Конечный URL
         new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
 
         logging.info(f"Данные о машине получены: {new_url}, {car_title}")
         return [new_url, car_title]
 
     except Exception as e:
-        logging.error("Произошла ошибка в get_car_info: %s", e, exc_info=True)
+        logging.error(f"Произошла ошибка: {e}")
         return None, None
 
     finally:
+        # Обработка всплывающих окон (alerts)
+        try:
+            alert = driver.switch_to.alert
+            alert.dismiss()
+            logging.info("Всплывающее окно отклонено.")
+        except NoAlertPresentException:
+            logging.info("Нет активного всплывающего окна.")
+        except Exception as alert_exception:
+            logging.error(f"Ошибка при обработке alert: {alert_exception}")
+
         driver.quit()
 
 
@@ -384,9 +397,7 @@ def calculate_cost(link, message):
             return
 
     # Получение информации о автомобиле
-    result = asyncio.run(get_car_info(link))
-
-    print(result)
+    result = get_car_info(link)
 
     if result is None:
         send_error_message(
@@ -429,9 +440,12 @@ def calculate_cost(link, message):
             json_response = response.json()
             car_data = json_response
 
-            year = json_response.get("result")["car"]["date"].split()[-1]
-            engine_volume = json_response.get("result")["car"]["engineVolume"]
-            price = json_response.get("result")["price"]["car"]["krw"]
+            result = json_response.get("result", {})
+            car = result.get("car", {})
+            price = result.get("price", {}).get("car", {}).get("krw", 0)
+
+            year = car.get("date", "").split()[-1]
+            engine_volume = car.get("engineVolume", 0)
 
             print(year, engine_volume, price)
 
@@ -439,18 +453,21 @@ def calculate_cost(link, message):
                 engine_volume_formatted = f"{format_number(int(engine_volume))} cc"
                 age_formatted = calculate_age(year)
 
-                total_cost = int(
-                    json_response.get("result")["price"]["grandTotal"]
-                ) - int(
-                    json_response.get("result")["price"]["russian"]["recyclingFee"][
-                        "rub"
-                    ]
-                    - int(
-                        json_response.get("result")["price"]["korea"]["dutyCleaning"][
-                            "rub"
-                        ]
-                    )
+                grand_total = result.get("price", {}).get("grandTotal", 0)
+                recycling_fee = (
+                    result.get("price", {})
+                    .get("russian", {})
+                    .get("recyclingFee", {})
+                    .get("rub", 0)
                 )
+                duty_cleaning = (
+                    result.get("price", {})
+                    .get("korea", {})
+                    .get("dutyCleaning", {})
+                    .get("rub", 0)
+                )
+
+                total_cost = int(grand_total) - int(recycling_fee) - int(duty_cleaning)
                 total_cost_formatted = format_number(total_cost)
                 price_formatted = format_number(price)
 

@@ -1811,3 +1811,540 @@ Stacktrace:
 
 2024-11-08 15:47:32,307 - INFO - Нет активного всплывающего окна.
 2024-11-08 15:47:33,125 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-09 16:07:32,957 - ERROR - Произошла ошибка в get_car_info: object NoneType can't be used in 'await' expression
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 228, in get_car_info
+    await check_and_handle_alert(driver)
+TypeError: object NoneType can't be used in 'await' expression
+2024-11-09 16:07:33,430 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-09 16:07:52,043 - ERROR - Произошла ошибка в get_car_info: object NoneType can't be used in 'await' expression
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 228, in get_car_info
+    await check_and_handle_alert(driver)
+TypeError: object NoneType can't be used in 'await' expression
+2024-11-09 16:07:52,860 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-09 16:08:02,249 - ERROR - Произошла ошибка в get_car_info: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/urllib3/connection.py", line 507, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/http/client.py", line 1386, in getresponse
+    response.begin()
+  File "/opt/homebrew/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/http/client.py", line 325, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/http/client.py", line 294, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 227, in get_car_info
+    driver.get(url)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 363, in get
+    self.execute(Command.GET, {"url": url})
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 352, in execute
+    response = self.command_executor.execute(driver_command, params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/remote_connection.py", line 306, in execute
+    return self._request(command_info[0], url, body=data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/remote_connection.py", line 326, in _request
+    response = self._conn.request(method, url, body=body, headers=headers)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/urllib3/_request_methods.py", line 143, in request
+    return self.request_encode_body(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/urllib3/_request_methods.py", line 278, in request_encode_body
+    return self.urlopen(method, url, **extra_kw)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/urllib3/poolmanager.py", line 443, in urlopen
+    response = conn.urlopen(method, u.request_uri, **kw)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 843, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/urllib3/util/retry.py", line 474, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/urllib3/util/util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 789, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/urllib3/connectionpool.py", line 536, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/urllib3/connection.py", line 507, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/http/client.py", line 1386, in getresponse
+    response.begin()
+  File "/opt/homebrew/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/http/client.py", line 325, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.11/3.11.7_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/http/client.py", line 294, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2024-11-09 16:08:20,102 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-09 16:08:25,173 - WARNING - Элемент product_left не найден, пробуем искать gallery_photo.
+2024-11-09 16:08:25,178 - ERROR - Не удалось найти ни product_left, ни gallery_photo: Message: no such element: Unable to locate element: {"method":"css selector","selector":"div.gallery_photo"}
+  (Session info: chrome=130.0.6723.117); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   chromedriver                        0x000000010481c248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000104814730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000104428260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x000000010446c50c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001044a67d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010446112c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000104461d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001047e44d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x00000001047e8e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001047c95ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x00000001047e9710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x00000001047bab90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000104805828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000104805980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001048143d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 267, in get_car_info
+    product_left = WebDriverWait(driver, 5).until(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/support/wait.py", line 105, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+Stacktrace:
+0   chromedriver                        0x000000010481c248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000104814730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000104428260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x000000010446c50c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001044a67d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010446112c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000104461d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001047e44d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x00000001047e8e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001047c95ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x00000001047e9710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x00000001047bab90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000104805828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000104805980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001048143d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 293, in get_car_info
+    gallery_element = driver.find_element(
+                      ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 748, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 354, in execute
+    self.error_handler.check_response(response)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"css selector","selector":"div.gallery_photo"}
+  (Session info: chrome=130.0.6723.117); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   chromedriver                        0x000000010481c248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000104814730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000104428260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x000000010446c50c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001044a67d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010446112c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000104461d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001047e44d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x00000001047e8e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001047c95ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x00000001047e9710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x00000001047bab90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000104805828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000104805980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001048143d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-09 16:08:25,187 - WARNING - Элемент wrap_keyinfo не найден.
+2024-11-09 16:08:25,187 - ERROR - Не удалось найти информацию о машине (название или цена).
+2024-11-09 16:08:25,187 - ERROR - Произошла ошибка в get_car_info: Ссылка или название автомобиля не найдены.
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 331, in get_car_info
+    raise ValueError("Ссылка или название автомобиля не найдены.")
+ValueError: Ссылка или название автомобиля не найдены.
+2024-11-09 16:08:25,690 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-09 16:09:42,644 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-09 16:09:47,718 - WARNING - Элемент product_left не найден.
+2024-11-09 16:09:47,725 - ERROR - Не удалось найти элемент gallery_photo: Message: no such element: Unable to locate element: {"method":"css selector","selector":"div.gallery_photo"}
+  (Session info: chrome=130.0.6723.117); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   chromedriver                        0x0000000104b98248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000104b90730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x00000001047a4260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x00000001047e850c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001048227d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x00000001047dd12c cxxbridge1$string$len + 322652
+6   chromedriver                        0x00000001047ddd7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x0000000104b604d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000104b64e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x0000000104b455ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000104b65710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000104b36b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000104b81828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000104b81980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000104b903d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 292, in get_car_info
+    gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 748, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 354, in execute
+    self.error_handler.check_response(response)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"css selector","selector":"div.gallery_photo"}
+  (Session info: chrome=130.0.6723.117); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   chromedriver                        0x0000000104b98248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000104b90730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x00000001047a4260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x00000001047e850c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001048227d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x00000001047dd12c cxxbridge1$string$len + 322652
+6   chromedriver                        0x00000001047ddd7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x0000000104b604d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000104b64e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x0000000104b455ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000104b65710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000104b36b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000104b81828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000104b81980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000104b903d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-09 16:09:47,734 - WARNING - Элемент wrap_keyinfo не найден.
+2024-11-09 16:09:47,734 - ERROR - Не удалось найти информацию о машине (название или цена).
+2024-11-09 16:09:47,734 - ERROR - Произошла ошибка в get_car_info: Ссылка или название автомобиля не найдены.
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 326, in get_car_info
+    raise ValueError("Ссылка или название автомобиля не найдены.")
+ValueError: Ссылка или название автомобиля не найдены.
+2024-11-09 16:09:48,229 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-09 16:12:39,035 - ERROR - Произошла ошибка в get_car_info: 'Page' object has no attribute 'switch_to'
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 218, in get_car_info
+    await check_and_handle_alert(page)
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 195, in check_and_handle_alert
+    WebDriverWait(driver, timeout).until(EC.alert_is_present())
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/support/wait.py", line 96, in until
+    value = method(self._driver)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/support/expected_conditions.py", line 470, in _predicate
+    return driver.switch_to.alert
+           ^^^^^^^^^^^^^^^^
+AttributeError: 'Page' object has no attribute 'switch_to'
+2024-11-09 16:12:39,479 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-09 16:14:41,452 - ERROR - Произошла ошибка в get_car_info: 'Page' object has no attribute 'add_cookie'
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 218, in get_car_info
+    load_cookies(page)
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 189, in load_cookies
+    driver.add_cookie(cookie)
+    ^^^^^^^^^^^^^^^^^
+AttributeError: 'Page' object has no attribute 'add_cookie'
+2024-11-09 16:14:41,904 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-09 16:16:46,806 - ERROR - Произошла ошибка в get_car_info: 'Page' object has no attribute 'add_cookie'
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 219, in get_car_info
+    load_cookies(page)
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 189, in load_cookies
+    driver.add_cookie(cookie)
+    ^^^^^^^^^^^^^^^^^
+AttributeError: 'Page' object has no attribute 'add_cookie'
+2024-11-09 16:16:47,216 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-09 16:18:34,314 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-09 16:18:55,101 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-09 16:19:00,158 - WARNING - Элемент product_left не найден.
+2024-11-09 16:19:00,164 - ERROR - Не удалось найти элемент gallery_photo: Message: no such element: Unable to locate element: {"method":"css selector","selector":"div.gallery_photo"}
+  (Session info: chrome=130.0.6723.117); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   chromedriver                        0x000000010514c248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000105144730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000104d58260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x0000000104d9c50c cxxbridge1$string$len + 368700
+4   chromedriver                        0x0000000104dd67d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x0000000104d9112c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000104d91d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001051144d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000105118e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001050f95ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000105119710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x00000001050eab90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000105135828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000105135980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001051443d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 296, in get_car_info
+    gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 748, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 354, in execute
+    self.error_handler.check_response(response)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"css selector","selector":"div.gallery_photo"}
+  (Session info: chrome=130.0.6723.117); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   chromedriver                        0x000000010514c248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000105144730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000104d58260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x0000000104d9c50c cxxbridge1$string$len + 368700
+4   chromedriver                        0x0000000104dd67d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x0000000104d9112c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000104d91d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001051144d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000105118e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001050f95ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000105119710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x00000001050eab90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000105135828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000105135980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001051443d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-09 16:19:00,171 - WARNING - Элемент wrap_keyinfo не найден.
+2024-11-09 16:19:00,171 - ERROR - Не удалось найти информацию о машине (название или цена).
+2024-11-09 16:19:00,171 - ERROR - Произошла ошибка в get_car_info: Ссылка или название автомобиля не найдены.
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 330, in get_car_info
+    raise ValueError("Ссылка или название автомобиля не найдены.")
+ValueError: Ссылка или название автомобиля не найдены.
+2024-11-09 16:19:00,629 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-09 16:19:53,131 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-09 16:19:58,200 - WARNING - Элемент product_left не найден.
+2024-11-09 16:19:58,206 - ERROR - Не удалось найти элемент gallery_photo: Message: no such element: Unable to locate element: {"method":"css selector","selector":"div.gallery_photo"}
+  (Session info: chrome=130.0.6723.117); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   chromedriver                        0x0000000102fa8248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000102fa0730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000102bb4260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x0000000102bf850c cxxbridge1$string$len + 368700
+4   chromedriver                        0x0000000102c327d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x0000000102bed12c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000102bedd7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x0000000102f704d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000102f74e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x0000000102f555ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000102f75710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000102f46b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000102f91828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000102f91980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000102fa03d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 295, in get_car_info
+    gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 748, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 354, in execute
+    self.error_handler.check_response(response)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"css selector","selector":"div.gallery_photo"}
+  (Session info: chrome=130.0.6723.117); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   chromedriver                        0x0000000102fa8248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000102fa0730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000102bb4260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x0000000102bf850c cxxbridge1$string$len + 368700
+4   chromedriver                        0x0000000102c327d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x0000000102bed12c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000102bedd7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x0000000102f704d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000102f74e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x0000000102f555ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000102f75710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000102f46b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000102f91828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000102f91980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000102fa03d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-09 16:19:58,216 - WARNING - Элемент wrap_keyinfo не найден.
+2024-11-09 16:19:58,216 - ERROR - Не удалось найти информацию о машине (название или цена).
+2024-11-09 16:19:58,216 - ERROR - Произошла ошибка в get_car_info: Ссылка или название автомобиля не найдены.
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 329, in get_car_info
+    raise ValueError("Ссылка или название автомобиля не найдены.")
+ValueError: Ссылка или название автомобиля не найдены.
+2024-11-09 16:19:58,677 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-09 16:21:22,268 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-09 16:22:24,721 - INFO - Нет активного всплывающего окна.
+2024-11-09 16:22:31,719 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-09 16:22:36,786 - WARNING - Элемент product_left не найден.
+2024-11-09 16:22:36,792 - ERROR - Не удалось найти элемент gallery_photo: Message: no such element: Unable to locate element: {"method":"css selector","selector":"div.gallery_photo"}
+  (Session info: chrome=130.0.6723.117); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   chromedriver                        0x0000000100d78248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000100d70730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000100984260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x00000001009c850c cxxbridge1$string$len + 368700
+4   chromedriver                        0x0000000100a027d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x00000001009bd12c cxxbridge1$string$len + 322652
+6   chromedriver                        0x00000001009bdd7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x0000000100d404d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000100d44e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x0000000100d255ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000100d45710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000100d16b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000100d61828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000100d61980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000100d703d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 293, in get_car_info
+    gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 748, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 354, in execute
+    self.error_handler.check_response(response)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"css selector","selector":"div.gallery_photo"}
+  (Session info: chrome=130.0.6723.117); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   chromedriver                        0x0000000100d78248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000100d70730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000100984260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x00000001009c850c cxxbridge1$string$len + 368700
+4   chromedriver                        0x0000000100a027d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x00000001009bd12c cxxbridge1$string$len + 322652
+6   chromedriver                        0x00000001009bdd7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x0000000100d404d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000100d44e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x0000000100d255ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000100d45710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000100d16b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000100d61828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000100d61980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000100d703d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-09 16:22:36,799 - WARNING - Элемент wrap_keyinfo не найден.
+2024-11-09 16:22:36,799 - ERROR - Не удалось найти информацию о машине (название или цена).
+2024-11-09 16:22:36,800 - ERROR - Произошла ошибка в get_car_info: Ссылка или название автомобиля не найдены.
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 327, in get_car_info
+    raise ValueError("Ссылка или название автомобиля не найдены.")
+ValueError: Ссылка или название автомобиля не найдены.
+2024-11-09 16:22:37,257 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-09 16:34:35,941 - INFO - Нет активного всплывающего окна.
+2024-11-09 16:34:42,995 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-09 16:34:48,111 - WARNING - Элемент product_left не найден.
+2024-11-09 16:34:48,118 - ERROR - Не удалось найти элемент gallery_photo: Message: no such element: Unable to locate element: {"method":"css selector","selector":"div.gallery_photo"}
+  (Session info: chrome=130.0.6723.117); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   chromedriver                        0x00000001007f8248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x00000001007f0730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000100404260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x000000010044850c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001004827d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010043d12c cxxbridge1$string$len + 322652
+6   chromedriver                        0x000000010043dd7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001007c04d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x00000001007c4e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001007a55ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x00000001007c5710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000100796b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x00000001007e1828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x00000001007e1980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001007f03d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 293, in get_car_info
+    gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 748, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/webdriver.py", line 354, in execute
+    self.error_handler.check_response(response)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/selenium/webdriver/remote/errorhandler.py", line 229, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"css selector","selector":"div.gallery_photo"}
+  (Session info: chrome=130.0.6723.117); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   chromedriver                        0x00000001007f8248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x00000001007f0730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000100404260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x000000010044850c cxxbridge1$string$len + 368700
+4   chromedriver                        0x00000001004827d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010043d12c cxxbridge1$string$len + 322652
+6   chromedriver                        0x000000010043dd7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001007c04d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x00000001007c4e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001007a55ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x00000001007c5710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000100796b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x00000001007e1828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x00000001007e1980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001007f03d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000193631f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019362cd34 thread_start + 8
+
+2024-11-09 16:34:48,126 - WARNING - Элемент wrap_keyinfo не найден.
+2024-11-09 16:34:48,127 - ERROR - Не удалось найти информацию о машине (название или цена).
+2024-11-09 16:34:48,127 - ERROR - Произошла ошибка в get_car_info: Ссылка или название автомобиля не найдены.
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 327, in get_car_info
+    raise ValueError("Ссылка или название автомобиля не найдены.")
+ValueError: Ссылка или название автомобиля не найдены.
+2024-11-09 16:34:48,608 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-09 16:35:50,861 - INFO - Нет активного всплывающего окна.
+2024-11-09 16:35:50,889 - INFO - Куки сохранены.
+2024-11-09 16:35:50,912 - INFO - Данная машина находится в лизинге.
+2024-11-09 16:35:50,912 - INFO - Нет активного всплывающего окна.
+2024-11-09 16:36:06,984 - INFO - Нет активного всплывающего окна.
+2024-11-09 16:36:07,038 - INFO - Куки сохранены.
+2024-11-09 16:36:07,063 - INFO - Данная машина находится в лизинге.
+2024-11-09 16:36:07,064 - INFO - Нет активного всплывающего окна.
+2024-11-09 16:36:22,682 - INFO - Нет активного всплывающего окна.
+2024-11-09 16:36:22,734 - INFO - Куки сохранены.
+2024-11-09 16:36:22,740 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-09 16:36:22,785 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38434253?price=2840&date=011123&volume=1999, 기아 더 뉴 K5 3세대 2.0 노블레스
+2024-11-09 16:36:22,786 - INFO - Нет активного всплывающего окна.
+2024-11-09 16:38:01,088 - INFO - Нет активного всплывающего окна.
+2024-11-09 16:38:01,152 - INFO - Куки сохранены.
+2024-11-09 16:38:01,160 - WARNING - Элемент areaLeaseRent не найден.
+2024-11-09 16:38:01,201 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38434253?price=2840&date=011123&volume=1999, 기아 더 뉴 K5 3세대 2.0 노블레스
+2024-11-09 16:38:01,202 - INFO - Нет активного всплывающего окна.
