@@ -157,51 +157,21 @@ def send_welcome(message):
     bot.send_message(message.chat.id, welcome_message, reply_markup=main_menu())
 
 
+# Error handling function
 def send_error_message(message, error_text):
     global last_error_message_id
 
-    # Удаляем предыдущее сообщение об ошибке, если оно существует
+    # Remove previous error message if it exists
     if last_error_message_id.get(message.chat.id):
         try:
             bot.delete_message(message.chat.id, last_error_message_id[message.chat.id])
         except Exception as e:
-            logging.error(f"Ошибка при удалении сообщения: {e}")
+            logging.error(f"Error deleting message: {e}")
 
-    # Клавиатура с кнопкой "Отмена" только под сообщением об ошибке
-    keyboard = [
-        [
-            types.InlineKeyboardButton("Отмена", callback_data="cancel")
-        ]  # Кнопка "Отмена"
-    ]
-    reply_markup = types.InlineKeyboardMarkup(keyboard)
-
-    # Отправляем сообщение об ошибке с кнопкой "Отмена"
-    error_message = bot.reply_to(message, error_text, reply_markup=reply_markup)
-
-    # Сохраняем ID сообщения об ошибке
+    # Send new error message and store its ID
+    error_message = bot.reply_to(message, error_text, reply_markup=main_menu())
     last_error_message_id[message.chat.id] = error_message.id
-    logging.error(f"Ошибка отправлена пользователю {message.chat.id}: {error_text}")
-
-
-# Обработчик для кнопки "Отмена"
-def cancel_action(update, _):
-    user_id = update.callback_query.message.chat.id
-    query = update.callback_query
-
-    # Отправляем сообщение "Выберите действие из списка ниже" при нажатии на "Отмена"
-    bot.send_message(
-        user_id, "Выберите действие из списка ниже.", reply_markup=main_menu()
-    )
-
-    # Удаляем сообщение об ошибке
-    if last_error_message_id.get(user_id):
-        try:
-            bot.delete_message(user_id, last_error_message_id[user_id])
-        except Exception as e:
-            logging.error(f"Ошибка при удалении сообщения: {e}")
-
-    # Ожидаем следующее действие пользователя
-    query.answer()
+    logging.error(f"Error sent to user {message.chat.id}: {error_text}")
 
 
 def save_cookies(driver):
@@ -429,7 +399,7 @@ def calculate_cost(link, message):
     if result is None:
         send_error_message(
             message,
-            "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
+            "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.",
         )
         bot.delete_message(
             message.chat.id,
