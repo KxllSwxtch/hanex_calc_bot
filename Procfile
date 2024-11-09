@@ -1,1 +1,1 @@
-worker: python hanex.py
+worker: python3 hanex.py

@@ -188,17 +188,22 @@ def load_cookies(driver):
 
 
 def check_and_handle_alert(driver):
+    alert_present = False
+
     try:
-        # Сразу пытаемся найти и закрыть alert без ожидания
+        driver.switch_to.alert
+        alert_present = True
+    except NoAlertPresentException:
+        alert_present = False
+
+    if alert_present:
         alert = driver.switch_to.alert
-        time.sleep(2)
+        time.sleep(2)  # Небольшая задержка для стабильности
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()  # Закрывает alert
         print("Всплывающее окно было закрыто.")
-    except NoAlertPresentException:
+    else:
         print("Нет активного всплывающего окна.")
-    except Exception as alert_exception:
-        print(f"Ошибка при обработке alert: {alert_exception}")
 
 
 # Function to get car info using Selenium
