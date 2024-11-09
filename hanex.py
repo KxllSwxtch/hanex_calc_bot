@@ -568,7 +568,7 @@ def get_insurance_total():
 
     driver.get(url)
     load_cookies(driver)
-    check_and_handle_alert()
+    check_and_handle_alert(driver)
 
     try:
         driver.get(url)
