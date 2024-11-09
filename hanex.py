@@ -572,9 +572,9 @@ def get_insurance_total():
 
     try:
         driver.get(url)
-        check_and_handle_alert()
+        check_and_handle_alert(driver)
 
-        save_cookies(driver)
+        save_cookies()
 
         # Ожидаем появления элемента 'smlist' с явным ожиданием
         smlist_element = WebDriverWait(driver, 6).until(
