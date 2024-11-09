@@ -157,21 +157,51 @@ def send_welcome(message):
     bot.send_message(message.chat.id, welcome_message, reply_markup=main_menu())
 
 
-# Error handling function
 def send_error_message(message, error_text):
     global last_error_message_id
 
-    # Remove previous error message if it exists
+    # Удаляем предыдущее сообщение об ошибке, если оно существует
     if last_error_message_id.get(message.chat.id):
         try:
             bot.delete_message(message.chat.id, last_error_message_id[message.chat.id])
         except Exception as e:
-            logging.error(f"Error deleting message: {e}")
+            logging.error(f"Ошибка при удалении сообщения: {e}")
 
-    # Send new error message and store its ID
-    error_message = bot.reply_to(message, error_text, reply_markup=main_menu())
+    # Клавиатура с кнопкой "Отмена" только под сообщением об ошибке
+    keyboard = [
+        [
+            types.InlineKeyboardButton("Отмена", callback_data="cancel")
+        ]  # Кнопка "Отмена"
+    ]
+    reply_markup = types.InlineKeyboardMarkup(keyboard)
+
+    # Отправляем сообщение об ошибке с кнопкой "Отмена"
+    error_message = bot.reply_to(message, error_text, reply_markup=reply_markup)
+
+    # Сохраняем ID сообщения об ошибке
     last_error_message_id[message.chat.id] = error_message.id
-    logging.error(f"Error sent to user {message.chat.id}: {error_text}")
+    logging.error(f"Ошибка отправлена пользователю {message.chat.id}: {error_text}")
+
+
+# Обработчик для кнопки "Отмена"
+def cancel_action(update, _):
+    user_id = update.callback_query.message.chat.id
+    query = update.callback_query
+
+    # Отправляем сообщение "Выберите действие из списка ниже" при нажатии на "Отмена"
+    bot.send_message(
+        user_id, "Выберите действие из списка ниже.", reply_markup=main_menu()
+    )
+
+    # Удаляем сообщение об ошибке
+    if last_error_message_id.get(user_id):
+        try:
+            bot.delete_message(user_id, last_error_message_id[user_id])
+        except Exception as e:
+            logging.error(f"Ошибка при удалении сообщения: {e}")
+
+    # Ожидаем следующее действие пользователя
+    query.answer()
 
 
 def save_cookies(driver):
