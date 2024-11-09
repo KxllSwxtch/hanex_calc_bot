@@ -467,7 +467,7 @@ def calculate_cost(link, message):
                     .get("rub", 0)
                 )
 
-                total_cost = int(grand_total) - int(recycling_fee) - int(duty_cleaning)
+                total_cost = int(grand_total) - int(recycling_fee)
                 total_cost_formatted = format_number(total_cost)
                 price_formatted = format_number(price)
 
@@ -568,13 +568,12 @@ def get_insurance_total():
     load_cookies(driver)
 
     try:
-        # Запускаем WebDriver
-        driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.get(url)
 
-        # Ожидание загрузки элемента 'smlist'
-        time.sleep(2)
-        smlist_element = driver.find_element(By.CLASS_NAME, "smlist")
+        # Ожидаем появления элемента 'smlist' с явным ожиданием
+        smlist_element = WebDriverWait(driver, 6).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "smlist"))
+        )
 
         # Находим таблицу и извлекаем данные
         table = smlist_element.find_element(By.TAG_NAME, "table")
