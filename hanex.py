@@ -1,3 +1,4 @@
+import asyncio
 import time
 import pickle
 import telebot
@@ -207,7 +208,7 @@ def check_and_handle_alert(driver):
 
 
 # Function to get car info using Selenium
-def get_car_info(url):
+async def get_car_info(url):
     global car_id_external
 
     chrome_options = Options()
@@ -229,7 +230,7 @@ def get_car_info(url):
 
     try:
         driver.get(url)
-        check_and_handle_alert(driver)
+        await check_and_handle_alert(driver)
         load_cookies(driver)
 
         if "reCAPTCHA" in driver.page_source:
@@ -237,6 +238,7 @@ def get_car_info(url):
             driver.refresh()
             logging.info("Страница обновлена после reCAPTCHA.")
 
+        await asyncio.sleep(2)
         driver.get(url)
         save_cookies(driver)
 
@@ -388,7 +390,7 @@ def calculate_cost(link, message):
             return
 
     # Получение информации о автомобиле
-    result = get_car_info(link)
+    result = asyncio.run(get_car_info(link))
 
     if result is None:
         send_error_message(
