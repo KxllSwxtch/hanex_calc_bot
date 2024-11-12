@@ -24,8 +24,8 @@ from selenium.common.exceptions import NoAlertPresentException
 # CapSolver API key
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
 SITE_KEY = os.getenv("SITE_KEY")
-CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 COOKIES_FILE = "cookies.pkl"
 
 session = requests.Session()
@@ -53,16 +53,47 @@ car_data = {}
 car_id_external = ""
 total_car_price = 0
 usd_rate = 0
-
-# users for collecting data about the users
 users = set()
 admins = [7311593407, 728438182]
 
 
-# Добавление ID пользователей при каждом использовании бота
-@bot.message_handler(func=lambda message: True)
-def track_users(message):
-    users.add(message.from_user.id)
+# Функция для добавления пользователя в список
+def add_user_to_list(message):
+    username = message.from_user.username
+
+    if username:
+        users.add(username)
+
+
+# Функция для проверки, является ли пользователь администратором
+def is_admin(user_id):
+    return user_id in admins  # Здесь укажите ваш ID администратора
+
+
+# Обработка команды "admin_menu"
+@bot.message_handler(commands=["admin"])
+def admin_menu(message):
+    if is_admin(message.from_user.id):
+        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        keyboard.add(types.KeyboardButton("Отправить список пользователей бота"))
+        bot.send_message(message.chat.id, "Админ меню", reply_markup=keyboard)
+    else:
+        bot.send_message(message.chat.id, "У вас нет доступа к админ меню.")
+
+
+@bot.message_handler(
+    func=lambda message: message.text == "Отправить список пользователей бота"
+)
+def send_user_list(message):
+    if is_admin(message.from_user.id):
+        manager_id = admins[0]
+        user_list = "\n".join(
+            [f"@{username}" for username in users if username]
+        )  # Список username пользователей
+        bot.send_message(manager_id, f"Список пользователей бота:\n{user_list}")
+        bot.send_message(message.chat.id, "Список отправлен менеджеру.")
+    else:
+        bot.send_message(message.chat.id, "У вас нет доступа к этой функции.")
 
 
 # Функция для установки команд меню
@@ -70,9 +101,13 @@ def set_bot_commands():
     commands = [
         types.BotCommand("start", "Запустить бота"),
         types.BotCommand("cbr", "Курсы валют"),
-        types.BotCommand("admin_menu", "Меню администратора"),
+        types.BotCommand("admin", "Меню администратора"),
     ]
     bot.set_my_commands(commands)
+
+
+# Вызов функции для установки команд
+set_bot_commands()
 
 
 # Функция для получения курсов валют с API
@@ -109,6 +144,8 @@ def get_currency_rates():
 # Обработчик команды /cbr
 @bot.message_handler(commands=["cbr"])
 def cbr_command(message):
+    add_user_to_list(message)  # Добавляем пользователя в множество
+
     try:
         rates_text = get_currency_rates()
 
@@ -155,49 +192,15 @@ def main_menu():
 @bot.message_handler(commands=["start"])
 def send_welcome(message):
     user_first_name = message.from_user.first_name
+
+    add_user_to_list(message)
+
     welcome_message = (
         f"👋 Здравствуйте, {user_first_name}!\n"
         "Я бот компании HanExport для расчета стоимости авто до Владивостока! 🚗💰\n\n"
         "Пожалуйста, выберите действие из меню ниже:"
     )
     bot.send_message(message.chat.id, welcome_message, reply_markup=main_menu())
-
-
-# Функция для проверки админских прав
-def is_admin(user_id):
-    return user_id in admins
-
-
-# Обработка команды для админов
-@bot.message_handler(commands=["admin_menu"])
-def admin_menu(message):
-    if is_admin(message.from_user.id):
-        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        keyboard.add(types.KeyboardButton("Отправить список пользователей бота"))
-        keyboard.add(types.KeyboardButton("Выйти в главное меню"))
-        bot.send_message(message.chat.id, "Админ меню", reply_markup=keyboard)
-    else:
-        bot.send_message(message.chat.id, "У вас нет доступа к админ меню.")
-
-
-@bot.message_handler(func=lambda message: message.text == "Выйти в главное меню")
-def return_to_menu(message):
-    bot.send_message(
-        message.chat.id, "Вы вышли в главное меню", reply_markup=main_menu()
-    )
-
-
-@bot.message_handler(
-    func=lambda message: message.text == "Отправить список пользователей бота"
-)
-def send_user_list(message):
-    if is_admin(message.from_user.id):
-        manager_id = 728438182
-        user_list = "\n".join([str(user_id) for user_id in users])
-        bot.send_message(manager_id, f"Список пользователей бота:\n{user_list}")
-        bot.send_message(message.chat.id, "Список отправлен менеджеру.")
-    else:
-        bot.send_message(message.chat.id, "У вас нет доступа к этой функции.")
 
 
 # Error handling function
