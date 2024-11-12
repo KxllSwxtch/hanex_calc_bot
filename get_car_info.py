@@ -105,7 +105,7 @@ def get_car_info(url):
 
         # Обработка product_left и gallery_photo в одном try
         try:
-            product_left = WebDriverWait(driver, 3).until(
+            product_left = WebDriverWait(driver, 4).until(
                 EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
