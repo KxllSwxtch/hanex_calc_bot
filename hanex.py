@@ -24,8 +24,8 @@ from selenium.common.exceptions import NoAlertPresentException
 # CapSolver API key
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
 SITE_KEY = os.getenv("SITE_KEY")
-CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 COOKIES_FILE = "cookies.pkl"
 
 session = requests.Session()
@@ -54,18 +54,62 @@ car_id_external = ""
 total_car_price = 0
 usd_rate = 0
 
+# users for collecting data about the users
+users = set()
+admins = [7311593407, 728438182]
+
+
+# Функция для проверки админских прав
+def is_admin(user_id):
+    return user_id in admins
+
+
+# Обработка команды для админов
+@bot.message_handler(commands=["admin_menu"])
+def admin_menu(message):
+    if is_admin(message.from_user.id):
+        keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        keyboard.add(types.KeyboardButton("Отправить список пользователей бота"))
+        keyboard.add(types.KeyboardButton("Выйти в главное меню"))
+        bot.send_message(message.chat.id, "Админ меню", reply_markup=keyboard)
+    else:
+        bot.send_message(message.chat.id, "У вас нет доступа к админ меню.")
+
+
+@bot.message_handler(func=lambda message: message.text == "Выйти в главное меню")
+def return_to_menu(message):
+    bot.send_message(
+        message.chat.id, "Вы вышли в главное меню", reply_markup=main_menu()
+    )
+
+
+@bot.message_handler(
+    func=lambda message: message.text == "Отправить список пользователей бота"
+)
+def send_user_list(message):
+    if is_admin(message.from_user.id):
+        manager_id = 728438182
+        user_list = "\n".join([str(user_id) for user_id in users])
+        bot.send_message(manager_id, f"Список пользователей бота:\n{user_list}")
+        bot.send_message(message.chat.id, "Список отправлен менеджеру.")
+    else:
+        bot.send_message(message.chat.id, "У вас нет доступа к этой функции.")
+
+
+# Добавление ID пользователей при каждом использовании бота
+@bot.message_handler(func=lambda message: True)
+def track_users(message):
+    users.add(message.from_user.id)
+
 
 # Функция для установки команд меню
 def set_bot_commands():
     commands = [
         types.BotCommand("start", "Запустить бота"),
         types.BotCommand("cbr", "Курсы валют"),
+        types.BotCommand("admin_menu", "Меню администратора"),
     ]
     bot.set_my_commands(commands)
-
-
-# Вызов функции для установки команд
-set_bot_commands()
 
 
 # Функция для получения курсов валют с API

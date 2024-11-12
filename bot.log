@@ -2348,3 +2348,192 @@ ValueError: Ссылка или название автомобиля не на�
 2024-11-09 16:38:01,160 - WARNING - Элемент areaLeaseRent не найден.
 2024-11-09 16:38:01,201 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38434253?price=2840&date=011123&volume=1999, 기아 더 뉴 K5 3세대 2.0 노블레스
 2024-11-09 16:38:01,202 - INFO - Нет активного всплывающего окна.
+2024-11-12 18:17:10,827 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-12 18:17:10,829 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-12 18:17:14,957 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-12 18:17:14,958 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-12 18:17:19,071 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-12 18:17:19,074 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-12 18:18:20,401 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: there are no administrators in the private chat
+2024-11-12 18:18:20,403 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 8945, in _run_middlewares_and_handler
+    result = handler['function'](message)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 71, in admin_menu
+    if is_admin(message.from_user.id, message.chat.id):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 64, in is_admin
+    admins = bot.get_chat_administrators(chat_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1561, in get_chat_administrators
+    result = apihelper.get_chat_administrators(self.token, chat_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 368, in get_chat_administrators
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: there are no administrators in the private chat
+
+2024-11-12 18:22:27,872 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: there are no administrators in the private chat
+2024-11-12 18:22:27,873 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 8945, in _run_middlewares_and_handler
+    result = handler['function'](message)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 71, in admin_menu
+    if is_admin(message.from_user.id, message.chat.id):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 64, in is_admin
+    admins = bot.get_chat_administrators(chat_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1561, in get_chat_administrators
+    result = apihelper.get_chat_administrators(self.token, chat_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 368, in get_chat_administrators
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: there are no administrators in the private chat
+
+2024-11-12 18:25:35,405 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: chat not found
+2024-11-12 18:25:35,406 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 8945, in _run_middlewares_and_handler
+    result = handler['function'](message)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 85, in send_user_list
+    bot.send_message(manager_id, f"Список пользователей бота:\n{user_list}")
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1775, in send_message
+    apihelper.send_message(
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 273, in send_message
+    return _make_request(token, method_url, params=payload, method='post')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: chat not found
+
+2024-11-12 18:31:27,989 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: message text is empty
+2024-11-12 18:31:27,990 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1235, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 8945, in _run_middlewares_and_handler
+    result = handler['function'](message)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/hanex.py", line 81, in return_to_menu
+    bot.send_message(message.chat.id, "", reply_markup=main_menu())
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1775, in send_message
+    apihelper.send_message(
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 273, in send_message
+    return _make_request(token, method_url, params=payload, method='post')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: message text is empty
+
