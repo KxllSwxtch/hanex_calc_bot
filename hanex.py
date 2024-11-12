@@ -311,7 +311,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 6).until(
+            product_left = WebDriverWait(driver, 5).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
@@ -343,6 +343,7 @@ def get_car_info(url):
             # Создание URL
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
             logging.info(f"Данные о машине получены: {new_url}, {car_title}")
+
             return [new_url, car_title]
         except NoSuchElementException as e:
             logging.error(f"Ошибка при обработке product_left: {e}")
@@ -445,7 +446,6 @@ def calculate_cost(link, message):
             )  # Удаляем сообщение
             return
 
-    # Получение информации о автомобиле
     result = get_car_info(link)
 
     if result is None:
@@ -456,7 +456,7 @@ def calculate_cost(link, message):
         bot.delete_message(
             message.chat.id,
             processing_message.message_id,
-        )  # Удаляем сообщение
+        )
         return
 
     new_url, car_title = result
