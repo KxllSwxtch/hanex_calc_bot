@@ -564,40 +564,36 @@ def get_insurance_total():
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     # Формируем URL
-    url = f"https://fem.encar.com/cars/report/accident/{car_id_external}"
+    url = f"http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id_external}&wtClick_carview=044"
+
+    driver.get(url)
+    load_cookies(driver)
+    check_and_handle_alert(driver)
 
     try:
-        # Запускаем WebDriver
-        driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.get(url)
+        check_and_handle_alert(driver)
 
-        # Пробуем найти элемент 'smlist' без явного ожидания
-        time.sleep(2)
-        try:
-            report_accident_summary_element = WebDriverWait(driver, 6).until(
-                EC.presence_of_element_located(
-                    (By.CLASS_NAME, "ReportAccidentSummary_list_accident__q6vLx")
-                )
-            )
-        except NoSuchElementException:
-            print("Элемент 'ReportAccidentSummary_list_accident__q6vLx' не найден.")
-            return ["Нет данных", "Нет данных"]
+        save_cookies()
 
-        report_accident_summary_element_splitted = (
-            report_accident_summary_element.text.split("\n")
+        # Ожидаем появления элемента 'smlist' с явным ожиданием
+        smlist_element = WebDriverWait(driver, 6).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "smlist"))
         )
 
-        # Извлекаем данные
-        damage_to_my_car = (
-            report_accident_summary_element_splitted[4]
-            if len(report_accident_summary_element.text) > 4
-            else "0"
-        )
-        damage_to_other_car = (
-            report_accident_summary_element_splitted[5]
-            if len(report_accident_summary_element.text) > 5
-            else "0"
-        )
+        # Находим таблицу и извлекаем данные
+        table = smlist_element.find_element(By.TAG_NAME, "table")
+        rows = table.find_elements(By.TAG_NAME, "tr")
+
+        # Функция для получения данных о повреждениях
+        def get_damage_data(row_index):
+            if len(rows) > row_index:
+                return rows[row_index].find_elements(By.TAG_NAME, "td")[1].text
+            return None  # Вернем None, если данных нет
+
+        # Извлекаем данные о повреждениях
+        damage_to_my_car = get_damage_data(4)
+        damage_to_other_car = get_damage_data(5)
 
         # Упрощенная функция для извлечения числа
         def extract_large_number(damage_text):
@@ -607,14 +603,38 @@ def get_insurance_total():
             return numbers[0] if numbers else "0"
 
         # Форматируем данные
-        damage_to_my_car_formatted = extract_large_number(damage_to_my_car)
-        damage_to_other_car_formatted = extract_large_number(damage_to_other_car)
+        damage_to_my_car_formatted = (
+            extract_large_number(damage_to_my_car) if damage_to_my_car else "Нет данных"
+        )
+        damage_to_other_car_formatted = (
+            extract_large_number(damage_to_other_car)
+            if damage_to_other_car
+            else "Нет данных"
+        )
 
-        return [damage_to_my_car_formatted, damage_to_other_car_formatted]
+        # Проверяем, если нет данных
+        if damage_to_my_car_formatted == "0" and damage_to_other_car_formatted == "0":
+            return None  # Вернем None, если нет данных о страховых выплатах
 
+        return [
+            (
+                damage_to_my_car_formatted
+                if damage_to_my_car_formatted != "0"
+                else "Нет данных"
+            ),
+            (
+                damage_to_other_car_formatted
+                if damage_to_other_car_formatted != "0"
+                else "Нет данных"
+            ),
+        ]
+
+    except NoSuchElementException:
+        print("Элемент 'smlist' не найден.")
+        return None  # Вернем None, если элемент не найден
     except Exception as e:
         print(f"Произошла ошибка при получении данных: {e}")
-        return ["Ошибка при получении данных", ""]
+        return None  # Вернем None в случае ошибки
 
     finally:
         driver.quit()
