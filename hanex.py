@@ -234,7 +234,7 @@ def load_cookies(driver):
                 driver.add_cookie(cookie)
 
 
-def check_and_handle_alert(driver, timeout=6):
+def check_and_handle_alert(driver, timeout=5):
     try:
         WebDriverWait(driver, timeout).until(EC.alert_is_present())
         alert = driver.switch_to.alert
@@ -243,12 +243,8 @@ def check_and_handle_alert(driver, timeout=6):
         logging.info("Всплывающее окно было закрыто.")
     except TimeoutException:
         logging.info("Нет активного всплывающего окна.")
-    except NoAlertPresentException:
-        logging.info("Alert исчез до попытки взаимодействия с ним.")
 
 
-# Function to get car info using Selenium
-# Function to get car info using Selenium
 def get_car_info(url):
     global car_id_external
 
@@ -260,7 +256,6 @@ def get_car_info(url):
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--disable-software-rasterizer")
     chrome_options.add_argument("--window-size=1920x1080")  # Устанавливаем размер окна
-    chrome_options.add_argument("--disable-notifications")  # Отключаем уведомления
     chrome_options.add_argument(
         "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
     )
@@ -282,6 +277,7 @@ def get_car_info(url):
             logging.info("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
+        driver.get(url)
         save_cookies(driver)
         logging.info("Куки сохранены.")
 
@@ -455,7 +451,7 @@ def calculate_cost(link, message):
             message.chat.id,
             processing_message.message_id,
         )
-        result = get_car_info(link)
+        return
 
     new_url, car_title = result
 
