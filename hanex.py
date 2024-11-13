@@ -446,17 +446,6 @@ def calculate_cost(link, message):
 
     result = get_car_info(link)
 
-    if result is None:
-        send_error_message(
-            message,
-            "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.",
-        )
-        bot.delete_message(
-            message.chat.id,
-            processing_message.message_id,
-        )
-        return
-
     new_url, car_title = result
 
     if not new_url and car_title:
@@ -583,6 +572,17 @@ def calculate_cost(link, message):
         bot.delete_message(
             message.chat.id, processing_message.message_id
         )  # Удаляем сообщение
+
+    if result is None:
+        send_error_message(
+            message,
+            "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.",
+        )
+        bot.delete_message(
+            message.chat.id,
+            processing_message.message_id,
+        )
+        return
 
 
 # Function to get insurance total
