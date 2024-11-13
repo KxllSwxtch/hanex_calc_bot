@@ -284,6 +284,7 @@ def get_car_info(url):
             logging.info("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
+        driver.get(url)
         save_cookies(driver)  # Сохранение cookies
         logging.info("Куки сохранены.")
 
