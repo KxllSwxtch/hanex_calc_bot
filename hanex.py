@@ -234,7 +234,7 @@ def load_cookies(driver):
                 driver.add_cookie(cookie)
 
 
-def check_and_handle_alert(driver, timeout=4):
+def check_and_handle_alert(driver, timeout=6):
     try:
         WebDriverWait(driver, timeout).until(EC.alert_is_present())
         alert = driver.switch_to.alert
@@ -261,7 +261,6 @@ def get_car_info(url):
     chrome_options.add_argument("--disable-software-rasterizer")
     chrome_options.add_argument("--window-size=1920x1080")  # Устанавливаем размер окна
     chrome_options.add_argument("--disable-notifications")  # Отключаем уведомления
-    chrome_options.add_argument("--incognito")
     chrome_options.add_argument(
         "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
     )
@@ -283,7 +282,8 @@ def get_car_info(url):
             logging.info("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
-        driver.get(url)
+        driver.refresh()
+        check_and_handle_alert(driver)
         save_cookies(driver)
         logging.info("Куки сохранены.")
 
