@@ -518,7 +518,7 @@ def calculate_cost(link, message):
                     .get("rub", 0)
                 )
 
-                total_cost = int(grand_total) - int(recycling_fee)
+                total_cost = int(grand_total) - int(recycling_fee) - int(duty_cleaning)
                 total_cost_formatted = format_number(total_cost)
                 price_formatted = format_number(price)
 
