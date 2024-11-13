@@ -3613,3 +3613,52 @@ Stacktrace:
 2024-11-13 15:16:05,412 - INFO - Проверяем наличие всплывающего окна...
 2024-11-13 15:16:05,412 - INFO - Нет активного всплывающего окна.
 2024-11-13 15:16:10,919 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-13 15:19:37,591 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:19:37,597 - ERROR - Произошла ошибка: Message: invalid cookie domain: Cookie 'domain' mismatch
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000101400248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x00000001013f8730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x000000010100c260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x0000000101099920 cxxbridge1$string$len + 668752
+4   chromedriver                        0x000000010108a7d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010104512c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000101045d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001013c84d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x00000001013cce40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001013ad5ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x00000001013cd710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x000000010139eb90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x00000001013e9828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x00000001013e9980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001013f83d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000183529f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000183524d34 thread_start + 8
+
+2024-11-13 15:19:37,598 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:19:43,076 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-13 15:21:17,233 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:21:17,248 - ERROR - Произошла ошибка: Message: invalid cookie domain: Cookie 'domain' mismatch
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001032b0248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x00000001032a8730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000102ebc260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x0000000102f49920 cxxbridge1$string$len + 668752
+4   chromedriver                        0x0000000102f3a7d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x0000000102ef512c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000102ef5d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001032784d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x000000010327ce40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x000000010325d5ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x000000010327d710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x000000010324eb90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000103299828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000103299980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001032a83d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000183529f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000183524d34 thread_start + 8
+
+2024-11-13 15:21:17,248 - INFO - Проверяем наличие всплывающего окна...
+2024-11-13 15:21:17,249 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:21:22,731 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
