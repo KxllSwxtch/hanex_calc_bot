@@ -780,7 +780,7 @@ def handle_callback_query(call):
         ):
             error_message = (
                 "Не удалось получить данные о страховых выплатах. \n\n"
-                f'<a href="http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id_external}&wtClick_carview=044">🔗 Посмотреть страховую историю вручную 🔗</a>'
+                f'<a href="https://fem.encar.com/cars/report/accident/{car_id_external}">🔗 Посмотреть страховую историю вручную 🔗</a>'
             )
 
             # Inline buttons for further actions
