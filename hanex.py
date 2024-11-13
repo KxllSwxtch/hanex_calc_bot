@@ -509,7 +509,9 @@ def calculate_cost(link, message):
                     .get("rub", 0)
                 )
 
-                total_cost = int(grand_total) - int(recycling_fee) - int(duty_cleaning)
+                total_cost = (
+                    int(grand_total) - int(recycling_fee) - int(duty_cleaning)
+                ) + 110000
                 total_cost_formatted = format_number(total_cost)
                 price_formatted = format_number(price)
 
@@ -614,7 +616,7 @@ def get_insurance_total():
         driver.get(url)
         check_and_handle_alert(driver)
 
-        save_cookies()
+        save_cookies(driver)
 
         # Ожидаем появления элемента 'smlist' с явным ожиданием
         smlist_element = WebDriverWait(driver, 6).until(
@@ -732,6 +734,7 @@ def handle_callback_query(call):
             "📝 Детализация расчёта:\n\n"
             f"Стоимость авто: <b>{car_price_formatted}₽</b>\n\n"
             f"Услуги HanExport: <b>{dealer_fee_formatted}₽</b>\n\n"
+            f"Услуги Брокера: <b>{format_number(110000)}₽</b>\n\n"
             f"Логистика по Южной Корее: <b>{korea_logistics_formatted}₽</b>\n\n"
             f"Доставка до Владивостока: <b>{delivery_fee_formatted}₽</b>\n\n"
             f"Комиссия дилера: <b>{dealer_commission_formatted}₽</b>\n\n"
