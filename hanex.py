@@ -234,7 +234,7 @@ def load_cookies(driver):
                 driver.add_cookie(cookie)
 
 
-def check_and_handle_alert(driver, timeout=5):
+def check_and_handle_alert(driver, timeout=4):
     try:
         # Ожидание появления alert в течение заданного времени
         WebDriverWait(driver, timeout).until(EC.alert_is_present())
@@ -315,7 +315,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 7).until(
+            product_left = WebDriverWait(driver, 6).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
