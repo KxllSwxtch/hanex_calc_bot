@@ -292,7 +292,7 @@ def get_car_info(url):
 
         # Проверка элемента areaLeaseRent
         try:
-            lease_area = WebDriverWait(driver, 5).until(
+            lease_area = WebDriverWait(driver, 4).until(
                 EC.presence_of_element_located((By.ID, "areaLeaseRent"))
             )
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
@@ -311,7 +311,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 7).until(
+            product_left = WebDriverWait(driver, 5).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
