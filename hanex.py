@@ -282,8 +282,6 @@ def get_car_info(url):
             logging.info("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
-        driver.refresh()
-        check_and_handle_alert(driver)
         save_cookies(driver)
         logging.info("Куки сохранены.")
 
@@ -294,7 +292,9 @@ def get_car_info(url):
 
         # Проверка элемента areaLeaseRent
         try:
-            lease_area = driver.find_element(By.ID, "areaLeaseRent")
+            lease_area = WebDriverWait(driver, 5).until(
+                EC.presence_of_element_located((By.ID, "areaLeaseRent"))
+            )
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
@@ -311,7 +311,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 10).until(
+            product_left = WebDriverWait(driver, 7).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
