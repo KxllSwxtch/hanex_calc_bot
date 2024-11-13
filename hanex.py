@@ -450,7 +450,10 @@ def calculate_cost(link, message):
             )  # Удаляем сообщение
             return
 
-    result = get_car_info(link)
+    try:
+        result = get_car_info(link)
+    except:
+        print("Error")
 
     if result is None:
         send_error_message(
