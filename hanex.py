@@ -407,7 +407,7 @@ def get_car_info(url):
         return None, None
 
     finally:
-        # Обработка всплывающих окон (alerts)
+        logging.info("Проверяем наличие всплывающего окна...")
         try:
             alert = driver.switch_to.alert
             alert.dismiss()
