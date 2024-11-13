@@ -3388,3 +3388,228 @@ Stacktrace:
 
 2024-11-12 19:27:08,629 - INFO - Данные о машине получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38019027?price=23200&date=010423&volume=3982, 벤츠 GLS-클래스 X167 마이바흐 GLS600 4MATIC 마누팍투어
 2024-11-12 19:27:08,630 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:13:51,967 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:13:51,980 - ERROR - Произошла ошибка: Message: invalid cookie domain: Cookie 'domain' mismatch
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000102eb8248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000102eb0730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000102ac4260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x0000000102b51920 cxxbridge1$string$len + 668752
+4   chromedriver                        0x0000000102b427d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x0000000102afd12c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000102afdd7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x0000000102e804d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000102e84e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x0000000102e655ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000102e85710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000102e56b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000102ea1828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000102ea1980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000102eb03d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000183529f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000183524d34 thread_start + 8
+
+2024-11-13 15:13:51,980 - INFO - Проверяем наличие всплывающего окна...
+2024-11-13 15:13:51,981 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:13:57,452 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-13 15:14:29,242 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-13 15:14:29,243 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-13 15:14:33,919 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-13 15:14:33,919 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-13 15:14:35,648 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:14:35,654 - ERROR - Произошла ошибка: Message: invalid cookie domain: Cookie 'domain' mismatch
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000105238248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000105230730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x0000000104e44260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x0000000104ed1920 cxxbridge1$string$len + 668752
+4   chromedriver                        0x0000000104ec27d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x0000000104e7d12c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000104e7dd7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001052004d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000105204e40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x00000001051e55ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000105205710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x00000001051d6b90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000105221828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000105221980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001052303d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000183529f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000183524d34 thread_start + 8
+
+2024-11-13 15:14:35,654 - INFO - Проверяем наличие всплывающего окна...
+2024-11-13 15:14:35,655 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:14:39,782 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-13 15:14:39,782 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-13 15:14:41,110 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-13 15:14:45,113 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-13 15:14:45,114 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/killswitch/Desktop/Programming/HanExport/venv/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-13 15:15:03,190 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:15:03,197 - ERROR - Произошла ошибка: Message: invalid cookie domain: Cookie 'domain' mismatch
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001006f0248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x00000001006e8730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x00000001002fc260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x0000000100389920 cxxbridge1$string$len + 668752
+4   chromedriver                        0x000000010037a7d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010033512c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000100335d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001006b84d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x00000001006bce40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x000000010069d5ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x00000001006bd710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x000000010068eb90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x00000001006d9828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x00000001006d9980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001006e83d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000183529f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000183524d34 thread_start + 8
+
+2024-11-13 15:15:03,197 - INFO - Проверяем наличие всплывающего окна...
+2024-11-13 15:15:03,197 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:15:08,781 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-13 15:15:43,613 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:15:43,621 - ERROR - Произошла ошибка: Message: invalid cookie domain: Cookie 'domain' mismatch
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x0000000100b20248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000100b18730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x000000010072c260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x00000001007b9920 cxxbridge1$string$len + 668752
+4   chromedriver                        0x00000001007aa7d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x000000010076512c cxxbridge1$string$len + 322652
+6   chromedriver                        0x0000000100765d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x0000000100ae84d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x0000000100aece40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x0000000100acd5ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x0000000100aed710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x0000000100abeb90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000100b09828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000100b09980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x0000000100b183d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000183529f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000183524d34 thread_start + 8
+
+2024-11-13 15:15:43,621 - INFO - Проверяем наличие всплывающего окна...
+2024-11-13 15:15:43,622 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:15:49,077 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-13 15:16:05,405 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:16:05,412 - ERROR - Произошла ошибка: Message: invalid cookie domain: Cookie 'domain' mismatch
+  (Session info: chrome=130.0.6723.117)
+Stacktrace:
+0   chromedriver                        0x00000001048a0248 cxxbridge1$str$ptr + 1907280
+1   chromedriver                        0x0000000104898730 cxxbridge1$str$ptr + 1875768
+2   chromedriver                        0x00000001044ac260 cxxbridge1$string$len + 89488
+3   chromedriver                        0x0000000104539920 cxxbridge1$string$len + 668752
+4   chromedriver                        0x000000010452a7d0 cxxbridge1$string$len + 606976
+5   chromedriver                        0x00000001044e512c cxxbridge1$string$len + 322652
+6   chromedriver                        0x00000001044e5d7c cxxbridge1$string$len + 325804
+7   chromedriver                        0x00000001048684d8 cxxbridge1$str$ptr + 1678560
+8   chromedriver                        0x000000010486ce40 cxxbridge1$str$ptr + 1697352
+9   chromedriver                        0x000000010484d5ec cxxbridge1$str$ptr + 1568244
+10  chromedriver                        0x000000010486d710 cxxbridge1$str$ptr + 1699608
+11  chromedriver                        0x000000010483eb90 cxxbridge1$str$ptr + 1508248
+12  chromedriver                        0x0000000104889828 cxxbridge1$str$ptr + 1814576
+13  chromedriver                        0x0000000104889980 cxxbridge1$str$ptr + 1814920
+14  chromedriver                        0x00000001048983d0 cxxbridge1$str$ptr + 1874904
+15  libsystem_pthread.dylib             0x0000000183529f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x0000000183524d34 thread_start + 8
+
+2024-11-13 15:16:05,412 - INFO - Проверяем наличие всплывающего окна...
+2024-11-13 15:16:05,412 - INFO - Нет активного всплывающего окна.
+2024-11-13 15:16:10,919 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.

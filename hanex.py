@@ -24,8 +24,8 @@ from selenium.common.exceptions import NoAlertPresentException
 # CapSolver API key
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
 SITE_KEY = os.getenv("SITE_KEY")
-CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 COOKIES_FILE = "cookies.pkl"
 
 session = requests.Session()
@@ -256,10 +256,12 @@ def get_car_info(url):
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
+    chrome_options.add_argument("--window-size=1920,1080")  # Устанавливает размер окна
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_argument("--enable-logging")
+    chrome_options.add_argument("--v=1")  # Уровень логирования
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
     )
@@ -272,17 +274,16 @@ def get_car_info(url):
         # Загружаем страницу
         driver.get(url)
         check_and_handle_alert(driver)  # Обработка alert, если присутствует
-        load_cookies(driver)  # Загрузка cookies
+        load_cookies(driver)
 
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
             logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
-            solve_recaptcha_v3()
             driver.refresh()
             logging.info("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
-        save_cookies(driver)  # Сохранение cookies
+        save_cookies(driver)
         logging.info("Куки сохранены.")
 
         # Парсим URL для получения carid
@@ -304,6 +305,7 @@ def get_car_info(url):
         except NoSuchElementException:
             logging.warning("Элемент areaLeaseRent не найден.")
 
+        # Инициализация переменных
         car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
 
         # Проверка элемента product_left
@@ -340,7 +342,6 @@ def get_car_info(url):
             # Создание URL
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
             logging.info(f"Данные о машине получены: {new_url}, {car_title}")
-
             return [new_url, car_title]
         except NoSuchElementException as e:
             logging.error(f"Ошибка при обработке product_left: {e}")
@@ -374,7 +375,6 @@ def get_car_info(url):
                     if len(keyinfo_texts) > 12
                     else None
                 )
-
             except NoSuchElementException:
                 logging.warning("Элемент wrap_keyinfo не найден.")
 
@@ -406,7 +406,7 @@ def get_car_info(url):
         return None, None
 
     finally:
-        logging.info("Проверяем наличие всплывающего окна...")
+        # Обработка всплывающих окон (alerts)
         try:
             alert = driver.switch_to.alert
             alert.dismiss()
@@ -441,139 +441,126 @@ def calculate_cost(link, message):
             )  # Удаляем сообщение
             return
 
-    try:
-        result = get_car_info(link)
-        time.sleep(5)
+    result = get_car_info(link)
+    time.sleep(5)
 
-        if result is None:
-            send_error_message(
-                message,
-                "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.",
+    if result is None:
+        send_error_message(
+            message,
+            "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.",
+        )
+        bot.delete_message(
+            message.chat.id,
+            processing_message.message_id,
+        )
+        return
+
+    new_url, car_title = result
+
+    if not new_url and car_title:
+        keyboard = types.InlineKeyboardMarkup()
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "Написать менеджеру", url="https://t.me/hanexport11"
             )
-            bot.delete_message(
-                message.chat.id,
-                processing_message.message_id,
+        )
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "🔍 Рассчитать стоимость другого автомобиля",
+                callback_data="calculate_another",
             )
-            return
+        )
+        bot.send_message(
+            message.chat.id, car_title, parse_mode="Markdown", reply_markup=keyboard
+        )
+        bot.delete_message(
+            message.chat.id, processing_message.message_id
+        )  # Удаляем сообщение
+        return
 
-        new_url, car_title = result
+    if new_url:
+        response = requests.get(new_url)
 
-        if not new_url and car_title:
-            keyboard = types.InlineKeyboardMarkup()
-            keyboard.add(
-                types.InlineKeyboardButton(
-                    "Написать менеджеру", url="https://t.me/hanexport11"
+        if response.status_code == 200:
+            json_response = response.json()
+            car_data = json_response
+
+            result = json_response.get("result", {})
+            car = result.get("car", {})
+            price = result.get("price", {}).get("car", {}).get("krw", 0)
+
+            year = car.get("date", "").split()[-1]
+            engine_volume = car.get("engineVolume", 0)
+
+            if year and engine_volume and price:
+                engine_volume_formatted = f"{format_number(int(engine_volume))} cc"
+                age_formatted = calculate_age(year)
+
+                grand_total = result.get("price", {}).get("grandTotal", 0)
+                recycling_fee = (
+                    result.get("price", {})
+                    .get("russian", {})
+                    .get("recyclingFee", {})
+                    .get("rub", 0)
                 )
-            )
-            keyboard.add(
-                types.InlineKeyboardButton(
-                    "🔍 Рассчитать стоимость другого автомобиля",
-                    callback_data="calculate_another",
+                duty_cleaning = (
+                    result.get("price", {})
+                    .get("korea", {})
+                    .get("dutyCleaning", {})
+                    .get("rub", 0)
                 )
-            )
-            bot.send_message(
-                message.chat.id, car_title, parse_mode="Markdown", reply_markup=keyboard
-            )
-            bot.delete_message(
-                message.chat.id, processing_message.message_id
-            )  # Удаляем сообщение
-            return
 
-        if new_url:
-            response = requests.get(new_url)
+                total_cost = int(grand_total) - int(recycling_fee) - int(duty_cleaning)
+                total_cost_formatted = format_number(total_cost)
+                price_formatted = format_number(price)
 
-            if response.status_code == 200:
-                json_response = response.json()
-                car_data = json_response
+                result_message = (
+                    f"Возраст: {age_formatted}\n"
+                    f"Стоимость: {price_formatted} KRW\n"
+                    f"Объём двигателя: {engine_volume_formatted}\n\n"
+                    f"Стоимость автомобиля под ключ до Владивостока: \n**{total_cost_formatted}₽**\n\n"
+                    f"🔗 [Ссылка на автомобиль]({link})\n\n"
+                    "Если данное авто попадает под санкции, пожалуйста уточните возможность отправки в вашу страну у менеджера @hanexport11\n\n"
+                    "🔗[Официальный телеграм канал](https://t.me/hanexport1)\n"
+                )
 
-                result = json_response.get("result", {})
-                car = result.get("car", {})
-                price = result.get("price", {}).get("car", {}).get("krw", 0)
+                bot.send_message(message.chat.id, result_message, parse_mode="Markdown")
 
-                year = car.get("date", "").split()[-1]
-                engine_volume = car.get("engineVolume", 0)
-
-                if year and engine_volume and price:
-                    engine_volume_formatted = f"{format_number(int(engine_volume))} cc"
-                    age_formatted = calculate_age(year)
-
-                    grand_total = result.get("price", {}).get("grandTotal", 0)
-                    recycling_fee = (
-                        result.get("price", {})
-                        .get("russian", {})
-                        .get("recyclingFee", {})
-                        .get("rub", 0)
+                keyboard = types.InlineKeyboardMarkup()
+                keyboard.add(
+                    types.InlineKeyboardButton(
+                        "📊 Детализация расчёта", callback_data="detail"
                     )
-                    duty_cleaning = (
-                        result.get("price", {})
-                        .get("korea", {})
-                        .get("dutyCleaning", {})
-                        .get("rub", 0)
+                )
+                keyboard.add(
+                    types.InlineKeyboardButton(
+                        "📝 Технический отчёт об автомобиле",
+                        callback_data="technical_report",
                     )
+                )
+                keyboard.add(
+                    types.InlineKeyboardButton(
+                        "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
+                    )
+                )
+                keyboard.add(
+                    types.InlineKeyboardButton(
+                        "🔍 Рассчитать стоимость другого автомобиля",
+                        callback_data="calculate_another",
+                    )
+                )
 
-                    total_cost = (
-                        int(grand_total) - int(recycling_fee) - int(duty_cleaning)
-                    )
-                    total_cost_formatted = format_number(total_cost)
-                    price_formatted = format_number(price)
+                bot.send_message(
+                    message.chat.id, "Что делаем дальше?", reply_markup=keyboard
+                )
 
-                    result_message = (
-                        f"Возраст: {age_formatted}\n"
-                        f"Стоимость: {price_formatted} KRW\n"
-                        f"Объём двигателя: {engine_volume_formatted}\n\n"
-                        f"Стоимость автомобиля под ключ до Владивостока: \n**{total_cost_formatted}₽**\n\n"
-                        f"🔗 [Ссылка на автомобиль]({link})\n\n"
-                        "Если данное авто попадает под санкции, пожалуйста уточните возможность отправки в вашу страну у менеджера @hanexport11\n\n"
-                        "🔗[Официальный телеграм канал](https://t.me/hanexport1)\n"
-                    )
+                # Удаляем сообщение о передаче данных в обработку
+                bot.delete_message(message.chat.id, processing_message.message_id)
 
-                    bot.send_message(
-                        message.chat.id, result_message, parse_mode="Markdown"
-                    )
-
-                    keyboard = types.InlineKeyboardMarkup()
-                    keyboard.add(
-                        types.InlineKeyboardButton(
-                            "📊 Детализация расчёта", callback_data="detail"
-                        )
-                    )
-                    keyboard.add(
-                        types.InlineKeyboardButton(
-                            "📝 Технический отчёт об автомобиле",
-                            callback_data="technical_report",
-                        )
-                    )
-                    keyboard.add(
-                        types.InlineKeyboardButton(
-                            "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
-                        )
-                    )
-                    keyboard.add(
-                        types.InlineKeyboardButton(
-                            "🔍 Рассчитать стоимость другого автомобиля",
-                            callback_data="calculate_another",
-                        )
-                    )
-
-                    bot.send_message(
-                        message.chat.id, "Что делаем дальше?", reply_markup=keyboard
-                    )
-
-                    # Удаляем сообщение о передаче данных в обработку
-                    bot.delete_message(message.chat.id, processing_message.message_id)
-
-                else:
-                    bot.send_message(
-                        message.chat.id,
-                        "🚫 Не удалось извлечь все необходимые данные. Проверьте ссылку.",
-                    )
-                    bot.delete_message(
-                        message.chat.id, processing_message.message_id
-                    )  # Удаляем сообщение
             else:
-                send_error_message(
-                    message,
-                    "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
+                bot.send_message(
+                    message.chat.id,
+                    "🚫 Не удалось извлечь все необходимые данные. Проверьте ссылку.",
                 )
                 bot.delete_message(
                     message.chat.id, processing_message.message_id
@@ -586,22 +573,14 @@ def calculate_cost(link, message):
             bot.delete_message(
                 message.chat.id, processing_message.message_id
             )  # Удаляем сообщение
-
-    except requests.exceptions.RequestException as e:
-        logging.error(f"Ошибка при запросе: {e}")
+    else:
         send_error_message(
             message,
             "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
         )
-        bot.delete_message(message.chat.id, processing_message.message_id)
-
-    except Exception as e:
-        logging.error(f"Необработанная ошибка: {e}")
-        send_error_message(
-            message,
-            "🚫 Произошла непредвиденная ошибка. Попробуйте снова позже.",
-        )
-        bot.delete_message(message.chat.id, processing_message.message_id)
+        bot.delete_message(
+            message.chat.id, processing_message.message_id
+        )  # Удаляем сообщение
 
 
 # Function to get insurance total
@@ -943,32 +922,32 @@ if __name__ == "__main__":
     bot.polling(none_stop=True)
 
 
-def solve_recaptcha_v3():
-    payload = {
-        "clientKey": CAPSOLVER_API_KEY,
-        "task": {
-            "type": "ReCaptchaV3TaskProxyLess",
-            "websiteKey": SITE_KEY,
-            "websiteURL": "http://www.encar.com:80",
-            "pageAction": "/dc/dc_cardetailview_do",
-        },
-    }
-    res = requests.post("https://api.capsolver.com/createTask", json=payload)
-    resp = res.json()
-    task_id = resp.get("taskId")
-    if not task_id:
-        print("Не удалось создать задачу:", res.text)
-        return None
-    print(f"Получен taskId: {task_id} / Ожидание результата...")
+# def solve_recaptcha_v3():
+#     payload = {
+#         "clientKey": CAPSOLVER_API_KEY,
+#         "task": {
+#             "type": "ReCaptchaV3TaskProxyLess",
+#             "websiteKey": SITE_KEY,
+#             "websiteURL": "http://www.encar.com:80",
+#             "pageAction": "/dc/dc_cardetailview_do",
+#         },
+#     }
+#     res = requests.post("https://api.capsolver.com/createTask", json=payload)
+#     resp = res.json()
+#     task_id = resp.get("taskId")
+#     if not task_id:
+#         print("Не удалось создать задачу:", res.text)
+#         return None
+#     print(f"Получен taskId: {task_id} / Ожидание результата...")
 
-    while True:
-        time.sleep(1)
-        payload = {"clientKey": CAPSOLVER_API_KEY, "taskId": task_id}
-        res = requests.post("https://api.capsolver.com/getTaskResult", json=payload)
-        resp = res.json()
-        if resp.get("status") == "ready":
-            print("reCAPTCHA успешно решена")
-            return resp.get("solution", {}).get("gRecaptchaResponse")
-        if resp.get("status") == "failed" or resp.get("errorId"):
-            print("Решение не удалось! Ответ:", res.text)
-            return None
+#     while True:
+#         time.sleep(1)
+#         payload = {"clientKey": CAPSOLVER_API_KEY, "taskId": task_id}
+#         res = requests.post("https://api.capsolver.com/getTaskResult", json=payload)
+#         resp = res.json()
+#         if resp.get("status") == "ready":
+#             print("reCAPTCHA успешно решена")
+#             return resp.get("solution", {}).get("gRecaptchaResponse")
+#         if resp.get("status") == "failed" or resp.get("errorId"):
+#             print("Решение не удалось! Ответ:", res.text)
+#             return None
