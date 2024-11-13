@@ -178,7 +178,7 @@ def currencyrates_command(message):
 def main_menu():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     keyboard.add(
-        types.KeyboardButton("Рассчитать автомобиль до Владивостока"),
+        types.KeyboardButton("Расчёт"),
         types.KeyboardButton("Написать менеджеру"),
         types.KeyboardButton("О компании HanExport"),
         types.KeyboardButton("Наш Telegram-канал"),
@@ -850,7 +850,7 @@ def handle_message(message):
     user_message = message.text.strip()
 
     # Проверяем нажатие кнопки "Рассчитать автомобиль"
-    if user_message == "Рассчитать автомобиль до Владивостока":
+    if user_message == "Расчёт":
         bot.send_message(
             message.chat.id,
             "Пожалуйста, введите ссылку на автомобиль с сайта www.encar.com:",
