@@ -234,13 +234,12 @@ def load_cookies(driver):
                 driver.add_cookie(cookie)
 
 
-def check_and_handle_alert(driver, timeout=5):
+def check_and_handle_alert(driver, timeout=6):
     try:
-        # Ожидание появления alert в течение заданного времени
         WebDriverWait(driver, timeout).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         logging.info(f"Обнаружено всплывающее окно: {alert.text}")
-        alert.accept()  # Закрытие alert
+        alert.accept()
         logging.info("Всплывающее окно было закрыто.")
     except TimeoutException:
         logging.info("Нет активного всплывающего окна.")
@@ -257,12 +256,10 @@ def get_car_info(url):
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
-    chrome_options.add_argument("--window-size=1920,1080")  # Устанавливает размер окна
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_argument("--enable-logging")
-    chrome_options.add_argument("--v=1")  # Уровень логирования
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
     )
@@ -270,6 +267,8 @@ def get_car_info(url):
     # Инициализация драйвера
     service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(service=service, options=chrome_options)
+
+    driver.get(url)
 
     try:
         # Загружаем страницу
@@ -284,7 +283,6 @@ def get_car_info(url):
             logging.info("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
-        driver.get(url)
         save_cookies(driver)  # Сохранение cookies
         logging.info("Куки сохранены.")
 
