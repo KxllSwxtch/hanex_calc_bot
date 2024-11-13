@@ -234,15 +234,17 @@ def load_cookies(driver):
                 driver.add_cookie(cookie)
 
 
-def check_and_handle_alert(driver, timeout=5):
+def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, timeout).until(EC.alert_is_present())
+        WebDriverWait(driver, 4).until(EC.alert_is_present())
         alert = driver.switch_to.alert
-        logging.info(f"Обнаружено всплывающее окно: {alert.text}")
-        alert.accept()
-        logging.info("Всплывающее окно было закрыто.")
+        print(f"Обнаружено всплывающее окно: {alert.text}")
+        alert.accept()  # Закрывает alert
+        print("Всплывающее окно было закрыто.")
     except TimeoutException:
-        logging.info("Нет активного всплывающего окна.")
+        print("Нет активного всплывающего окна.")
+    except Exception as alert_exception:
+        print(f"Ошибка при обработке alert: {alert_exception}")
 
 
 def get_car_info(url):
@@ -277,7 +279,6 @@ def get_car_info(url):
             logging.info("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
-        driver.get(url)
         save_cookies(driver)
         logging.info("Куки сохранены.")
 
@@ -288,7 +289,7 @@ def get_car_info(url):
 
         # Проверка элемента areaLeaseRent
         try:
-            lease_area = WebDriverWait(driver, 10).until(
+            lease_area = WebDriverWait(driver, 5).until(
                 EC.presence_of_element_located((By.ID, "areaLeaseRent"))
             )
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
@@ -307,7 +308,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 10).until(
+            product_left = WebDriverWait(driver, 5).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
@@ -347,7 +348,7 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
-            gallery_element = WebDriverWait(driver, 10).until(
+            gallery_element = WebDriverWait(driver, 5).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
             )
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
