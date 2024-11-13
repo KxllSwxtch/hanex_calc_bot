@@ -234,7 +234,7 @@ def load_cookies(driver):
                 driver.add_cookie(cookie)
 
 
-def check_and_handle_alert(driver, timeout=4):
+def check_and_handle_alert(driver, timeout=5):
     try:
         # Ожидание появления alert в течение заданного времени
         WebDriverWait(driver, timeout).until(EC.alert_is_present())
@@ -294,9 +294,7 @@ def get_car_info(url):
 
         # Проверка элемента areaLeaseRent
         try:
-            lease_area = WebDriverWait(driver, 5).until(
-                EC.presence_of_element_located((By.ID, "areaLeaseRent"))
-            )
+            lease_area = driver.find_element(By.ID, "areaLeaseRent")
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
@@ -356,9 +354,7 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
-            gallery_element = WebDriverWait(driver, 5).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
-            )
+            gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
             items = gallery_element.find_elements(By.XPATH, ".//*")
 
