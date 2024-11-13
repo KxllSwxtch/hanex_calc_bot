@@ -496,8 +496,6 @@ def calculate_cost(link, message):
             year = car.get("date", "").split()[-1]
             engine_volume = car.get("engineVolume", 0)
 
-            print(year, engine_volume, price)
-
             if year and engine_volume and price:
                 engine_volume_formatted = f"{format_number(int(engine_volume))} cc"
                 age_formatted = calculate_age(year)
