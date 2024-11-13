@@ -268,11 +268,10 @@ def get_car_info(url):
     service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
-    driver.get(url)
-
     try:
         # Загружаем страницу
         driver.get(url)
+        time.sleep(4)
         check_and_handle_alert(driver)  # Обработка alert, если присутствует
         load_cookies(driver)  # Загрузка cookies
 
