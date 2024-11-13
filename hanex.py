@@ -294,7 +294,9 @@ def get_car_info(url):
 
         # Проверка элемента areaLeaseRent
         try:
-            lease_area = driver.find_element(By.ID, "areaLeaseRent")
+            lease_area = WebDriverWait(driver, 3).until(
+                EC.presence_of_element_located((By.ID, "areaLeaseRent"))
+            )
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
@@ -306,12 +308,14 @@ def get_car_info(url):
         except NoSuchElementException:
             logging.warning("Элемент areaLeaseRent не найден.")
 
-        # Инициализация переменных
-        car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
+        car_title,
+        car_date,
+        car_engine_capacity,
+        car_price = "", "", "", ""
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 5).until(
+            product_left = WebDriverWait(driver, 6).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
@@ -352,12 +356,12 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
-            gallery_element = WebDriverWait(driver, 4).until(
+            gallery_element = WebDriverWait(driver, 5).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
             )
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
-
             items = gallery_element.find_elements(By.XPATH, ".//*")
+
             if len(items) > 10:
                 car_date = items[10].text
             if len(items) > 18:
@@ -379,8 +383,10 @@ def get_car_info(url):
                     if len(keyinfo_texts) > 12
                     else None
                 )
+
             except NoSuchElementException:
                 logging.warning("Элемент wrap_keyinfo не найден.")
+
         except NoSuchElementException:
             logging.warning("Элемент gallery_photo также не найден.")
 
