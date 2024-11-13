@@ -429,14 +429,12 @@ def get_car_info(url):
 
 # Function to calculate the total cost
 def calculate_cost(link, message):
-    print_message("ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ")
-
     global car_data
 
+    print_message("ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ")
+
     # Отправляем сообщение и сохраняем его ID
-    processing_message = bot.send_message(
-        message.chat.id, "Данные переданы в обработку ⏳"
-    )
+    processing_message = bot.send_message(message.chat.id, "⏳ Обработка данных...")
 
     # Проверка ссылки на мобильную версию
     if "fem.encar.com" in link:
@@ -451,10 +449,8 @@ def calculate_cost(link, message):
             )  # Удаляем сообщение
             return
 
-    try:
-        result = get_car_info(link)
-    except:
-        print("Error")
+    result = get_car_info(link)
+    time.sleep(4)
 
     if result is None:
         send_error_message(
