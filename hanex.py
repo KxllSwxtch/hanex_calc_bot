@@ -236,7 +236,7 @@ def load_cookies(driver):
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 4).until(EC.alert_is_present())
+        WebDriverWait(driver, 5).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()  # Закрывает alert
@@ -443,6 +443,7 @@ def calculate_cost(link, message):
             return
 
     result = get_car_info(link)
+    time.sleep(3)
 
     if result is None:
         send_error_message(
