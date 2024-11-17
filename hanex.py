@@ -259,6 +259,7 @@ def get_car_info(url):
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_argument("--enable-javascript")
     chrome_options.add_argument("--enable-logging")
     chrome_options.add_argument("--v=1")  # Уровень логирования
     chrome_options.add_argument(
@@ -274,13 +275,14 @@ def get_car_info(url):
         driver.get(url)
         check_and_handle_alert(driver)  # Обработка alert, если присутствует
         load_cookies(driver)
+        driver.refresh()
 
         # Проверка на reCAPTCHA
-        if "reCAPTCHA" in driver.page_source:
-            logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
-            driver.refresh()
-            logging.info("Страница обновлена после reCAPTCHA.")
-            check_and_handle_alert(driver)  # Перепроверка после обновления страницы
+        # if "reCAPTCHA" in driver.page_source:
+        #     logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
+        #     driver.refresh()
+        #     logging.info("Страница обновлена после reCAPTCHA.")
+        #     check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
         save_cookies(driver)
         logging.info("Куки сохранены.")
@@ -585,56 +587,57 @@ def calculate_cost(link, message):
 
 # Function to get insurance total
 def get_insurance_total():
-    print_message("[ЗАПРОС] ТЕХНИЧЕСКИЙ ОТЧЁТ ОБ АВТОМОБИЛЕ")
-
     global car_id_external
+    print_message("[ЗАПРОС] ТЕХНИЧЕСКИЙ ОТЧËТ ОБ АВТОМОБИЛЕ")
 
     # Настройка WebDriver с нужными опциями
     chrome_options = Options()
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--window-size=1920,1080")
+    chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
+    chrome_options.add_argument("--window-size=1920,1080")  # Устанавливает размер окна
+    chrome_options.add_argument("--disable-infobars")
+    chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_argument("--enable-logging")
+    chrome_options.add_argument("--enable-javascript")
+    chrome_options.add_argument("--v=1")  # Уровень логирования
     chrome_options.add_argument(
-        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
     )
 
     service = Service(CHROMEDRIVER_PATH)
-    driver = webdriver.Chrome(service=service, options=chrome_options)
 
     # Формируем URL
     url = f"http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id_external}&wtClick_carview=044"
 
-    driver.get(url)
-    load_cookies(driver)
-    check_and_handle_alert(driver)
-
     try:
+        # Запускаем WebDriver
+        driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.get(url)
-        check_and_handle_alert(driver)
 
-        save_cookies(driver)
+        print("car_id_external: ", car_id_external)
 
-        # Ожидаем появления элемента 'smlist' с явным ожиданием
-        smlist_element = WebDriverWait(driver, 6).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "smlist"))
-        )
+        try:
+            smlist_element = WebDriverWait(driver, 7).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "smlist"))
+            )
+        except NoSuchElementException:
+            print("Элемент 'smlist' не найден.")
+            return ["Нет данных", "Нет данных"]
 
-        # Находим таблицу и извлекаем данные
+        # Находим таблицу
         table = smlist_element.find_element(By.TAG_NAME, "table")
         rows = table.find_elements(By.TAG_NAME, "tr")
 
-        # Функция для получения данных о повреждениях
-        def get_damage_data(row_index):
-            if len(rows) > row_index:
-                return rows[row_index].find_elements(By.TAG_NAME, "td")[1].text
-            return None  # Вернем None, если данных нет
-
-        # Извлекаем данные о повреждениях
-        damage_to_my_car = get_damage_data(4)
-        damage_to_other_car = get_damage_data(5)
+        # Извлекаем данные
+        damage_to_my_car = (
+            rows[4].find_elements(By.TAG_NAME, "td")[1].text if len(rows) > 4 else "0"
+        )
+        damage_to_other_car = (
+            rows[5].find_elements(By.TAG_NAME, "td")[1].text if len(rows) > 5 else "0"
+        )
 
         # Упрощенная функция для извлечения числа
         def extract_large_number(damage_text):
@@ -644,38 +647,14 @@ def get_insurance_total():
             return numbers[0] if numbers else "0"
 
         # Форматируем данные
-        damage_to_my_car_formatted = (
-            extract_large_number(damage_to_my_car) if damage_to_my_car else "Нет данных"
-        )
-        damage_to_other_car_formatted = (
-            extract_large_number(damage_to_other_car)
-            if damage_to_other_car
-            else "Нет данных"
-        )
+        damage_to_my_car_formatted = extract_large_number(damage_to_my_car)
+        damage_to_other_car_formatted = extract_large_number(damage_to_other_car)
 
-        # Проверяем, если нет данных
-        if damage_to_my_car_formatted == "0" and damage_to_other_car_formatted == "0":
-            return None  # Вернем None, если нет данных о страховых выплатах
+        return [damage_to_my_car_formatted, damage_to_other_car_formatted]
 
-        return [
-            (
-                damage_to_my_car_formatted
-                if damage_to_my_car_formatted != "0"
-                else "Нет данных"
-            ),
-            (
-                damage_to_other_car_formatted
-                if damage_to_other_car_formatted != "0"
-                else "Нет данных"
-            ),
-        ]
-
-    except NoSuchElementException:
-        print("Элемент 'smlist' не найден.")
-        return None  # Вернем None, если элемент не найден
     except Exception as e:
         print(f"Произошла ошибка при получении данных: {e}")
-        return None  # Вернем None в случае ошибки
+        return ["Ошибка при получении данных", ""]
 
     finally:
         driver.quit()
