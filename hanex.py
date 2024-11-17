@@ -434,19 +434,19 @@ def calculate_cost(link, message):
     # Проверка ссылки на мобильную версию
     if "fem.encar.com" in link:
         car_id_match = re.findall(r"\d+", link)
-        if car_id_match:
-            car_id = car_id_match[0]
-            link = f"https://www.encar.com/dc/dc_cardetailview.do?carid={car_id}"
-        else:
-            send_error_message(message, "🚫 Не удалось извлечь carid из ссылки.")
-            bot.delete_message(
-                message.chat.id, processing_message.message_id
-            )  # Удаляем сообщение
+
+        if not car_id_match:
+            logging.error("Не удалось извлечь carid из ссылки.")
+            send_error_message(message, "🚫 Неверный формат ссылки.")
+            bot.delete_message(message.chat.id, processing_message.message_id)
             return
+        car_id = car_id_match[0]
+        link = f"https://www.encar.com/dc/dc_cardetailview.do?carid={car_id}"
 
     result = get_car_info(link)
 
     if result is None:
+        logging.error(f"Ошибка при вызове get_car_info для ссылки: {link}")
         send_error_message(
             message,
             "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.",
