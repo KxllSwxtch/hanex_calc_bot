@@ -283,9 +283,6 @@ def get_car_info(url):
         #     logging.info("Страница обновлена после reCAPTCHA.")
         #     check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
-        save_cookies(driver)
-        logging.info("Куки сохранены.")
-
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
@@ -313,7 +310,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 6).until(
+            product_left = WebDriverWait(driver, 8).until(
                 EC.presence_of_element_located()
             )
             product_left_splitted = product_left.text.split("\n")
@@ -422,6 +419,8 @@ def get_car_info(url):
         except Exception as alert_exception:
             logging.error(f"Ошибка при обработке alert: {alert_exception}")
 
+        save_cookies(driver)
+        logging.info("Куки сохранены.")
         driver.quit()
 
 
