@@ -236,13 +236,11 @@ def load_cookies(driver):
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 5).until(EC.alert_is_present())
+        WebDriverWait(driver, 3).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()
         print("Всплывающее окно было закрыто.")
-        print("Проверяем состояние страницы после закрытия окна.")
-        print(driver.title)
     except TimeoutException:
         print("Нет активного всплывающего окна.")
     except Exception as alert_exception:
@@ -296,7 +294,9 @@ def get_car_info(url):
 
         # Проверка элемента areaLeaseRent
         try:
-            lease_area = driver.find_element(By.ID, "areaLeaseRent")
+            lease_area = WebDriverWait(driver, 5).until(
+                EC.presence_of_element_located((By.ID, "areaLeaseRent"))
+            )
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
