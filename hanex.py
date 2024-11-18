@@ -439,16 +439,18 @@ def calculate_cost(link, message):
     if "fem.encar.com" in link:
         car_id_match = re.findall(r"\d+", link)
 
-        if not car_id_match:
-            logging.error("Не удалось извлечь carid из ссылки.")
-            send_error_message(message, "🚫 Неверный формат ссылки.")
-            bot.delete_message(message.chat.id, processing_message.message_id)
-            return
-        car_id = car_id_match[0]
-        link = f"https://www.encar.com/dc/dc_cardetailview.do?carid={car_id}"
+        if "fem.encar.com" in link:
+            car_id_match = re.findall(r"\d+", link)
+
+            if car_id_match:
+                car_id = car_id_match[0]  # Use the first match of digits
+                # Create the new URL
+                link = f"https://www.encar.com/dc/dc_cardetailview.do?carid={car_id}"
+            else:
+                send_error_message(message, "🚫 Не удалось извлечь carid из ссылки.")
+                return
 
     result = get_car_info(link)
-    time.sleep(5)
 
     if result is None:
         logging.error(f"Ошибка при вызове get_car_info для ссылки: {link}")
