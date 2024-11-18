@@ -275,9 +275,8 @@ def get_car_info(url):
     try:
         # Загружаем страницу
         driver.get(url)
-        check_and_handle_alert(driver)  # Обработка alert, если присутствует
+        check_and_handle_alert(driver)
         load_cookies(driver)
-        driver.refresh()
 
         # Проверка на reCAPTCHA
         # if "reCAPTCHA" in driver.page_source:
@@ -314,7 +313,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 10).until(
+            product_left = WebDriverWait(driver, 6).until(
                 EC.presence_of_element_located()
             )
             product_left_splitted = product_left.text.split("\n")
@@ -354,7 +353,9 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
-            gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+            gallery_element = WebDriverWait(driver, 6).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
+            )
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
             items = gallery_element.find_elements(By.XPATH, ".//*")
 
@@ -412,6 +413,7 @@ def get_car_info(url):
     finally:
         # Обработка всплывающих окон (alerts)
         try:
+            WebDriverWait(driver, 3).until(EC.alert_is_present())
             alert = driver.switch_to.alert
             alert.dismiss()
             logging.info("Всплывающее окно отклонено.")
