@@ -309,7 +309,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 6).until(
+            product_left = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located()
             )
             product_left_splitted = product_left.text.split("\n")
@@ -423,6 +423,7 @@ def get_car_info(url):
         driver.quit()
 
 
+# Function to calculate the total cost
 def calculate_cost(link, message):
     global car_data
 
@@ -433,56 +434,66 @@ def calculate_cost(link, message):
         message.chat.id, "Данные переданы в обработку ⏳"
     )
 
-    try:
-        # Проверка ссылки на мобильную версию и извлечение car_id
+    # Проверка ссылки на мобильную версию
+    if "fem.encar.com" in link:
+        car_id_match = re.findall(r"\d+", link)
+
         if "fem.encar.com" in link:
             car_id_match = re.findall(r"\d+", link)
+
             if car_id_match:
-                car_id = car_id_match[0]
+                car_id = car_id_match[0]  # Use the first match of digits
+                # Create the new URL
                 link = f"https://www.encar.com/dc/dc_cardetailview.do?carid={car_id}"
             else:
-                send_error_message(message, "🚫 Неверный формат ссылки.")
-                bot.delete_message(message.chat.id, processing_message.message_id)
+                send_error_message(message, "🚫 Не удалось извлечь carid из ссылки.")
                 return
 
-        # Получение информации о машине
-        result = get_car_info(link)
-        sleep(3)
+    result = get_car_info(link)
+    time.sleep(3)
 
-        if result is None or not isinstance(result, tuple):
-            logging.error(f"Ошибка при вызове get_car_info для ссылки: {link}")
-            send_error_message(
-                message,
-                "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
+    if result is None:
+        logging.error(f"Ошибка при вызове get_car_info для ссылки: {link}")
+        send_error_message(
+            message,
+            "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.",
+        )
+        bot.delete_message(
+            message.chat.id,
+            processing_message.message_id,
+        )
+        return
+
+    new_url, car_title = result
+
+    if not new_url and car_title:
+        keyboard = types.InlineKeyboardMarkup()
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "Написать менеджеру", url="https://t.me/hanexport11"
             )
-            bot.delete_message(message.chat.id, processing_message.message_id)
-            return
-
-        new_url, car_title = result
-
-        # Проверка на наличие данных
-        if not new_url:
-            send_error_message(
-                message, "🚫 Не удалось получить данные автомобиля по ссылке."
+        )
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "🔍 Рассчитать стоимость другого автомобиля",
+                callback_data="calculate_another",
             )
-            bot.delete_message(message.chat.id, processing_message.message_id)
-            return
+        )
+        bot.send_message(
+            message.chat.id, car_title, parse_mode="Markdown", reply_markup=keyboard
+        )
+        bot.delete_message(
+            message.chat.id, processing_message.message_id
+        )  # Удаляем сообщение
+        return
 
-        # Запрос данных по новой ссылке
+    if new_url:
         response = requests.get(new_url)
-        if response.status_code != 200:
-            send_error_message(
-                message,
-                "🚫 Ошибка при запросе данных. Проверьте ссылку и повторите попытку.",
-            )
-            bot.delete_message(message.chat.id, processing_message.message_id)
-            return
 
-        json_response = response.json()
-        car_data = json_response
+        if response.status_code == 200:
+            json_response = response.json()
+            car_data = json_response
 
-        # Извлечение данных из JSON-ответа
-        try:
             result = json_response.get("result", {})
             car = result.get("car", {})
             price = result.get("price", {}).get("car", {}).get("krw", 0)
@@ -490,7 +501,7 @@ def calculate_cost(link, message):
             year = car.get("date", "").split()[-1]
             engine_volume = car.get("engineVolume", 0)
 
-            if year.isdigit() and engine_volume and price:
+            if year and engine_volume and price:
                 engine_volume_formatted = f"{format_number(int(engine_volume))} cc"
                 age_formatted = calculate_age(year)
 
@@ -520,13 +531,12 @@ def calculate_cost(link, message):
                     f"Объём двигателя: {engine_volume_formatted}\n\n"
                     f"Стоимость автомобиля под ключ до Владивостока: \n**{total_cost_formatted}₽**\n\n"
                     f"🔗 [Ссылка на автомобиль]({link})\n\n"
-                    "Если данное авто попадает под санкции, уточните отправку у менеджера @hanexport11\n\n"
+                    "Если данное авто попадает под санкции, пожалуйста уточните возможность отправки в вашу страну у менеджера @hanexport11\n\n"
                     "🔗[Официальный телеграм канал](https://t.me/hanexport1)\n"
                 )
 
                 bot.send_message(message.chat.id, result_message, parse_mode="Markdown")
 
-                # Клавиатура с вариантами действий
                 keyboard = types.InlineKeyboardMarkup()
                 keyboard.add(
                     types.InlineKeyboardButton(
@@ -554,23 +564,34 @@ def calculate_cost(link, message):
                 bot.send_message(
                     message.chat.id, "Что делаем дальше?", reply_markup=keyboard
                 )
-            else:
-                raise ValueError("Недостаточно данных для расчёта.")
-        except Exception as e:
-            logging.error(f"Ошибка обработки данных: {e}")
-            send_error_message(
-                message, "🚫 Произошла ошибка при обработке данных. Проверьте ссылку."
-            )
-        finally:
-            bot.delete_message(message.chat.id, processing_message.message_id)
 
-    except Exception as main_exception:
-        logging.error(f"Ошибка в calculate_cost: {main_exception}")
+                # Удаляем сообщение о передаче данных в обработку
+                bot.delete_message(message.chat.id, processing_message.message_id)
+
+            else:
+                bot.send_message(
+                    message.chat.id,
+                    "🚫 Не удалось извлечь все необходимые данные. Проверьте ссылку.",
+                )
+                bot.delete_message(
+                    message.chat.id, processing_message.message_id
+                )  # Удаляем сообщение
+        else:
+            send_error_message(
+                message,
+                "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
+            )
+            bot.delete_message(
+                message.chat.id, processing_message.message_id
+            )  # Удаляем сообщение
+    else:
         send_error_message(
             message,
-            "🚫 Общая ошибка обработки данных. Пожалуйста, повторите попытку позже.",
+            "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
         )
-        bot.delete_message(message.chat.id, processing_message.message_id)
+        bot.delete_message(
+            message.chat.id, processing_message.message_id
+        )  # Удаляем сообщение
 
 
 # Function to get insurance total
