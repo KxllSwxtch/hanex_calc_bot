@@ -448,6 +448,7 @@ def calculate_cost(link, message):
                 return
 
     result = get_car_info(link)
+    time.sleep(5)
 
     if result is None:
         logging.error(f"Ошибка при вызове get_car_info для ссылки: {link}")
