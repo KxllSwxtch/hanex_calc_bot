@@ -419,6 +419,7 @@ def get_car_info(url):
 
         save_cookies(driver)
         logging.info("Куки сохранены.")
+        driver.refresh()
         driver.quit()
 
 
