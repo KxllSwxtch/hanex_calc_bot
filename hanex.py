@@ -236,7 +236,7 @@ def load_cookies(driver):
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 3).until(EC.alert_is_present())
+        WebDriverWait(driver, 4).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()
@@ -291,7 +291,7 @@ def get_car_info(url):
 
         # Проверка элемента areaLeaseRent
         try:
-            lease_area = WebDriverWait(driver, 5).until(
+            lease_area = WebDriverWait(driver, 6).until(
                 EC.presence_of_element_located((By.ID, "areaLeaseRent"))
             )
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
@@ -310,7 +310,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 8).until(
+            product_left = WebDriverWait(driver, 7).until(
                 EC.presence_of_element_located()
             )
             product_left_splitted = product_left.text.split("\n")
@@ -350,7 +350,7 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
-            gallery_element = WebDriverWait(driver, 6).until(
+            gallery_element = WebDriverWait(driver, 8).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
             )
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
@@ -410,7 +410,7 @@ def get_car_info(url):
     finally:
         # Обработка всплывающих окон (alerts)
         try:
-            WebDriverWait(driver, 3).until(EC.alert_is_present())
+            WebDriverWait(driver, 4).until(EC.alert_is_present())
             alert = driver.switch_to.alert
             alert.dismiss()
             logging.info("Всплывающее окно отклонено.")
