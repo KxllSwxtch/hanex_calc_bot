@@ -448,6 +448,7 @@ def calculate_cost(link, message):
         link = f"https://www.encar.com/dc/dc_cardetailview.do?carid={car_id}"
 
     result = get_car_info(link)
+    time.sleep(5)
 
     if result is None:
         logging.error(f"Ошибка при вызове get_car_info для ссылки: {link}")
