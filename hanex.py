@@ -407,7 +407,7 @@ def get_car_info(url):
     finally:
         # Обработка всплывающих окон (alerts)
         try:
-            WebDriverWait(driver, 4).until(EC.alert_is_present())
+            WebDriverWait(driver, 6).until(EC.alert_is_present())
             alert = driver.switch_to.alert
             alert.dismiss()
             logging.info("Всплывающее окно отклонено.")
@@ -448,7 +448,6 @@ def calculate_cost(link, message):
                 return
 
     result = get_car_info(link)
-    time.sleep(5)
 
     if result is None:
         logging.error(f"Ошибка при вызове get_car_info для ссылки: {link}")
