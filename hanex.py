@@ -236,7 +236,7 @@ def load_cookies(driver):
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 2).until(EC.alert_is_present())
+        WebDriverWait(driver, 4).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()
@@ -275,6 +275,7 @@ def get_car_info(url):
         driver.get(url)
         check_and_handle_alert(driver)
         load_cookies(driver)
+        time.sleep(3)
 
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
