@@ -274,7 +274,7 @@ def get_car_info(url):
     driver.get(url)
     check_and_handle_alert(driver)
     load_cookies(driver)
-    time.sleep(3)
+    time.sleep(7)
 
     # Проверка на reCAPTCHA
     # if "reCAPTCHA" in driver.page_source:
