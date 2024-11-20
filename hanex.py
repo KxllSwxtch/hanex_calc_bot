@@ -238,13 +238,13 @@ def check_and_handle_alert(driver):
     try:
         WebDriverWait(driver, 4).until(EC.alert_is_present())
         alert = driver.switch_to.alert
-        logging.info(f"Обнаружено всплывающее окно: {alert.text}")
+        print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()
-        logging.info("Всплывающее окно закрыто.")
+        print("Всплывающее окно было закрыто.")
     except TimeoutException:
-        logging.debug("Нет активного всплывающего окна.")
+        print("Нет активного всплывающего окна.")
     except Exception as alert_exception:
-        logging.error(f"Ошибка при обработке alert: {alert_exception}")
+        print(f"Ошибка при обработке alert: {alert_exception}")
 
 
 def get_car_info(url):
@@ -277,11 +277,11 @@ def get_car_info(url):
         load_cookies(driver)
 
         # Проверка на reCAPTCHA
-        # if "reCAPTCHA" in driver.page_source:
-        #     logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
-        #     driver.refresh()
-        #     logging.info("Страница обновлена после reCAPTCHA.")
-        #     check_and_handle_alert(driver)  # Перепроверка после обновления страницы
+        if "reCAPTCHA" in driver.page_source:
+            logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
+            driver.refresh()
+            logging.info("Страница обновлена после reCAPTCHA.")
+            check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
         save_cookies(driver)
         logging.info("Куки сохранены.")
@@ -407,7 +407,7 @@ def get_car_info(url):
     finally:
         # Обработка всплывающих окон (alerts)
         try:
-            WebDriverWait(driver, 5).until(EC.alert_is_present())
+            WebDriverWait(driver, 3).until(EC.alert_is_present())
             alert = driver.switch_to.alert
             alert.dismiss()
             logging.info("Всплывающее окно отклонено.")
