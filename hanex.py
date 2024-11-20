@@ -270,125 +270,68 @@ def get_car_info(url):
     service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
-    try:
-        # Загружаем страницу
-        driver.get(url)
-        check_and_handle_alert(driver)
-        load_cookies(driver)
-        time.sleep(3)
+    # Загружаем страницу
+    driver.get(url)
+    check_and_handle_alert(driver)
+    load_cookies(driver)
+    time.sleep(3)
 
-        # Проверка на reCAPTCHA
-        # if "reCAPTCHA" in driver.page_source:
-        #     logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
-        #     driver.refresh()
-        #     logging.info("Страница обновлена после reCAPTCHA.")
-        #     check_and_handle_alert(driver)  # Перепроверка после обновления страницы
+    # Проверка на reCAPTCHA
+    # if "reCAPTCHA" in driver.page_source:
+    #     logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
+    #     driver.refresh()
+    #     logging.info("Страница обновлена после reCAPTCHA.")
+    #     check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
-        save_cookies(driver)
-        logging.info("Куки сохранены.")
+    save_cookies(driver)
+    logging.info("Куки сохранены.")
 
-        # Парсим URL для получения carid
-        parsed_url = urlparse(url)
-        query_params = parse_qs(parsed_url.query)
-        car_id = query_params.get("carid", [None])[0]
-        car_id_external = car_id
+    # Парсим URL для получения carid
+    parsed_url = urlparse(url)
+    query_params = parse_qs(parsed_url.query)
+    car_id = query_params.get("carid", [None])[0]
+    car_id_external = car_id
 
-        # Проверка элемента areaLeaseRent
-        try:
-            lease_area = WebDriverWait(driver, 7).until(
-                EC.presence_of_element_located((By.ID, "areaLeaseRent"))
-            )
-            title_element = lease_area.find_element(By.CLASS_NAME, "title")
-
+    # Проверка элемента areaLeaseRent
+    lease_areas = driver.find_elements(By.ID, "areaLeaseRent")
+    if lease_areas:
+        lease_area = lease_areas[0]
+        title_elements = lease_area.find_elements(By.CLASS_NAME, "title")
+        if title_elements:
+            title_element = title_elements[0]
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
                 logging.info("Данная машина находится в лизинге.")
                 return [
                     "",
                     "Данная машина находится в лизинге. Свяжитесь с менеджером.",
                 ]
-        except NoSuchElementException:
-            logging.warning("Элемент areaLeaseRent не найден.")
+    else:
+        logging.warning("Элемент areaLeaseRent не найден.")
 
-        # Инициализация переменных
-        car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
+    # Инициализация переменных
+    car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
 
-        # Проверка элемента product_left
-        try:
-            product_left = driver.find_element(By.CLASS_NAME, "product_left")
-            product_left_splitted = product_left.text.split("\n")
+    # Проверка элемента product_left
+    product_left_elements = driver.find_elements(By.CLASS_NAME, "product_left")
+    if product_left_elements:
+        product_left = product_left_elements[0]
+        product_left_splitted = product_left.text.split("\n")
 
-            car_title = product_left.find_element(
-                By.CLASS_NAME, "prod_name"
-            ).text.strip()
+        car_title_elements = product_left.find_elements(By.CLASS_NAME, "prod_name")
+        car_title = car_title_elements[0].text.strip() if car_title_elements else ""
 
-            car_date = (
-                product_left_splitted[3] if len(product_left_splitted) > 3 else ""
-            )
-            car_engine_capacity = (
-                product_left_splitted[6] if len(product_left_splitted) > 6 else ""
-            )
-            car_price = re.sub(r"\D", "", product_left_splitted[1])
+        car_date = product_left_splitted[3] if len(product_left_splitted) > 3 else ""
+        car_engine_capacity = (
+            product_left_splitted[6] if len(product_left_splitted) > 6 else ""
+        )
+        car_price = re.sub(
+            r"\D",
+            "",
+            product_left_splitted[1] if len(product_left_splitted) > 1 else "",
+        )
 
-            # Форматирование
-            formatted_price = car_price.replace(",", "")
-            formatted_engine_capacity = (
-                car_engine_capacity.replace(",", "")[:-2]
-                if car_engine_capacity
-                else "0"
-            )
-            cleaned_date = "".join(filter(str.isdigit, car_date))
-            formatted_date = (
-                f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
-            )
-
-            # Создание URL
-            new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
-            logging.info(f"Данные о машине получены: {new_url}, {car_title}")
-            return [new_url, car_title]
-        except NoSuchElementException as e:
-            logging.error(f"Ошибка при обработке product_left: {e}")
-        except Exception as e:
-            logging.error(f"Неизвестная ошибка при обработке product_left: {e}")
-
-        # Проверка элемента gallery_photo
-        try:
-            gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
-            car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
-            items = gallery_element.find_elements(By.XPATH, ".//*")
-
-            if len(items) > 10:
-                car_date = items[10].text
-            if len(items) > 18:
-                car_engine_capacity = items[18].text
-
-            # Извлечение информации о ключах
-            try:
-                keyinfo_element = driver.find_element(
-                    By.CSS_SELECTOR, "div.wrap_keyinfo"
-                )
-                keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
-                keyinfo_texts = [
-                    item.text for item in keyinfo_items if item.text.strip()
-                ]
-
-                # Извлекаем цену, если элемент существует
-                car_price = (
-                    re.sub(r"\D", "", keyinfo_texts[12])
-                    if len(keyinfo_texts) > 12
-                    else None
-                )
-            except NoSuchElementException:
-                logging.warning("Элемент wrap_keyinfo не найден.")
-
-        except NoSuchElementException:
-            logging.warning("Элемент gallery_photo также не найден.")
-
-        # Форматирование значений для URL
-        if car_price:
-            formatted_price = car_price.replace(",", "")
-        else:
-            formatted_price = "0"  # Задаем значение по умолчанию
-
+        # Форматирование
+        formatted_price = car_price.replace(",", "") if car_price else "0"
         formatted_engine_capacity = (
             car_engine_capacity.replace(",", "")[:-2] if car_engine_capacity else "0"
         )
@@ -397,29 +340,53 @@ def get_car_info(url):
             f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
         )
 
-        # Конечный URL
+        # Создание URL
         new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
-
         logging.info(f"Данные о машине получены: {new_url}, {car_title}")
         return [new_url, car_title]
+    else:
+        logging.warning("Элемент product_left не найден.")
 
-    except Exception as e:
-        logging.error(f"Произошла ошибка: {e}")
-        return None, None
+    # Проверка элемента gallery_photo
+    gallery_elements = driver.find_elements(By.CSS_SELECTOR, "div.gallery_photo")
+    if gallery_elements:
+        gallery_element = gallery_elements[0]
+        car_title_elements = gallery_element.find_elements(By.CLASS_NAME, "prod_name")
+        car_title = car_title_elements[0].text if car_title_elements else ""
+        items = gallery_element.find_elements(By.XPATH, ".//*")
 
-    finally:
-        # Обработка всплывающих окон (alerts)
-        try:
-            WebDriverWait(driver, 5).until(EC.alert_is_present())
-            alert = driver.switch_to.alert
-            alert.dismiss()
-            logging.info("Всплывающее окно отклонено.")
-        except NoAlertPresentException:
-            logging.info("Нет активного всплывающего окна.")
-        except Exception as alert_exception:
-            logging.error(f"Ошибка при обработке alert: {alert_exception}")
+        car_date = items[10].text if len(items) > 10 else ""
+        car_engine_capacity = items[18].text if len(items) > 18 else ""
 
-        driver.quit()
+        # Извлечение информации о ключах
+        keyinfo_elements = driver.find_elements(By.CSS_SELECTOR, "div.wrap_keyinfo")
+        if keyinfo_elements:
+            keyinfo_element = keyinfo_elements[0]
+            keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
+            keyinfo_texts = [item.text for item in keyinfo_items if item.text.strip()]
+
+            car_price = (
+                re.sub(r"\D", "", keyinfo_texts[12])
+                if len(keyinfo_texts) > 12
+                else None
+            )
+
+    # Форматирование значений для URL
+    formatted_price = car_price.replace(",", "") if car_price else "0"
+    formatted_engine_capacity = (
+        car_engine_capacity.replace(",", "")[:-2] if car_engine_capacity else "0"
+    )
+    cleaned_date = "".join(filter(str.isdigit, car_date))
+    formatted_date = (
+        f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
+    )
+
+    # Конечный URL
+    new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
+    logging.info(f"Данные о машине получены: {new_url}, {car_title}")
+    check_and_handle_alert(driver)
+    driver.quit()
+    return [new_url, car_title]
 
 
 # Function to calculate the total cost
