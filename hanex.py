@@ -236,11 +236,10 @@ def load_cookies(driver):
 
 def check_and_handle_alert(driver):
     try:
-        if EC.alert_is_present():
-            alert = driver.switch_to.alert
-            print(f"Обнаружено всплывающее окно: {alert.text}")
-            alert.accept()
-            print("Всплывающее окно было закрыто.")
+        alert = driver.switch_to.alert
+        print(f"Обнаружено всплывающее окно: {alert.text}")
+        alert.accept()
+        print("Всплывающее окно было закрыто.")
     except TimeoutException:
         print("Нет активного всплывающего окна.")
     except Exception as alert_exception:
