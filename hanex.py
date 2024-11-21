@@ -19,6 +19,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoAlertPresentException
+from selenium.common.exceptions import UnexpectedAlertPresentException
 
 
 # CapSolver API key
@@ -243,6 +244,8 @@ def check_and_handle_alert(driver):
         print("Всплывающее окно было закрыто.")
     except NoAlertPresentException:
         print("Нет активного всплывающего окна.")
+    except UnexpectedAlertPresentException as e:
+        print(f"Неожиданная ошибка с alert: {e}")
     except Exception as alert_exception:
         print(f"Ошибка при обработке alert: {alert_exception}")
 
