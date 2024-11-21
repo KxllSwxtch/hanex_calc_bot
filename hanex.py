@@ -239,7 +239,7 @@ def check_and_handle_alert(driver):
         WebDriverWait(driver, 5).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
-        alert.accept()
+        alert.dismiss()
         print("Всплывающее окно было закрыто.")
     except NoAlertPresentException:
         print("Нет активного всплывающего окна.")
