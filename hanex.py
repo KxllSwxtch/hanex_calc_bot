@@ -236,7 +236,7 @@ def load_cookies(driver):
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 5).until(EC.alert_is_present())
+        WebDriverWait(driver, 7).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()
@@ -407,7 +407,6 @@ def get_car_info(url):
     finally:
         # Обработка всплывающих окон (alerts)
         try:
-            WebDriverWait(driver, 3).until(EC.alert_is_present())
             alert = driver.switch_to.alert
             alert.dismiss()
             logging.info("Всплывающее окно отклонено.")
