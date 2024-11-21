@@ -275,8 +275,6 @@ def get_car_info(url):
         driver.get(url)
         check_and_handle_alert(driver)
         load_cookies(driver)
-        driver.refresh()
-        check_and_handle_alert(driver)
 
         # Проверка на reCAPTCHA
         # if "reCAPTCHA" in driver.page_source:
@@ -407,17 +405,7 @@ def get_car_info(url):
         return None, None
 
     finally:
-        # Обработка всплывающих окон (alerts)
-        try:
-            WebDriverWait(driver, 5).until(EC.alert_is_present())
-            alert = driver.switch_to.alert
-            alert.dismiss()
-            logging.info("Всплывающее окно отклонено.")
-        except NoAlertPresentException:
-            logging.info("Нет активного всплывающего окна.")
-        except Exception as alert_exception:
-            logging.error(f"Ошибка при обработке alert: {alert_exception}")
-
+        check_and_handle_alert(driver)
         driver.quit()
 
 
