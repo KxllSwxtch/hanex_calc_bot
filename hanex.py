@@ -268,7 +268,7 @@ def solve_recaptcha_v3():
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 10).until(EC.alert_is_present())
+        WebDriverWait(driver, 5).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()  # Закрывает alert
@@ -314,6 +314,7 @@ def get_car_info(url):
         if "reCAPTCHA" in driver.page_source:
             logging.info("Обнаружена reCAPTCHA. Перезагрузка страницы...")
             driver.refresh()
+            time.sleep(4)
             check_and_handle_alert(driver)
 
         save_cookies(driver)
@@ -324,6 +325,9 @@ def get_car_info(url):
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
         car_id_external = car_id
+
+        # Инициализация переменных
+        car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
 
         # Проверка лизинга или аренды
         try:
@@ -338,12 +342,11 @@ def get_car_info(url):
         except NoSuchElementException:
             logging.info("Элемент areaLeaseRent не найден. Проверяем далее.")
 
-        # Инициализация переменных
-        car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
-
         # Проверка элемента product_left
         try:
-            product_left = driver.find_element(By.CLASS_NAME, "product_left")
+            product_left = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
+            )
             car_title = extract_text_safe(product_left, By.CLASS_NAME, "prod_name")
             product_left_text = product_left.text.split("\n")
 
@@ -357,7 +360,6 @@ def get_car_info(url):
                 if len(product_left_text) > 1
                 else "0"
             )
-
         except Exception as e:
             logging.error(f"Ошибка при обработке product_left: {e}")
 
