@@ -439,16 +439,13 @@ def calculate_cost(link, message):
     if "fem.encar.com" in link:
         car_id_match = re.findall(r"\d+", link)
 
-        if "fem.encar.com" in link:
-            car_id_match = re.findall(r"\d+", link)
-
-            if car_id_match:
-                car_id = car_id_match[0]  # Use the first match of digits
-                # Create the new URL
-                link = f"https://www.encar.com/dc/dc_cardetailview.do?carid={car_id}"
-            else:
-                send_error_message(message, "🚫 Не удалось извлечь carid из ссылки.")
-                return
+        if car_id_match:
+            car_id = car_id_match[0]  # Use the first match of digits
+            # Create the new URL
+            link = f"https://www.encar.com/dc/dc_cardetailview.do?carid={car_id}"
+        else:
+            send_error_message(message, "🚫 Не удалось извлечь carid из ссылки.")
+            return
 
     result = get_car_info(link)
 
