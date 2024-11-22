@@ -268,7 +268,7 @@ def solve_recaptcha_v3():
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 5).until(EC.alert_is_present())
+        WebDriverWait(driver, 4).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()  # Закрывает alert
@@ -292,7 +292,6 @@ def get_car_info(url):
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_argument("--enable-logging")
-    chrome_options.add_argument("--enable-javascript")
     chrome_options.add_argument("--v=1")  # Уровень логирования
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
@@ -307,18 +306,16 @@ def get_car_info(url):
         driver.get(url)
         check_and_handle_alert(driver)
         load_cookies(driver)
-        time.sleep(2)
 
         # Проверка на reCAPTCHA
-        # if "reCAPTCHA" in driver.page_source:
-        #     print("Обнаружена reCAPTCHA. Пытаемся решить...")
-        #     # driver.refresh()
-        #     solve_recaptcha_v3()
-        #     print("Страница обновлена после reCAPTCHA.")
-        #     check_and_handle_alert(driver)  # Перепроверка после обновления страницы
+        if "reCAPTCHA" in driver.page_source:
+            logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
+            driver.refresh()
+            logging.info("Страница обновлена после reCAPTCHA.")
+            check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
         save_cookies(driver)
-        print("Куки сохранены.")
+        logging.info("Куки сохранены.")
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
@@ -328,26 +325,25 @@ def get_car_info(url):
 
         # Проверка элемента areaLeaseRent
         try:
-            lease_area = WebDriverWait(driver, 6).until(
-                EC.presence_of_element_located((By.ID, "areaLeaseRent"))
-            )
+            lease_area = driver.find_element(By.ID, "areaLeaseRent")
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
-                print("Данная машина находится в лизинге.")
+                logging.info("Данная машина находится в лизинге.")
                 return [
                     "",
                     "Данная машина находится в лизинге. Свяжитесь с менеджером.",
                 ]
         except NoSuchElementException:
-            print("Элемент areaLeaseRent не найден.")
+            logging.warning("Элемент areaLeaseRent не найден.")
 
         # Инициализация переменных
         car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 5).until(
+            time.sleep(3)
+            product_left = WebDriverWait(driver, 6).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
@@ -378,16 +374,17 @@ def get_car_info(url):
 
             # Создание URL
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
-            print(f"Данные о машине получены: {new_url}, {car_title}")
+            logging.info(f"Данные о машине получены: {new_url}, {car_title}")
             return [new_url, car_title]
         except NoSuchElementException as e:
-            print(f"Ошибка при обработке product_left: {e}")
+            logging.error(f"Ошибка при обработке product_left: {e}")
         except Exception as e:
-            print(f"Неизвестная ошибка при обработке product_left: {e}")
+            logging.error(f"Неизвестная ошибка при обработке product_left: {e}")
 
         # Проверка элемента gallery_photo
         try:
-            gallery_element = WebDriverWait(driver, 5).until(
+            time.sleep(3)
+            gallery_element = WebDriverWait(driver, 6).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
             )
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
@@ -415,10 +412,10 @@ def get_car_info(url):
                     else None
                 )
             except NoSuchElementException:
-                print("Элемент wrap_keyinfo не найден.")
+                logging.warning("Элемент wrap_keyinfo не найден.")
 
         except NoSuchElementException:
-            print("Элемент gallery_photo также не найден.")
+            logging.warning("Элемент gallery_photo также не найден.")
 
         # Форматирование значений для URL
         if car_price:
@@ -437,11 +434,11 @@ def get_car_info(url):
         # Конечный URL
         new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
 
-        print(f"Данные о машине получены: {new_url}, {car_title}")
+        logging.info(f"Данные о машине получены: {new_url}, {car_title}")
         return [new_url, car_title]
 
     except Exception as e:
-        print(f"Произошла ошибка: {e}")
+        logging.error(f"Произошла ошибка: {e}")
         return None, None
 
     finally:
@@ -449,11 +446,11 @@ def get_car_info(url):
         try:
             alert = driver.switch_to.alert
             alert.dismiss()
-            print("Всплывающее окно отклонено.")
+            logging.info("Всплывающее окно отклонено.")
         except NoAlertPresentException:
-            print("Нет активного всплывающего окна.")
+            logging.info("Нет активного всплывающего окна.")
         except Exception as alert_exception:
-            print(f"Ошибка при обработке alert: {alert_exception}")
+            logging.error(f"Ошибка при обработке alert: {alert_exception}")
 
         driver.quit()
 
