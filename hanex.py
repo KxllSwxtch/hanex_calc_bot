@@ -435,6 +435,7 @@ def get_car_info(url):
 
     finally:
         try:
+            WebDriverWait(driver, 6).until(EC.alert_is_present())
             alert = driver.switch_to.alert
             alert.dismiss()
             logging.info("Всплывающее окно отклонено.")
