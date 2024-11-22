@@ -302,7 +302,6 @@ def get_car_info(url):
     try:
         # Загружаем страницу
         driver.get(url)
-        time.sleep(4)
         check_and_handle_alert(driver)
         load_cookies(driver)
 
@@ -321,6 +320,8 @@ def get_car_info(url):
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
         car_id_external = car_id
+
+        time.sleep(8)
 
         # Проверка элемента areaLeaseRent
         try:
