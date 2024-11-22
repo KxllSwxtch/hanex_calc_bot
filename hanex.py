@@ -328,7 +328,9 @@ def get_car_info(url):
 
         # Проверка лизинга или аренды
         try:
-            lease_area = WebDriverWait(driver, 6).until(EC.presence_of_element_located((By.ID, "areaLeaseRent")))
+            lease_area = WebDriverWait(driver, 6).until(
+                EC.presence_of_element_located((By.ID, "areaLeaseRent"))
+            )
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
                 logging.info("Машина в лизинге или аренде.")
@@ -344,7 +346,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = driver.find_element(By.CLASS_NAME, "product_left"))
+            product_left = driver.find_element(By.CLASS_NAME, "product_left")
             car_title = extract_text_safe(product_left, By.CLASS_NAME, "prod_name")
             product_left_text = product_left.text.split("\n")
 
