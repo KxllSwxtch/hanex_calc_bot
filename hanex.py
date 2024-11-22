@@ -277,11 +277,11 @@ def get_car_info(url):
         load_cookies(driver)
 
         # Проверка на reCAPTCHA
-        # if "reCAPTCHA" in driver.page_source:
-        #     logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
-        #     driver.refresh()
-        #     logging.info("Страница обновлена после reCAPTCHA.")
-        #     check_and_handle_alert(driver)  # Перепроверка после обновления страницы
+        if "reCAPTCHA" in driver.page_source:
+            logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
+            driver.refresh()
+            logging.info("Страница обновлена после reCAPTCHA.")
+            check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
         save_cookies(driver)
         logging.info("Куки сохранены.")
@@ -311,7 +311,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 6).until(
+            product_left = WebDriverWait(driver, 7).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
@@ -351,7 +351,7 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
-            gallery_element = WebDriverWait(driver, 6).until(
+            gallery_element = WebDriverWait(driver, 5).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
             )
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
