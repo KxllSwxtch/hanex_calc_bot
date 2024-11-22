@@ -321,8 +321,6 @@ def get_car_info(url):
         car_id = query_params.get("carid", [None])[0]
         car_id_external = car_id
 
-        time.sleep(8)
-
         # Проверка элемента areaLeaseRent
         try:
             lease_area = driver.find_element(By.ID, "areaLeaseRent")
@@ -425,6 +423,8 @@ def get_car_info(url):
             f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
         )
 
+        driver.quit()
+
         # Конечный URL
         new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
 
@@ -434,19 +434,6 @@ def get_car_info(url):
     except Exception as e:
         logging.error(f"Произошла ошибка: {e}")
         return None, None
-
-    finally:
-        # Обработка всплывающих окон (alerts)
-        try:
-            alert = driver.switch_to.alert
-            alert.dismiss()
-            logging.info("Всплывающее окно отклонено.")
-        except NoAlertPresentException:
-            logging.info("Нет активного всплывающего окна.")
-        except Exception as alert_exception:
-            logging.error(f"Ошибка при обработке alert: {alert_exception}")
-
-        driver.quit()
 
 
 # Function to calculate the total cost
