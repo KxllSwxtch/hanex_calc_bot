@@ -360,6 +360,8 @@ def get_car_info(url):
         verify=False,
     )
 
+    time.sleep(5)
+
     soup = BeautifulSoup(response.text, "html.parser")
 
     # Инициализация переменных
