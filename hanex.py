@@ -428,7 +428,7 @@ def get_car_info(url):
 def calculate_cost(link, message):
     global car_data
 
-    print_message("ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ")
+    logging.info("ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ")
 
     # Отправляем сообщение и сохраняем его ID
     processing_message = bot.send_message(
@@ -438,15 +438,16 @@ def calculate_cost(link, message):
     # Проверка ссылки на мобильную версию
     if "fem.encar.com" in link:
         car_id_match = re.findall(r"\d+", link)
-
         if car_id_match:
             car_id = car_id_match[0]  # Use the first match of digits
-            # Create the new URL
             link = f"https://www.encar.com/dc/dc_cardetailview.do?carid={car_id}"
         else:
             send_error_message(message, "🚫 Не удалось извлечь carid из ссылки.")
             return
 
+    logging.info(f"Обрабатываем ссылку: {link}")
+
+    # Получение данных о машине
     result = get_car_info(link)
 
     if result is None:
@@ -455,14 +456,12 @@ def calculate_cost(link, message):
             message,
             "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.",
         )
-        bot.delete_message(
-            message.chat.id,
-            processing_message.message_id,
-        )
+        bot.delete_message(message.chat.id, processing_message.message_id)
         return
 
     new_url, car_title = result
 
+    # Если данные не были получены
     if not new_url and car_title:
         keyboard = types.InlineKeyboardMarkup()
         keyboard.add(
@@ -479,116 +478,122 @@ def calculate_cost(link, message):
         bot.send_message(
             message.chat.id, car_title, parse_mode="Markdown", reply_markup=keyboard
         )
-        bot.delete_message(
-            message.chat.id, processing_message.message_id
-        )  # Удаляем сообщение
+        bot.delete_message(message.chat.id, processing_message.message_id)
         return
 
+    # Если есть новая ссылка
     if new_url:
-        response = requests.get(new_url)
-
-        if response.status_code == 200:
+        try:
+            response = requests.get(new_url)
+            response.raise_for_status()
             json_response = response.json()
-            car_data = json_response
-
-            result = json_response.get("result", {})
-            car = result.get("car", {})
-            price = result.get("price", {}).get("car", {}).get("krw", 0)
-
-            year = car.get("date", "").split()[-1]
-            engine_volume = car.get("engineVolume", 0)
-
-            if year and engine_volume and price:
-                engine_volume_formatted = f"{format_number(int(engine_volume))} cc"
-                age_formatted = calculate_age(year)
-
-                grand_total = result.get("price", {}).get("grandTotal", 0)
-                recycling_fee = (
-                    result.get("price", {})
-                    .get("russian", {})
-                    .get("recyclingFee", {})
-                    .get("rub", 0)
-                )
-                duty_cleaning = (
-                    result.get("price", {})
-                    .get("korea", {})
-                    .get("dutyCleaning", {})
-                    .get("rub", 0)
-                )
-
-                total_cost = (
-                    int(grand_total) - int(recycling_fee) - int(duty_cleaning)
-                ) + 110000
-                total_cost_formatted = format_number(total_cost)
-                price_formatted = format_number(price)
-
-                result_message = (
-                    f"Возраст: {age_formatted}\n"
-                    f"Стоимость: {price_formatted} KRW\n"
-                    f"Объём двигателя: {engine_volume_formatted}\n\n"
-                    f"Стоимость автомобиля под ключ до Владивостока: \n**{total_cost_formatted}₽**\n\n"
-                    f"🔗 [Ссылка на автомобиль]({link})\n\n"
-                    "Если данное авто попадает под санкции, пожалуйста уточните возможность отправки в вашу страну у менеджера @hanexport11\n\n"
-                    "🔗[Официальный телеграм канал](https://t.me/hanexport1)\n"
-                )
-
-                bot.send_message(message.chat.id, result_message, parse_mode="Markdown")
-
-                keyboard = types.InlineKeyboardMarkup()
-                keyboard.add(
-                    types.InlineKeyboardButton(
-                        "📊 Детализация расчёта", callback_data="detail"
-                    )
-                )
-                keyboard.add(
-                    types.InlineKeyboardButton(
-                        "📝 Технический отчёт об автомобиле",
-                        callback_data="technical_report",
-                    )
-                )
-                keyboard.add(
-                    types.InlineKeyboardButton(
-                        "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
-                    )
-                )
-                keyboard.add(
-                    types.InlineKeyboardButton(
-                        "🔍 Рассчитать стоимость другого автомобиля",
-                        callback_data="calculate_another",
-                    )
-                )
-
-                bot.send_message(
-                    message.chat.id, "Что делаем дальше?", reply_markup=keyboard
-                )
-
-                # Удаляем сообщение о передаче данных в обработку
-                bot.delete_message(message.chat.id, processing_message.message_id)
-
-            else:
-                bot.send_message(
-                    message.chat.id,
-                    "🚫 Не удалось извлечь все необходимые данные. Проверьте ссылку.",
-                )
-                bot.delete_message(
-                    message.chat.id, processing_message.message_id
-                )  # Удаляем сообщение
-        else:
+        except requests.RequestException as e:
+            logging.error(f"Ошибка при запросе данных: {e}")
             send_error_message(
                 message,
                 "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
             )
-            bot.delete_message(
-                message.chat.id, processing_message.message_id
-            )  # Удаляем сообщение
+            bot.delete_message(message.chat.id, processing_message.message_id)
+            return
+        except ValueError:
+            logging.error("Получен некорректный JSON.")
+            send_error_message(
+                message,
+                "🚫 Неверный формат данных. Проверьте ссылку или повторите попытку.",
+            )
+            bot.delete_message(message.chat.id, processing_message.message_id)
+            return
+
+        car_data = json_response
+
+        # Извлечение данных из JSON
+        result = json_response.get("result", {})
+        car = result.get("car", {})
+        price = result.get("price", {}).get("car", {}).get("krw", 0)
+
+        year = car.get("date", "").split()[-1] if "date" in car else None
+        engine_volume = car.get("engineVolume", None)
+
+        if not (year and engine_volume and price):
+            logging.warning("Не удалось извлечь все необходимые данные из JSON.")
+            bot.send_message(
+                message.chat.id,
+                "🚫 Не удалось извлечь все необходимые данные. Проверьте ссылку.",
+            )
+            bot.delete_message(message.chat.id, processing_message.message_id)
+            return
+
+        # Форматирование данных
+        engine_volume_formatted = f"{format_number(int(engine_volume))} cc"
+        age_formatted = calculate_age(year)
+
+        grand_total = result.get("price", {}).get("grandTotal", 0)
+        recycling_fee = (
+            result.get("price", {})
+            .get("russian", {})
+            .get("recyclingFee", {})
+            .get("rub", 0)
+        )
+        duty_cleaning = (
+            result.get("price", {})
+            .get("korea", {})
+            .get("dutyCleaning", {})
+            .get("rub", 0)
+        )
+
+        total_cost = (
+            int(grand_total) - int(recycling_fee) - int(duty_cleaning)
+        ) + 110000
+        total_cost_formatted = format_number(total_cost)
+        price_formatted = format_number(price)
+
+        # Формирование сообщения результата
+        result_message = (
+            f"Возраст: {age_formatted}\n"
+            f"Стоимость: {price_formatted} KRW\n"
+            f"Объём двигателя: {engine_volume_formatted}\n\n"
+            f"Стоимость автомобиля под ключ до Владивостока: \n**{total_cost_formatted}₽**\n\n"
+            f"🔗 [Ссылка на автомобиль]({link})\n\n"
+            "Если данное авто попадает под санкции, пожалуйста уточните возможность отправки в вашу страну у менеджера @hanexport11\n\n"
+            "🔗[Официальный телеграм канал](https://t.me/hanexport1)\n"
+        )
+
+        bot.send_message(message.chat.id, result_message, parse_mode="Markdown")
+
+        # Клавиатура с дальнейшими действиями
+        keyboard = types.InlineKeyboardMarkup()
+        keyboard.add(
+            types.InlineKeyboardButton("📊 Детализация расчёта", callback_data="detail")
+        )
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "📝 Технический отчёт об автомобиле",
+                callback_data="technical_report",
+            )
+        )
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "✉️ Связаться с менеджером", url="https://t.me/hanexport11"
+            )
+        )
+        keyboard.add(
+            types.InlineKeyboardButton(
+                "🔍 Рассчитать стоимость другого автомобиля",
+                callback_data="calculate_another",
+            )
+        )
+
+        bot.send_message(message.chat.id, "Что делаем дальше?", reply_markup=keyboard)
+
+        # Удаляем сообщение о передаче данных в обработку
+        bot.delete_message(message.chat.id, processing_message.message_id)
+
     else:
         send_error_message(
             message,
             "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
         )
-        bot.delete_message(
-            message.chat.id, processing_message.message_id
-        )  # Удаляем сообщение
+        bot.delete_message(message.chat.id, processing_message.message_id)
 
 
 # Function to get insurance total
