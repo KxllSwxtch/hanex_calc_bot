@@ -237,15 +237,13 @@ def load_cookies(driver):
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 6).until(EC.alert_is_present())
+        WebDriverWait(driver, 5).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()
         print("Всплывающее окно было закрыто.")
-    except NoAlertPresentException:
+    except TimeoutException:
         print("Нет активного всплывающего окна.")
-    except UnexpectedAlertPresentException as e:
-        print(f"Неожиданная ошибка с alert: {e}")
     except Exception as alert_exception:
         print(f"Ошибка при обработке alert: {alert_exception}")
 
@@ -314,7 +312,10 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = driver.find_element(By.CLASS_NAME, "product_left")
+            time.sleep(2)
+            product_left = WebDriverWait(driver, 6).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
+            )
             product_left_splitted = product_left.text.split("\n")
 
             car_title = product_left.find_element(
@@ -352,7 +353,10 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
-            gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+            time.sleep(3)
+            gallery_element = WebDriverWait(driver, 5).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
+            )
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
             items = gallery_element.find_elements(By.XPATH, ".//*")
 
