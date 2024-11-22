@@ -268,7 +268,7 @@ def solve_recaptcha_v3():
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 4).until(EC.alert_is_present())
+        WebDriverWait(driver, 6).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()  # Закрывает alert
@@ -308,7 +308,6 @@ def get_car_info(url):
     try:
         # Загрузка страницы
         driver.get(url)
-        check_and_handle_alert(driver)
         load_cookies(driver)
 
         # Проверка на reCAPTCHA
@@ -328,9 +327,7 @@ def get_car_info(url):
 
         # Проверка лизинга или аренды
         try:
-            lease_area = WebDriverWait(driver, 6).until(
-                EC.presence_of_element_located((By.ID, "areaLeaseRent"))
-            )
+            lease_area = driver.find_element(By.ID, "areaLeaseRent")
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
                 logging.info("Машина в лизинге или аренде.")
