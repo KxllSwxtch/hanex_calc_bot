@@ -3662,3 +3662,419 @@ Stacktrace:
 2024-11-13 15:21:17,248 - INFO - Проверяем наличие всплывающего окна...
 2024-11-13 15:21:17,249 - INFO - Нет активного всплывающего окна.
 2024-11-13 15:21:22,731 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-22 14:42:55,913 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-22 14:42:55,915 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-22 14:42:56,828 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:42:57,805 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:42:57,983 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:42:58,359 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 14:43:00,101 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-22 14:43:00,102 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-22 14:43:03,938 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-22 14:43:03,940 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-22 14:43:08,299 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-22 14:43:08,300 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-22 14:43:13,833 - ERROR - Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-11-22 14:43:13,835 - ERROR - Exception traceback:
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 1234, in __threaded_polling
+    polling_thread.raise_exceptions()
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/util.py", line 111, in raise_exceptions
+    raise self.exception_info
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/util.py", line 93, in run
+    task(*args, **kwargs)
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 688, in __retrieve_updates
+    updates = self.get_updates(offset=(self.last_update_id + 1),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/__init__.py", line 660, in get_updates
+    json_updates = apihelper.get_updates(
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 330, in get_updates
+    return _make_request(token, method_url, params=payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 168, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.11/site-packages/telebot/apihelper.py", line 195, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 409. Description: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+
+2024-11-22 14:43:54,406 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:43:54,782 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:43:54,974 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:43:55,347 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 14:45:57,470 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:45:58,381 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:46:13,542 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:46:14,530 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:46:30,557 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:46:31,409 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:47:09,456 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:47:09,833 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:47:20,203 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:47:21,201 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:47:33,445 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:47:34,394 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:47:34,544 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:47:34,912 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 14:47:56,646 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:47:57,786 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:47:57,929 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:47:58,312 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 14:48:12,638 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:48:13,582 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:48:13,725 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:48:14,095 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 14:49:37,776 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:49:38,632 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38584406&view_type=hs_ad&adv_attribute=hs_ad&wtClick_forList=019&advClickPosition=imp_normal_p1_g21&tempht_arg=1XV3XJ61RQD7_20
+2024-11-22 14:50:07,430 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:50:08,314 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38584406&view_type=hs_ad&adv_attribute=hs_ad&wtClick_forList=019&advClickPosition=imp_normal_p1_g21&tempht_arg=1XV3XJ61RQD7_20
+2024-11-22 14:50:17,567 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:50:18,563 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38584406&view_type=hs_ad&adv_attribute=hs_ad&wtClick_forList=019&advClickPosition=imp_normal_p1_g21&tempht_arg=1XV3XJ61RQD7_20
+2024-11-22 14:50:18,644 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38584406&view_type=hs_ad&adv_attribute=hs_ad&wtClick_forList=019&advClickPosition=imp_normal_p1_g21&tempht_arg=1XV3XJ61RQD7_20
+2024-11-22 14:50:19,023 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 14:50:35,678 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:50:36,625 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38584406&view_type=hs_ad&adv_attribute=hs_ad&wtClick_forList=019&advClickPosition=imp_normal_p1_g21&tempht_arg=1XV3XJ61RQD7_20
+2024-11-22 14:50:36,701 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38584406&view_type=hs_ad&adv_attribute=hs_ad&wtClick_forList=019&advClickPosition=imp_normal_p1_g21&tempht_arg=1XV3XJ61RQD7_20
+2024-11-22 14:50:37,075 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 14:50:55,835 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:50:56,738 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38584406&view_type=hs_ad&adv_attribute=hs_ad&wtClick_forList=019&advClickPosition=imp_normal_p1_g21&tempht_arg=1XV3XJ61RQD7_20
+2024-11-22 14:50:56,867 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38584406&view_type=hs_ad&adv_attribute=hs_ad&wtClick_forList=019&advClickPosition=imp_normal_p1_g21&tempht_arg=1XV3XJ61RQD7_20
+2024-11-22 14:50:57,255 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 14:51:15,357 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:51:16,297 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38584406&view_type=hs_ad&adv_attribute=hs_ad&wtClick_forList=019&advClickPosition=imp_normal_p1_g21&tempht_arg=1XV3XJ61RQD7_20
+2024-11-22 14:51:16,396 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38584406&view_type=hs_ad&adv_attribute=hs_ad&wtClick_forList=019&advClickPosition=imp_normal_p1_g21&tempht_arg=1XV3XJ61RQD7_20
+2024-11-22 14:51:16,771 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 14:51:51,879 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:51:52,741 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=37607871&view_type=checked&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g2&tempht_arg=w1zobO380ao9_1
+2024-11-22 14:51:52,898 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=37607871&view_type=checked&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g2&tempht_arg=w1zobO380ao9_1
+2024-11-22 14:51:53,263 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 14:52:17,621 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:52:18,565 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=37607871&view_type=checked&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g2&tempht_arg=w1zobO380ao9_1
+2024-11-22 14:52:40,584 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:52:41,428 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=37607871&view_type=checked&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g2&tempht_arg=w1zobO380ao9_1
+2024-11-22 14:53:02,559 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:53:03,428 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=37607871&view_type=checked&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g2&tempht_arg=w1zobO380ao9_1
+2024-11-22 14:53:03,586 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=37607871&view_type=checked&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g2&tempht_arg=w1zobO380ao9_1
+2024-11-22 14:53:03,963 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 14:53:33,674 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:53:34,653 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=37607871&view_type=checked&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g2&tempht_arg=w1zobO380ao9_1
+2024-11-22 14:53:34,808 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=37607871&view_type=checked&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g2&tempht_arg=w1zobO380ao9_1
+2024-11-22 14:53:35,185 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 14:58:25,341 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:58:26,202 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=37607871&view_type=checked&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g2&tempht_arg=w1zobO380ao9_1
+2024-11-22 14:58:44,986 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:58:45,375 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 14:59:22,548 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:59:22,912 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38473806&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g1
+2024-11-22 14:59:44,076 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 14:59:44,929 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38473806&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g1
+2024-11-22 15:00:08,133 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:00:08,999 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38473806&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g1
+2024-11-22 15:04:37,435 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:04:38,441 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=37749075&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g1
+2024-11-22 15:05:20,022 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:05:20,911 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38563546&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g7
+2024-11-22 15:05:46,709 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:05:47,550 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38563546&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g7
+2024-11-22 15:06:28,530 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:06:29,450 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38563546&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g7
+2024-11-22 15:06:43,787 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:06:44,662 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38563546&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g7
+2024-11-22 15:07:06,017 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:07:06,872 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38563546&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g7
+2024-11-22 15:07:44,614 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:07:45,651 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38563546&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g7
+2024-11-22 15:08:02,775 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:08:03,713 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38563546&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g7
+2024-11-22 15:09:00,483 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:09:01,356 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 15:09:11,859 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:09:12,832 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 15:09:12,992 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 15:09:13,361 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 15:09:29,580 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:09:30,586 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 15:09:30,746 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 15:09:31,133 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 15:09:54,049 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:09:55,051 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 15:09:55,143 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 15:09:55,530 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 15:10:41,903 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:10:42,844 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 15:10:43,057 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 15:10:43,426 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 15:11:01,938 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:11:02,853 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 15:11:03,117 - ERROR - Ошибка при вызове get_car_info для ссылки: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 15:11:03,505 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-22 15:11:22,109 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:11:22,987 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 15:11:57,746 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:11:58,112 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 15:12:29,792 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:12:30,659 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38473946&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g6
+2024-11-22 15:13:29,976 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:13:30,841 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 15:13:58,489 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:13:59,372 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 15:14:07,872 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:14:08,223 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:14:08,749 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 15:14:09,095 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 15:14:12,404 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:14:12,767 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=normal&carid=38414075&view_type=normal&adv_attribute=&wtClick_forList=019&advClickPosition=imp_normal_p2_g1&tempht_arg=w1zobO380ao9_0
+2024-11-22 15:14:30,519 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 15:14:30,882 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38473946&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g6
+2024-11-22 17:30:34,657 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:30:35,025 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38473946&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g6
+2024-11-22 17:30:50,672 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:30:51,647 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 17:31:00,057 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:31:00,954 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 17:33:24,888 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:33:25,871 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 17:33:54,340 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:33:55,266 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 17:34:37,737 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:34:38,780 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38135942&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g2
+2024-11-22 17:35:40,942 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:35:41,858 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=fc_carsearch&listAdvType=pic&carid=38473946&view_type=hs_ad&wtClick_forList=033&advClickPosition=imp_pic_p1_g6
+2024-11-22 17:36:23,539 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:36:24,516 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38392784&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g5
+2024-11-22 17:39:48,958 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:39:49,960 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38393535&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g7
+2024-11-22 17:47:44,029 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:47:44,917 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38393535&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g7
+2024-11-22 17:47:45,901 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:47:45,906 - INFO - Элемент product_left не найден.
+2024-11-22 17:47:45,908 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38393535?price=1780&date=010923&volume=배기량:998, 
+2024-11-22 17:48:05,230 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:48:06,109 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 17:48:07,040 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:48:07,043 - INFO - Элемент product_left не найден.
+2024-11-22 17:48:07,045 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=4600&date=010124&volume=배기량:2497, 
+2024-11-22 17:53:28,442 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:53:29,476 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 17:53:30,214 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:53:30,218 - INFO - Элемент product_left не найден.
+2024-11-22 17:53:30,220 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=4600&date=010124&volume=배기량:2497, 
+2024-11-22 17:53:51,716 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:53:52,781 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 17:53:53,636 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:53:53,640 - INFO - Элемент product_left не найден.
+2024-11-22 17:53:53,642 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=4600&date=010124&volume=배기량:2497, 
+2024-11-22 17:55:06,199 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:55:07,183 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 17:55:08,013 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:55:08,017 - INFO - Элемент product_left не найден.
+2024-11-22 17:55:08,019 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=4600&date=010124&volume=배기량:2497, 
+2024-11-22 17:55:32,993 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:55:34,010 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 17:55:34,723 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:55:34,727 - INFO - Элемент product_left не найден.
+2024-11-22 17:55:34,729 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=4600&date=010124&volume=배기량:2497, 
+2024-11-22 17:56:03,508 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:56:04,595 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 17:56:05,349 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:56:05,353 - INFO - Элемент product_left не найден.
+2024-11-22 17:56:05,355 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=4600&date=010124&volume=배기량:2497, 
+2024-11-22 17:57:01,156 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:57:02,147 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 17:57:02,963 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:57:02,967 - INFO - Элемент product_left не найден.
+2024-11-22 17:57:02,969 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=4600&date=010124&volume=배기량:2497, 
+2024-11-22 17:57:46,406 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:57:47,440 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 17:57:47,971 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:57:47,975 - INFO - Элемент product_left не найден.
+2024-11-22 17:57:47,977 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=4600&date=010124&volume=배기량:2497, 
+2024-11-22 17:58:39,769 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:58:40,689 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 17:58:40,993 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:58:41,428 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:58:41,433 - INFO - Элемент product_left не найден.
+2024-11-22 17:58:41,434 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=0&date=010124&volume=배기량:2497, 
+2024-11-22 17:58:41,864 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 17:58:42,414 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:58:42,419 - INFO - Элемент product_left не найден.
+2024-11-22 17:58:42,420 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=0&date=010124&volume=배기량:2497, 
+2024-11-22 17:58:42,532 - WARNING - Не удалось извлечь все необходимые данные из JSON.
+2024-11-22 17:58:43,354 - WARNING - Не удалось извлечь все необходимые данные из JSON.
+2024-11-22 17:58:48,356 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:58:48,772 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 17:58:49,344 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:58:49,348 - INFO - Элемент product_left не найден.
+2024-11-22 17:58:49,349 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=0&date=010124&volume=배기량:2497, 
+2024-11-22 17:58:50,420 - WARNING - Не удалось извлечь все необходимые данные из JSON.
+2024-11-22 17:59:03,905 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:59:04,789 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 17:59:05,353 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:59:05,357 - INFO - Элемент product_left не найден.
+2024-11-22 17:59:05,359 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=0&date=010124&volume=배기량:2497, 
+2024-11-22 17:59:06,392 - WARNING - Не удалось извлечь все необходимые данные из JSON.
+2024-11-22 17:59:12,941 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 17:59:13,940 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 17:59:14,439 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 17:59:14,443 - INFO - Элемент product_left не найден.
+2024-11-22 17:59:14,445 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=0&date=010124&volume=배기량:2497, 
+2024-11-22 17:59:15,551 - WARNING - Не удалось извлечь все необходимые данные из JSON.
+2024-11-22 17:59:59,534 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 18:00:00,542 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 18:00:01,437 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 18:00:01,441 - INFO - Элемент product_left не найден.
+2024-11-22 18:00:01,443 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=0&date=010124&volume=배기량:2497, 
+2024-11-22 18:00:02,502 - WARNING - Не удалось извлечь все необходимые данные из JSON.
+2024-11-22 18:00:20,629 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 18:00:21,656 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 18:00:22,473 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 18:00:22,477 - INFO - Элемент product_left не найден.
+2024-11-22 18:00:22,479 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=0&date=010124&volume=배기량:2497, 
+2024-11-22 18:00:23,603 - WARNING - Не удалось извлечь все необходимые данные из JSON.
+2024-11-22 18:02:47,809 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 18:02:48,671 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38399357&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g8
+2024-11-22 18:02:49,456 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 18:02:49,461 - INFO - Элемент product_left не найден.
+2024-11-22 18:02:49,463 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38399357?price=0&date=010124&volume=배기량:2497, 
+2024-11-22 18:02:50,441 - WARNING - Не удалось извлечь все необходимые данные из JSON.
+2024-11-22 18:03:01,556 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 18:03:02,581 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38327753&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g6
+2024-11-22 18:03:03,489 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 18:03:03,492 - INFO - Элемент product_left не найден.
+2024-11-22 18:03:03,494 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38327753?price=0&date=010322&volume=배기량:999, 
+2024-11-22 18:03:04,676 - WARNING - Не удалось извлечь все необходимые данные из JSON.
+2024-11-22 18:03:18,910 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 18:03:19,929 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38327753&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g6
+2024-11-22 18:03:20,975 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 18:03:20,978 - INFO - Элемент product_left не найден.
+2024-11-22 18:03:20,979 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38327753?price=0&date=010322&volume=배기량:999, 
+2024-11-22 18:03:22,192 - WARNING - Не удалось извлечь все необходимые данные из JSON.
+2024-11-22 18:03:51,365 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 18:03:52,345 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38327753&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g6
+2024-11-22 18:03:53,128 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 18:03:53,132 - INFO - Элемент product_left не найден.
+2024-11-22 18:03:53,134 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38327753?price=0&date=010322&volume=배기량:999, 
+2024-11-22 18:03:54,235 - WARNING - Не удалось извлечь все необходимые данные из JSON.
+2024-11-22 18:04:56,641 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 18:04:57,646 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38327753&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g6
+2024-11-22 18:04:58,266 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 18:04:58,271 - INFO - Элемент product_left не найден.
+2024-11-22 18:04:58,273 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38327753?price=0&date=010322&volume=배기량:999, 
+2024-11-22 18:04:59,433 - WARNING - Не удалось извлечь все необходимые данные из JSON.
+2024-11-22 18:05:53,737 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 18:05:54,812 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38327753&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g6
+2024-11-22 18:05:55,747 - INFO - Элемент product_left не найден.
+2024-11-22 18:05:55,749 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38327753?price=0&date=010322&volume=배기량:999, 
+2024-11-22 18:05:56,782 - WARNING - Не удалось извлечь все необходимые данные из JSON.
+2024-11-22 18:06:17,596 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 18:06:18,617 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38327753&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g6
+2024-11-22 18:06:19,179 - INFO - Элемент product_left не найден.
+2024-11-22 18:06:19,182 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38327753?price=1050&date=010322&volume=배기량:999, 
+2024-11-22 18:06:50,874 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 18:06:51,846 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38327753&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g6
+2024-11-22 18:06:52,483 - INFO - Элемент product_left не найден.
+2024-11-22 18:06:52,486 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38327753?price=1050&date=010322&volume=배기량:999, 
+2024-11-22 18:07:31,734 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 18:07:32,754 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=pic&carid=38327753&view_type=hs_ad&wtClick_korList=015&advClickPosition=kor_pic_p1_g6
+2024-11-22 18:07:33,495 - INFO - Элемент product_left не найден.
+2024-11-22 18:07:33,497 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38327753?price=1050&date=010322&volume=999, 
+2024-11-22 18:08:09,096 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 18:08:09,519 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=word&carid=38392784&view_type=hs_ad&wtClick_korList=007&advClickPosition=kor_word_p1_g5
+2024-11-22 18:08:19,920 - INFO - ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ
+2024-11-22 18:08:20,884 - INFO - Обрабатываем ссылку: http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=word&carid=38392784&view_type=hs_ad&wtClick_korList=007&advClickPosition=kor_word_p1_g5
+2024-11-22 18:08:21,494 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
+2024-11-22 18:08:21,497 - INFO - Элемент product_left не найден.
+2024-11-22 18:08:21,500 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38392784?price=1680&date=011220&volume=1332, 
