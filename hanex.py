@@ -311,71 +311,58 @@ def get_car_info(url):
     car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
 
     # Проверка элемента product_left
-    try:
-        product_left = driver.find_element(By.CLASS_NAME, "product_left")
-        product_left_splitted = product_left.text.split("\n")
+    product_left = driver.find_element(By.CLASS_NAME, "product_left")
+    product_left_splitted = product_left.text.split("\n")
 
-        print(product_left.text)
+    print(product_left.text)
 
-        car_title = product_left.find_element(By.CLASS_NAME, "prod_name").text.strip()
+    car_title = product_left.find_element(By.CLASS_NAME, "prod_name").text.strip()
 
-        car_date = product_left_splitted[3] if len(product_left_splitted) > 3 else ""
-        car_engine_capacity = (
-            product_left_splitted[6] if len(product_left_splitted) > 6 else ""
-        )
-        car_price = re.sub(r"\D", "", product_left_splitted[1])
+    car_date = product_left_splitted[3] if len(product_left_splitted) > 3 else ""
+    car_engine_capacity = (
+        product_left_splitted[6] if len(product_left_splitted) > 6 else ""
+    )
+    car_price = re.sub(r"\D", "", product_left_splitted[1])
 
-        # Форматирование
-        formatted_price = car_price.replace(",", "")
-        formatted_engine_capacity = (
-            car_engine_capacity.replace(",", "")[:-2] if car_engine_capacity else "0"
-        )
-        cleaned_date = "".join(filter(str.isdigit, car_date))
-        formatted_date = (
-            f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
-        )
+    # Форматирование
+    formatted_price = car_price.replace(",", "")
+    formatted_engine_capacity = (
+        car_engine_capacity.replace(",", "")[:-2] if car_engine_capacity else "0"
+    )
+    cleaned_date = "".join(filter(str.isdigit, car_date))
+    formatted_date = (
+        f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
+    )
 
-        # Создание URL
-        new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
-        logging.info(f"Данные о машине получены: {new_url}, {car_title}")
-        return [new_url, car_title]
-    except NoSuchElementException as e:
-        logging.error(f"Ошибка при обработке product_left: {e}")
-    except Exception as e:
-        logging.error(f"Неизвестная ошибка при обработке product_left: {e}")
+    # Создание URL
+    new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
+    logging.info(f"Данные о машине получены: {new_url}, {car_title}")
 
     # Проверка элемента gallery_photo
+    gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+    car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
+    items = gallery_element.find_elements(By.XPATH, ".//*")
+
+    print(car_title)
+
+    if len(items) > 10:
+        car_date = items[10].text
+    if len(items) > 18:
+        car_engine_capacity = items[18].text
+
+    # Извлечение информации о ключах
     try:
-        gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
-        car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
-        items = gallery_element.find_elements(By.XPATH, ".//*")
+        keyinfo_element = driver.find_element(By.CSS_SELECTOR, "div.wrap_keyinfo")
+        keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
+        keyinfo_texts = [item.text for item in keyinfo_items if item.text.strip()]
 
-        print(car_title)
-
-        if len(items) > 10:
-            car_date = items[10].text
-        if len(items) > 18:
-            car_engine_capacity = items[18].text
-
-        # Извлечение информации о ключах
-        try:
-            keyinfo_element = driver.find_element(By.CSS_SELECTOR, "div.wrap_keyinfo")
-            keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
-            keyinfo_texts = [item.text for item in keyinfo_items if item.text.strip()]
-
-            # Извлекаем цену, если элемент существует
-            car_price = (
-                re.sub(r"\D", "", keyinfo_texts[12])
-                if len(keyinfo_texts) > 12
-                else None
-            )
-        except NoSuchElementException:
-            logging.warning("Элемент wrap_keyinfo не найден.")
-
+        # Извлекаем цену, если элемент существует
+        car_price = (
+            re.sub(r"\D", "", keyinfo_texts[12]) if len(keyinfo_texts) > 12 else None
+        )
     except NoSuchElementException:
-        logging.warning("Элемент gallery_photo также не найден.")
+        logging.warning("Элемент wrap_keyinfo не найден.")
 
-    # Форматирование значений для URL
     if car_price:
         formatted_price = car_price.replace(",", "")
     else:
