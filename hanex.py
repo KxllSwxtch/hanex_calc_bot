@@ -351,7 +351,6 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
-            time.sleep(2)
             gallery_element = WebDriverWait(driver, 7).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
             )
@@ -450,6 +449,7 @@ def calculate_cost(link, message):
                 return
 
     result = get_car_info(link)
+    time.sleep(3)
 
     if result is None:
         logging.error(f"Ошибка при вызове get_car_info для ссылки: {link}")
