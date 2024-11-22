@@ -261,7 +261,6 @@ def get_car_info(url):
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_argument("--enable-logging")
-    chrome_options.add_argument("--enable-javascript")
     chrome_options.add_argument("--v=1")  # Уровень логирования
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
@@ -312,7 +311,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            time.sleep(2)
+            time.sleep(3)
             product_left = WebDriverWait(driver, 6).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
@@ -354,7 +353,7 @@ def get_car_info(url):
         # Проверка элемента gallery_photo
         try:
             time.sleep(3)
-            gallery_element = WebDriverWait(driver, 5).until(
+            gallery_element = WebDriverWait(driver, 6).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
             )
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
@@ -412,7 +411,16 @@ def get_car_info(url):
         return None, None
 
     finally:
-        check_and_handle_alert(driver)
+        # Обработка всплывающих окон (alerts)
+        try:
+            alert = driver.switch_to.alert
+            alert.dismiss()
+            logging.info("Всплывающее окно отклонено.")
+        except NoAlertPresentException:
+            logging.info("Нет активного всплывающего окна.")
+        except Exception as alert_exception:
+            logging.error(f"Ошибка при обработке alert: {alert_exception}")
+
         driver.quit()
 
 
