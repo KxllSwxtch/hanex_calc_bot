@@ -416,6 +416,7 @@ def get_car_info(url):
 
     finally:
         try:
+            check_and_handle_alert(driver)
             driver.quit()
         except Exception as e:
             logging.error(f"Ошибка при завершении драйвера: {e}")
