@@ -280,8 +280,8 @@ def get_car_info(url):
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
-            driver.refresh()
-            time.sleep(2)
+            # driver.refresh()
+            solve_recaptcha_v3()
             print("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)  # Перепроверка после обновления страницы
 
@@ -415,7 +415,6 @@ def get_car_info(url):
     finally:
         # Обработка всплывающих окон (alerts)
         try:
-            WebDriverWait(driver, 5).until(EC.alert_is_present())
             alert = driver.switch_to.alert
             alert.dismiss()
             print("Всплывающее окно отклонено.")
@@ -914,32 +913,32 @@ if __name__ == "__main__":
     bot.polling(none_stop=True)
 
 
-# def solve_recaptcha_v3():
-#     payload = {
-#         "clientKey": CAPSOLVER_API_KEY,
-#         "task": {
-#             "type": "ReCaptchaV3TaskProxyLess",
-#             "websiteKey": SITE_KEY,
-#             "websiteURL": "http://www.encar.com:80",
-#             "pageAction": "/dc/dc_cardetailview_do",
-#         },
-#     }
-#     res = requests.post("https://api.capsolver.com/createTask", json=payload)
-#     resp = res.json()
-#     task_id = resp.get("taskId")
-#     if not task_id:
-#         print("Не удалось создать задачу:", res.text)
-#         return None
-#     print(f"Получен taskId: {task_id} / Ожидание результата...")
+def solve_recaptcha_v3():
+    payload = {
+        "clientKey": CAPSOLVER_API_KEY,
+        "task": {
+            "type": "ReCaptchaV3TaskProxyLess",
+            "websiteKey": SITE_KEY,
+            "websiteURL": "http://www.encar.com:80",
+            "pageAction": "/dc/dc_cardetailview_do",
+        },
+    }
+    res = requests.post("https://api.capsolver.com/createTask", json=payload)
+    resp = res.json()
+    task_id = resp.get("taskId")
+    if not task_id:
+        print("Не удалось создать задачу:", res.text)
+        return None
+    print(f"Получен taskId: {task_id} / Ожидание результата...")
 
-#     while True:
-#         time.sleep(1)
-#         payload = {"clientKey": CAPSOLVER_API_KEY, "taskId": task_id}
-#         res = requests.post("https://api.capsolver.com/getTaskResult", json=payload)
-#         resp = res.json()
-#         if resp.get("status") == "ready":
-#             print("reCAPTCHA успешно решена")
-#             return resp.get("solution", {}).get("gRecaptchaResponse")
-#         if resp.get("status") == "failed" or resp.get("errorId"):
-#             print("Решение не удалось! Ответ:", res.text)
-#             return None
+    while True:
+        time.sleep(1)
+        payload = {"clientKey": CAPSOLVER_API_KEY, "taskId": task_id}
+        res = requests.post("https://api.capsolver.com/getTaskResult", json=payload)
+        resp = res.json()
+        if resp.get("status") == "ready":
+            print("reCAPTCHA успешно решена")
+            return resp.get("solution", {}).get("gRecaptchaResponse")
+        if resp.get("status") == "failed" or resp.get("errorId"):
+            print("Решение не удалось! Ответ:", res.text)
+            return None
