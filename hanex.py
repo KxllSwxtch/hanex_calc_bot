@@ -293,6 +293,8 @@ def get_car_info(url):
         car_id = query_params.get("carid", [None])[0]
         car_id_external = car_id
 
+        time.sleep(3)
+
         # Проверка элемента areaLeaseRent
         try:
             lease_area = driver.find_element(By.ID, "areaLeaseRent")
