@@ -489,6 +489,8 @@ def calculate_cost(link, message):
     if new_url:
         response = requests.get(new_url)
 
+        print(response.status_code)
+
         if response.status_code == 200:
             json_response = response.json()
             car_data = json_response
