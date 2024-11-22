@@ -294,7 +294,9 @@ def get_car_info(url):
 
         # Проверка элемента areaLeaseRent
         try:
-            lease_area = driver.find_element(By.ID, "areaLeaseRent")
+            lease_area = WebDriverWait(driver, 6).until(
+                EC.presence_of_element_located((By.ID, "areaLeaseRent"))
+            )
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
@@ -311,7 +313,8 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 7).until(
+            time.sleep(2)
+            product_left = WebDriverWait(driver, 6).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
@@ -351,6 +354,7 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
+            time.sleep(2)
             gallery_element = WebDriverWait(driver, 7).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
             )
@@ -449,7 +453,6 @@ def calculate_cost(link, message):
                 return
 
     result = get_car_info(link)
-    time.sleep(3)
 
     if result is None:
         logging.error(f"Ошибка при вызове get_car_info для ссылки: {link}")
