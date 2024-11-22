@@ -298,6 +298,8 @@ def get_car_info(url):
             lease_area = driver.find_element(By.ID, "areaLeaseRent")
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
+            print(lease_area.text)
+
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
                 logging.info("Данная машина находится в лизинге.")
                 return [
@@ -316,6 +318,8 @@ def get_car_info(url):
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
+
+            print(product_left.text)
 
             car_title = product_left.find_element(
                 By.CLASS_NAME, "prod_name"
@@ -357,6 +361,8 @@ def get_car_info(url):
             )
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
             items = gallery_element.find_elements(By.XPATH, ".//*")
+
+            print(car_title)
 
             if len(items) > 10:
                 car_date = items[10].text
@@ -488,8 +494,6 @@ def calculate_cost(link, message):
 
     if new_url:
         response = requests.get(new_url)
-
-        print(response.status_code)
 
         if response.status_code == 200:
             json_response = response.json()
