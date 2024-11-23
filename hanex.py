@@ -305,7 +305,7 @@ def get_car_info(url):
         try:
             print("Проверка на product_left")
 
-            product_left = WebDriverWait(driver, 7).until(
+            product_left = WebDriverWait(driver, 10).until(
                 EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
@@ -336,6 +336,9 @@ def get_car_info(url):
 
             # Создание URL
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
+
+            driver.quit()
+
             print(f"Данные о машине получены: {new_url}, {car_title}")
 
             return [new_url, car_title]
