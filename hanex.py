@@ -261,7 +261,7 @@ def get_car_info(url):
 
     driver.get(url)
     driver.refresh()
-    time.sleep(2)
+    check_and_handle_alert(driver)
     print(driver.find_element(By.CSS_SELECTOR, "div.gallery_photo").text)
     driver.quit()
 
