@@ -231,6 +231,7 @@ def send_error_message(message, error_text):
 
 def check_and_handle_alert(driver):
     try:
+        WebDriverWait(driver, 3).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()  # Закрывает alert
