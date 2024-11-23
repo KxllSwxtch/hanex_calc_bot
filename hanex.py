@@ -343,7 +343,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 10).until(
+            product_left = WebDriverWait(driver, 6).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             car_title = extract_text_safe(product_left, By.CLASS_NAME, "prod_name")
@@ -364,7 +364,9 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
-            gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+            gallery_element = WebDriverWait(driver, 5).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
+            )
             items = gallery_element.find_elements(By.XPATH, ".//*")
 
             if len(items) > 10:
@@ -416,11 +418,7 @@ def get_car_info(url):
         return None, None
 
     finally:
-        try:
-            check_and_handle_alert(driver)
-            driver.quit()
-        except Exception as e:
-            logging.error(f"Ошибка при завершении драйвера: {e}")
+        driver.quit()
 
 
 # Function to calculate the total cost
