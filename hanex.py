@@ -273,6 +273,7 @@ def get_car_info(url):
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
             print("Страница обновлена после reCAPTCHA.")
             driver.refresh()
+            time.sleep(3)
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
@@ -296,7 +297,9 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = driver.find_element(By.CSS_SELECTOR, "div.product_left")
+            product_left = WebDriverWait(driver, 5).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "div.product_left"))
+            )
             product_left_splitted = product_left.text.split("\n")
 
             car_title = product_left.find_element(
