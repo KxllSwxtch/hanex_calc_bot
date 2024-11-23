@@ -301,42 +301,48 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 10).until(
-                EC.visibility_of_element_located(
-                    (By.XPATH, "//div[@class='product_left']")
+            # product_left = WebDriverWait(driver, 10).until(
+            #     EC.visibility_of_element_located(
+            #         (By.XPATH, "//div[@class='product_left']")
+            #     )
+            # )
+
+            product_left = driver.find_element(By.CLASS_NAME, "product_left")
+
+            if product_left.is_displayed():
+                product_left_splitted = product_left.text.split("\n")
+
+                car_title = product_left.find_element(
+                    By.CLASS_NAME, "prod_name"
+                ).text.strip()
+
+                car_date = (
+                    product_left_splitted[3] if len(product_left_splitted) > 3 else ""
                 )
-            )
-            product_left_splitted = product_left.text.split("\n")
+                car_engine_capacity = (
+                    product_left_splitted[6] if len(product_left_splitted) > 6 else ""
+                )
+                car_price = re.sub(r"\D", "", product_left_splitted[1])
 
-            car_title = product_left.find_element(
-                By.CLASS_NAME, "prod_name"
-            ).text.strip()
+                # Форматирование
+                formatted_price = car_price.replace(",", "")
+                formatted_engine_capacity = (
+                    car_engine_capacity.replace(",", "")[:-2]
+                    if car_engine_capacity
+                    else "0"
+                )
+                cleaned_date = "".join(filter(str.isdigit, car_date))
+                formatted_date = (
+                    f"01{cleaned_date[2:4]}{cleaned_date[:2]}"
+                    if cleaned_date
+                    else "010101"
+                )
 
-            car_date = (
-                product_left_splitted[3] if len(product_left_splitted) > 3 else ""
-            )
-            car_engine_capacity = (
-                product_left_splitted[6] if len(product_left_splitted) > 6 else ""
-            )
-            car_price = re.sub(r"\D", "", product_left_splitted[1])
+                # Создание URL
+                new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
+                print(f"Данные о машине получены: {new_url}, {car_title}")
 
-            # Форматирование
-            formatted_price = car_price.replace(",", "")
-            formatted_engine_capacity = (
-                car_engine_capacity.replace(",", "")[:-2]
-                if car_engine_capacity
-                else "0"
-            )
-            cleaned_date = "".join(filter(str.isdigit, car_date))
-            formatted_date = (
-                f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
-            )
-
-            # Создание URL
-            new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
-            print(f"Данные о машине получены: {new_url}, {car_title}")
-
-            return [new_url, car_title]
+                return [new_url, car_title]
         except Exception as e:
             print(f"Ошибка при обработке product_left: {e}")
             # Переход к gallery_photo
