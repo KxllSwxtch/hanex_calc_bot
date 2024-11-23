@@ -303,13 +303,13 @@ def get_car_info(url):
 
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
-            logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
+            print("Обнаружена reCAPTCHA. Пытаемся решить...")
             driver.refresh()
-            logging.info("Страница обновлена после reCAPTCHA.")
+            print("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)
 
         save_cookies(driver)
-        logging.info("Куки сохранены.")
+        print("Куки сохранены.")
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
@@ -323,13 +323,13 @@ def get_car_info(url):
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
-                logging.info("Данная машина находится в лизинге.")
+                print("Данная машина находится в лизинге.")
                 return [
                     "",
                     "Данная машина находится в лизинге. Свяжитесь с менеджером.",
                 ]
         except NoSuchElementException:
-            logging.warning("Элемент areaLeaseRent не найден.")
+            print("Элемент areaLeaseRent не найден.")
 
         # Инициализация переменных
         car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
@@ -367,12 +367,12 @@ def get_car_info(url):
 
             # Создание URL
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
-            logging.info(f"Данные о машине получены: {new_url}, {car_title}")
+            print(f"Данные о машине получены: {new_url}, {car_title}")
             return [new_url, car_title]
         except NoSuchElementException as e:
-            logging.error(f"Ошибка при обработке product_left: {e}")
+            print(f"Ошибка при обработке product_left: {e}")
         except Exception as e:
-            logging.error(f"Неизвестная ошибка при обработке product_left: {e}")
+            print(f"Неизвестная ошибка при обработке product_left: {e}")
 
         # Проверка элемента gallery_photo
         try:
@@ -402,10 +402,10 @@ def get_car_info(url):
                     else None
                 )
             except NoSuchElementException:
-                logging.warning("Элемент wrap_keyinfo не найден.")
+                print("Элемент wrap_keyinfo не найден.")
 
         except NoSuchElementException:
-            logging.warning("Элемент gallery_photo также не найден.")
+            print("Элемент gallery_photo также не найден.")
 
         # Форматирование значений для URL
         if car_price:
@@ -424,7 +424,7 @@ def get_car_info(url):
         # Конечный URL
         new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
 
-        logging.info(f"Данные о машине получены: {new_url}, {car_title}")
+        print(f"Данные о машине получены: {new_url}, {car_title}")
         return [new_url, car_title]
 
     except Exception as e:
@@ -456,14 +456,10 @@ def calculate_cost(link, message):
             send_error_message(message, "🚫 Не удалось извлечь carid из ссылки.")
             return
 
-    logging.info(f"Обрабатываем ссылку: {link}")
-
-    # Получение данных о машине
     result = get_car_info(link)
-    time.sleep(4)
 
     if result is None:
-        logging.error(f"Ошибка при вызове get_car_info для ссылки: {link}")
+        print(f"Ошибка при вызове get_car_info для ссылки: {link}")
         send_error_message(
             message,
             "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.",
