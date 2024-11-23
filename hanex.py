@@ -305,7 +305,6 @@ def get_car_info(url):
         if "reCAPTCHA" in driver.page_source:
             logging.info("Обнаружена reCAPTCHA. Пытаемся решить...")
             driver.refresh()
-            time.sleep(4)
             logging.info("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)
 
@@ -340,45 +339,6 @@ def get_car_info(url):
             product_left = WebDriverWait(driver, 6).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
-
-            if product_left is None:
-                # Проверка элемента gallery_photo
-                try:
-                    gallery_element = driver.find_element(
-                        By.CSS_SELECTOR, "div.gallery_photo"
-                    )
-                    car_title = gallery_element.find_element(
-                        By.CLASS_NAME, "prod_name"
-                    ).text
-                    items = gallery_element.find_elements(By.XPATH, ".//*")
-
-                    if len(items) > 10:
-                        car_date = items[10].text
-                    if len(items) > 18:
-                        car_engine_capacity = items[18].text
-
-                    # Извлечение информации о ключах
-                    try:
-                        keyinfo_element = driver.find_element(
-                            By.CSS_SELECTOR, "div.wrap_keyinfo"
-                        )
-                        keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
-                        keyinfo_texts = [
-                            item.text for item in keyinfo_items if item.text.strip()
-                        ]
-
-                        # Извлекаем цену, если элемент существует
-                        car_price = (
-                            re.sub(r"\D", "", keyinfo_texts[12])
-                            if len(keyinfo_texts) > 12
-                            else None
-                        )
-                    except NoSuchElementException:
-                        logging.warning("Элемент wrap_keyinfo не найден.")
-
-                except NoSuchElementException:
-                    logging.warning("Элемент gallery_photo также не найден.")
-
             product_left_splitted = product_left.text.split("\n")
 
             car_title = product_left.find_element(
@@ -413,6 +373,39 @@ def get_car_info(url):
             logging.error(f"Ошибка при обработке product_left: {e}")
         except Exception as e:
             logging.error(f"Неизвестная ошибка при обработке product_left: {e}")
+
+        # Проверка элемента gallery_photo
+        try:
+            gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+            car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
+            items = gallery_element.find_elements(By.XPATH, ".//*")
+
+            if len(items) > 10:
+                car_date = items[10].text
+            if len(items) > 18:
+                car_engine_capacity = items[18].text
+
+            # Извлечение информации о ключах
+            try:
+                keyinfo_element = driver.find_element(
+                    By.CSS_SELECTOR, "div.wrap_keyinfo"
+                )
+                keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
+                keyinfo_texts = [
+                    item.text for item in keyinfo_items if item.text.strip()
+                ]
+
+                # Извлекаем цену, если элемент существует
+                car_price = (
+                    re.sub(r"\D", "", keyinfo_texts[12])
+                    if len(keyinfo_texts) > 12
+                    else None
+                )
+            except NoSuchElementException:
+                logging.warning("Элемент wrap_keyinfo не найден.")
+
+        except NoSuchElementException:
+            logging.warning("Элемент gallery_photo также не найден.")
 
         # Форматирование значений для URL
         if car_price:
