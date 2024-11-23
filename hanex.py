@@ -292,7 +292,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 5).until(
+            product_left = WebDriverWait(driver, 6).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
@@ -376,6 +376,7 @@ def get_car_info(url):
         new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
 
         print(f"Данные о машине получены: {new_url}, {car_title}")
+        driver.quit()
         return [new_url, car_title]
 
     except Exception as e:
