@@ -6,7 +6,7 @@ import requests
 import locale
 import datetime
 import logging
-import undetected_chromedriver.v2 as uc
+import undetected_chromedriver as uc
 from telebot import types
 from dotenv import load_dotenv
 from selenium.common.exceptions import NoSuchElementException
