@@ -8,7 +8,7 @@ import datetime
 import logging
 from telebot import types
 from dotenv import load_dotenv
-from selenium import webdriver
+from seleniumwire import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -22,14 +22,22 @@ from selenium.common.exceptions import TimeoutException, NoAlertPresentException
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
 CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
 # CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
-# CHROMEDRIVER_PATH = "./chromedriver"
+# CHROMEDRIVER_PATH = "chromedriver"
 
 PROXY_HOST = "45.118.250.2"
 PROXY_PORT = "8000"
 PROXY_USER = "B01vby"
 PROXY_PASS = "GBno0x"
 
-PROXY_HOSTPORT = f"http://{PROXY_HOST}:{PROXY_PORT}"
+proxy = f"{PROXY_USER}:{PROXY_PASS}@{PROXY_HOST}:{PROXY_PORT}"
+
+
+seleniumwire_options = {
+    "proxy": {
+        "http": f"http://{proxy}",
+        "https": f"http://{proxy}",
+    }
+}
 
 session = requests.Session()
 
@@ -225,7 +233,7 @@ def send_error_message(message, error_text):
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 5).until(EC.alert_is_present())
+        WebDriverWait(driver, 2).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()  # Закрывает alert
@@ -241,30 +249,32 @@ def get_car_info(url):
 
     chrome_options = Options()
     chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument(f"--proxy-server={PROXY_HOSTPORT}")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
     chrome_options.add_argument("--headless")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_argument(
-        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
-    )
+    # chrome_options.add_argument(
+    #     "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
+    # )
 
     # Инициализация драйвера
     service = Service(CHROMEDRIVER_PATH)
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver = webdriver.Chrome(
+        service=service,
+        options=chrome_options,
+        seleniumwire_options=seleniumwire_options,
+    )
 
     try:
         # Загружаем страницу
         driver.get(url)
         check_and_handle_alert(driver)
-        time.sleep(4)
 
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
-            driver.refresh()
             print("Страница обновлена после reCAPTCHA.")
+            driver.refresh()
             check_and_handle_alert(driver)
 
         # Парсим URL для получения carid
