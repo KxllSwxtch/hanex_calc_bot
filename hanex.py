@@ -331,56 +331,54 @@ def get_car_info(url):
         except NoSuchElementException:
             print("Элемент areaLeaseRent не найден.")
 
-        # Инициализация переменных
-        car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
+        # Проверка наличия класса product_left
+        is_product_left_present = (
+            len(driver.find_elements(By.CLASS_NAME, "product_left")) > 0
+        )
 
-        # Проверка элемента product_left
-        try:
-            product_left = WebDriverWait(driver, 6).until(
-                EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
-            )
+        if is_product_left_present:
+            print("Элемент product_left найден, извлекаем данные.")
+            try:
+                product_left = WebDriverWait(driver, 12).until(
+                    EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
+                )
+                product_left_splitted = product_left.text.split("\n")
 
-            if product_left is None:
-                print("Элемент product_left не найден.")
-            else:
-                print(f"Элемент product_left найден: {product_left.text}")
+                car_title = product_left.find_element(
+                    By.CLASS_NAME, "prod_name"
+                ).text.strip()
 
-            product_left_splitted = product_left.text.split("\n")
+                car_date = (
+                    product_left_splitted[3] if len(product_left_splitted) > 3 else ""
+                )
+                car_engine_capacity = (
+                    product_left_splitted[6] if len(product_left_splitted) > 6 else ""
+                )
+                car_price = re.sub(r"\D", "", product_left_splitted[1])
 
-            car_title = product_left.find_element(
-                By.CLASS_NAME, "prod_name"
-            ).text.strip()
+                # Форматирование
+                formatted_price = car_price.replace(",", "")
+                formatted_engine_capacity = (
+                    car_engine_capacity.replace(",", "")[:-2]
+                    if car_engine_capacity
+                    else "0"
+                )
+                cleaned_date = "".join(filter(str.isdigit, car_date))
+                formatted_date = (
+                    f"01{cleaned_date[2:4]}{cleaned_date[:2]}"
+                    if cleaned_date
+                    else "010101"
+                )
 
-            car_date = (
-                product_left_splitted[3] if len(product_left_splitted) > 3 else ""
-            )
-            car_engine_capacity = (
-                product_left_splitted[6] if len(product_left_splitted) > 6 else ""
-            )
-            car_price = re.sub(r"\D", "", product_left_splitted[1])
-
-            # Форматирование
-            formatted_price = car_price.replace(",", "")
-            formatted_engine_capacity = (
-                car_engine_capacity.replace(",", "")[:-2]
-                if car_engine_capacity
-                else "0"
-            )
-            cleaned_date = "".join(filter(str.isdigit, car_date))
-            formatted_date = (
-                f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
-            )
-
-            # Создание URL
-            new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
-            print(f"Данные о машине получены: {new_url}, {car_title}")
-            return [new_url, car_title]
-        except NoSuchElementException as e:
-            print(f"Ошибка при обработке product_left: {e}")
-        except TimeoutException:
-            print("Элемент product_left не загрузился за отведенное время.")
-        except Exception as e:
-            print(f"Неизвестная ошибка при обработке product_left: {e}")
+                # Создание URL
+                new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
+                print(f"Данные о машине получены: {new_url}, {car_title}")
+                return [new_url, car_title]
+            except Exception as e:
+                print(f"Ошибка при обработке product_left: {e}")
+                # Переход к gallery_photo
+        else:
+            print("Элемент product_left не найден, переходим к gallery_photo.")
 
         # Проверка элемента gallery_photo
         try:
@@ -416,11 +414,7 @@ def get_car_info(url):
             print("Элемент gallery_photo также не найден.")
 
         # Форматирование значений для URL
-        if car_price:
-            formatted_price = car_price.replace(",", "")
-        else:
-            formatted_price = "0"  # Задаем значение по умолчанию
-
+        formatted_price = car_price.replace(",", "") if car_price else "0"
         formatted_engine_capacity = (
             car_engine_capacity.replace(",", "")[:-2] if car_engine_capacity else "0"
         )
