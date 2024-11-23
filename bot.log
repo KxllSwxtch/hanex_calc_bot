@@ -5836,3 +5836,11 @@ Stacktrace:
 2024-11-23 14:47:53,773 - INFO - Capturing response: https://wcs.naver.com/b 204 
 2024-11-23 15:59:52,795 - INFO - patching driver executable /Users/killswitch/Library/Application Support/undetected_chromedriver/undetected_chromedriver
 2024-11-23 16:00:29,838 - INFO - patching driver executable /Users/killswitch/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2024-11-23 16:18:03,489 - INFO - patching driver executable /Users/killswitch/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2024-11-23 16:18:08,778 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-23 16:18:43,276 - INFO - patching driver executable /Users/killswitch/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2024-11-23 16:18:47,690 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-23 16:20:21,405 - INFO - patching driver executable /Users/killswitch/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2024-11-23 16:20:28,321 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-23 16:21:06,043 - INFO - patching driver executable /Users/killswitch/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2024-11-23 16:21:12,482 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
