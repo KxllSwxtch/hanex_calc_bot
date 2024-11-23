@@ -7,6 +7,7 @@ import requests
 import locale
 import datetime
 import logging
+import undetected_chromedriver as uc
 from telebot import types
 from dotenv import load_dotenv
 from selenium import webdriver
@@ -280,7 +281,7 @@ def check_and_handle_alert(driver):
 def get_car_info(url):
     global car_id_external
 
-    chrome_options = Options()
+    chrome_options = uc.ChromeOptions()
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
@@ -293,7 +294,8 @@ def get_car_info(url):
 
     # Инициализация драйвера
     service = Service(CHROMEDRIVER_PATH)
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    # driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver = uc.Chrome(options=chrome_options)
 
     try:
         # Загружаем страницу
@@ -383,7 +385,7 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
-            gallery_element = WebDriverWait(driver, 8).until(
+            gallery_element = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
             )
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
