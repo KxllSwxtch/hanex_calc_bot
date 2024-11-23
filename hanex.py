@@ -260,7 +260,9 @@ def get_car_info(url):
     )
 
     driver.get(url)
-    print(driver.page_source)
+    driver.refresh()
+    time.sleep(2)
+    print(driver.find_element(By.CSS_SELECTOR, "div.gallery_photo").text)
     driver.quit()
 
     # try:
