@@ -263,9 +263,9 @@ def get_car_info(url):
     driver.refresh()
     check_and_handle_alert(driver)
     print(
-        WebDriverWait(driver, 5).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo").text)
-        )
+        WebDriverWait(driver, 5)
+        .until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo")))
+        .text
     )
     driver.quit()
 
