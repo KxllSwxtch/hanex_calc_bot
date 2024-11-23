@@ -342,7 +342,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 6).until(
+            product_left = WebDriverWait(driver, 8).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             car_title = extract_text_safe(product_left, By.CLASS_NAME, "prod_name")
@@ -363,7 +363,7 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
-            gallery_element = WebDriverWait(driver, 5).until(
+            gallery_element = WebDriverWait(driver, 7).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
             )
             items = gallery_element.find_elements(By.XPATH, ".//*")
