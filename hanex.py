@@ -333,6 +333,7 @@ def get_car_info(url):
             # Создание URL
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
             print(f"Данные о машине получены: {new_url}, {car_title}")
+
             return [new_url, car_title]
         except Exception as e:
             print(f"Ошибка при обработке product_left: {e}")
@@ -340,8 +341,8 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
-            gallery_element = WebDriverWait(driver, 5).until(
-                EC.visibility_of_element_located((By.CLASS_NAME, "gallery_photo"))
+            gallery_element = WebDriverWait(driver, 10).until(
+                EC.visibility_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
             )
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
             items = gallery_element.find_elements(By.XPATH, ".//*")
@@ -385,6 +386,8 @@ def get_car_info(url):
 
         # Конечный URL
         new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
+
+        driver.quit()
 
         print(f"Данные о машине получены: {new_url}, {car_title}")
         return [new_url, car_title]
