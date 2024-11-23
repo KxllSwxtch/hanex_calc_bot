@@ -305,8 +305,8 @@ def get_car_info(url):
         try:
             print("Проверка на product_left")
 
-            product_left = WebDriverWait(driver, 10).until(
-                EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
+            product_left = WebDriverWait(driver, 8).until(
+                EC.visibility_of_element_located((By.CSS_SELECTOR, "div.product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
 
@@ -345,47 +345,43 @@ def get_car_info(url):
         except Exception as e:
             print(f"Ошибка при обработке product_left: {e}")
 
-            # Проверка элемента gallery_photo
+        # Проверка элемента gallery_photo
+        try:
+            print("Проверка на gallery_photo")
+
+            gallery_element = WebDriverWait(driver, 8).until(
+                EC.visibility_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
+            )
+
+            car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
+            items = gallery_element.find_elements(By.XPATH, ".//*")
+
+            if len(items) > 10:
+                car_date = items[10].text
+            if len(items) > 18:
+                car_engine_capacity = items[18].text
+
+            # Извлечение информации о ключах
             try:
-                print("Проверка на gallery_photo")
-
-                gallery_element = WebDriverWait(driver, 13).until(
-                    EC.visibility_of_element_located(
-                        (By.CSS_SELECTOR, "div.gallery_photo")
-                    )
+                keyinfo_element = driver.find_element(
+                    By.CSS_SELECTOR, "div.wrap_keyinfo"
                 )
+                keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
+                keyinfo_texts = [
+                    item.text for item in keyinfo_items if item.text.strip()
+                ]
 
-                car_title = gallery_element.find_element(
-                    By.CLASS_NAME, "prod_name"
-                ).text
-                items = gallery_element.find_elements(By.XPATH, ".//*")
-
-                if len(items) > 10:
-                    car_date = items[10].text
-                if len(items) > 18:
-                    car_engine_capacity = items[18].text
-
-                # Извлечение информации о ключах
-                try:
-                    keyinfo_element = driver.find_element(
-                        By.CSS_SELECTOR, "div.wrap_keyinfo"
-                    )
-                    keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
-                    keyinfo_texts = [
-                        item.text for item in keyinfo_items if item.text.strip()
-                    ]
-
-                    # Извлекаем цену, если элемент существует
-                    car_price = (
-                        re.sub(r"\D", "", keyinfo_texts[12])
-                        if len(keyinfo_texts) > 12
-                        else None
-                    )
-                except NoSuchElementException:
-                    print("Элемент wrap_keyinfo не найден.")
-
+                # Извлекаем цену, если элемент существует
+                car_price = (
+                    re.sub(r"\D", "", keyinfo_texts[12])
+                    if len(keyinfo_texts) > 12
+                    else None
+                )
             except NoSuchElementException:
-                print("Элемент gallery_photo также не найден.")
+                print("Элемент wrap_keyinfo не найден.")
+
+        except NoSuchElementException:
+            print("Элемент gallery_photo также не найден.")
 
         # Форматирование значений для URL
         formatted_price = car_price.replace(",", "") if car_price else "0"
