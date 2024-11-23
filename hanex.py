@@ -20,9 +20,9 @@ from selenium.common.exceptions import TimeoutException, NoAlertPresentException
 
 
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
-CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
 # CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
-# CHROMEDRIVER_PATH = "chromedriver"
+CHROMEDRIVER_PATH = "chromedriver"
 
 PROXY_HOST = "45.118.250.2"
 PROXY_PORT = "8000"
@@ -233,7 +233,6 @@ def send_error_message(message, error_text):
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 2).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()  # Закрывает alert
@@ -399,7 +398,7 @@ def calculate_cost(link, message):
 
     # Отправляем сообщение и сохраняем его ID
     processing_message = bot.send_message(
-        message.chat.id, "Данные переданы в обработку ⏳"
+        message.chat.id, "Данные переданы в обработку. Пожалуйста подождите ⏳"
     )
 
     # Проверка ссылки на мобильную версию
