@@ -341,7 +341,7 @@ def get_car_info(url):
         # Проверка элемента gallery_photo
         try:
             gallery_element = WebDriverWait(driver, 5).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
+                EC.visibility_of_element_located((By.CLASS_NAME, "gallery_photo"))
             )
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
             items = gallery_element.find_elements(By.XPATH, ".//*")
@@ -372,8 +372,6 @@ def get_car_info(url):
 
         except NoSuchElementException:
             print("Элемент gallery_photo также не найден.")
-
-        driver.quit()
 
         # Форматирование значений для URL
         formatted_price = car_price.replace(",", "") if car_price else "0"
