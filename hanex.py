@@ -29,13 +29,14 @@ PROXY_PORT = "8000"
 PROXY_USER = "B01vby"
 PROXY_PASS = "GBno0x"
 
-proxy = f"{PROXY_USER}:{PROXY_PASS}@{PROXY_HOST}:{PROXY_PORT}"
+http_proxy = f"http://{PROXY_USER}:{PROXY_PASS}@{PROXY_HOST}:{PROXY_PORT}"
+https_proxy = f"https://{PROXY_USER}:{PROXY_PASS}@{PROXY_HOST}:{PROXY_PORT}"
 
 
 seleniumwire_options = {
     "proxy": {
-        "http": f"http://{proxy}",
-        "https": f"https://{proxy}",
+        "http": http_proxy,
+        "https": https_proxy,
     }
 }
 
@@ -262,6 +263,7 @@ def get_car_info(url):
     try:
         # Загружаем страницу
         driver.get(url)
+        check_and_handle_alert(driver)
 
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
@@ -269,6 +271,7 @@ def get_car_info(url):
             print("Страница обновлена после reCAPTCHA.")
             driver.refresh()
             time.sleep(3)
+            check_and_handle_alert(driver)
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
