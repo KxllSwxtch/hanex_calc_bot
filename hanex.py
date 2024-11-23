@@ -281,12 +281,12 @@ def check_and_handle_alert(driver):
 def get_car_info(url):
     global car_id_external
 
-    chrome_options = uc.ChromeOptions()
+    chrome_options = uc.ChromeOptions(headless=True, use_subprocess=False)
     chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--headless")
+    # chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
-    chrome_options.add_argument("--window-size=1920,1080")  # Устанавливает размер окна
+    # chrome_options.add_argument("--window-size=1920,1080")  # Устанавливает размер окна
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
@@ -308,7 +308,6 @@ def get_car_info(url):
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
             driver.refresh()
             print("Страница обновлена после reCAPTCHA.")
-            time.sleep(2)
             check_and_handle_alert(driver)
 
         save_cookies(driver)
@@ -342,7 +341,7 @@ def get_car_info(url):
         if is_product_left_present:
             print("Элемент product_left найден, извлекаем данные.")
             try:
-                product_left = WebDriverWait(driver, 4).until(
+                product_left = WebDriverWait(driver, 5).until(
                     EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
                 )
                 product_left_splitted = product_left.text.split("\n")
