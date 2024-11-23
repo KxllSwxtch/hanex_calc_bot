@@ -291,7 +291,7 @@ def get_car_info(url):
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_argument(
-        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
+        "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
     )
 
     service = Service(CHROMEDRIVER_PATH)
@@ -313,7 +313,6 @@ def get_car_info(url):
         if "reCAPTCHA" in driver.page_source:
             logging.info("Обнаружена reCAPTCHA. Перезагрузка страницы...")
             driver.refresh()
-            time.sleep(4)
             check_and_handle_alert(driver)
 
         save_cookies(driver)
