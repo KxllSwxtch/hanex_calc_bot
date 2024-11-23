@@ -339,6 +339,12 @@ def get_car_info(url):
             product_left = WebDriverWait(driver, 6).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
+
+            if product_left is None:
+                print("Элемент product_left не найден.")
+            else:
+                print(f"Элемент product_left найден: {product_left.text}")
+
             product_left_splitted = product_left.text.split("\n")
 
             car_title = product_left.find_element(
@@ -371,6 +377,8 @@ def get_car_info(url):
             return [new_url, car_title]
         except NoSuchElementException as e:
             print(f"Ошибка при обработке product_left: {e}")
+        except TimeoutException:
+            print("Элемент product_left не загрузился за отведенное время.")
         except Exception as e:
             print(f"Неизвестная ошибка при обработке product_left: {e}")
 
