@@ -30,17 +30,6 @@ PROXY_PORT = "8000"
 PROXY_USER = "B01vby"
 PROXY_PASS = "GBno0x"
 
-http_proxy = f"http://{PROXY_USER}:{PROXY_PASS}@{PROXY_HOST}:{PROXY_PORT}"
-https_proxy = f"https://{PROXY_USER}:{PROXY_PASS}@{PROXY_HOST}:{PROXY_PORT}"
-
-
-seleniumwire_options = {
-    "proxy": {
-        "http": http_proxy,
-        "https": https_proxy,
-    }
-}
-
 session = requests.Session()
 
 # Configure logging
@@ -250,7 +239,15 @@ def get_car_info(url):
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
     chrome_options.add_argument("--headless")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
+    chrome_options.add_argument("--disable-software-rasterizer")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--log-level=3")  # Отключение логов
+    chrome_options.add_argument("--disable-application-cache")
+    chrome_options.add_argument("--incognito")  # Режим инкогнито
+    chrome_options.add_argument("--disable-web-security")
+    chrome_options.add_argument("--allow-running-insecure-content")
+    chrome_options.add_argument("--disable-autofill")
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
     )
