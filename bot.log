@@ -4078,3 +4078,63 @@ telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsucc
 2024-11-22 18:08:21,494 - INFO - Элемент areaLeaseRent не найден. Проверяем далее.
 2024-11-22 18:08:21,497 - INFO - Элемент product_left не найден.
 2024-11-22 18:08:21,500 - INFO - Данные получены: https://plugin-back-versusm.amvera.io/car-ab-korea/38392784?price=1680&date=011220&volume=1332, 
+2024-11-23 12:08:00,853 - INFO - patching driver executable /Users/killswitch/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2024-11-23 12:10:58,321 - INFO - patching driver executable /Users/killswitch/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2024-11-23 12:11:40,581 - INFO - patching driver executable /Users/killswitch/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2024-11-23 12:12:08,914 - INFO - patching driver executable /Users/killswitch/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2024-11-23 13:25:40,268 - INFO - patching driver executable /Users/killswitch/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2024-11-23 13:26:00,421 - ERROR - Произошла ошибка: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=131.0.6778.86)
+Stacktrace:
+0   undetected_chromedriver             0x0000000101272e82 undetected_chromedriver + 6696578
+1   undetected_chromedriver             0x000000010126ac9a undetected_chromedriver + 6663322
+2   undetected_chromedriver             0x0000000100c72e3e undetected_chromedriver + 405054
+3   undetected_chromedriver             0x0000000100c481fa undetected_chromedriver + 229882
+4   undetected_chromedriver             0x0000000100cf0f9d undetected_chromedriver + 921501
+5   undetected_chromedriver             0x0000000100d0ade4 undetected_chromedriver + 1027556
+6   undetected_chromedriver             0x0000000100ce8613 undetected_chromedriver + 886291
+7   undetected_chromedriver             0x0000000100cb5950 undetected_chromedriver + 678224
+8   undetected_chromedriver             0x0000000100cb634e undetected_chromedriver + 680782
+9   undetected_chromedriver             0x0000000101240770 undetected_chromedriver + 6489968
+10  undetected_chromedriver             0x0000000101243219 undetected_chromedriver + 6500889
+11  undetected_chromedriver             0x0000000101242d3b undetected_chromedriver + 6499643
+12  undetected_chromedriver             0x00000001012436a5 undetected_chromedriver + 6502053
+13  undetected_chromedriver             0x000000010122b524 undetected_chromedriver + 6403364
+14  undetected_chromedriver             0x000000010124398f undetected_chromedriver + 6502799
+15  undetected_chromedriver             0x000000010121c954 undetected_chromedriver + 6342996
+16  undetected_chromedriver             0x000000010125b378 undetected_chromedriver + 6599544
+17  undetected_chromedriver             0x000000010125b535 undetected_chromedriver + 6599989
+18  undetected_chromedriver             0x000000010126a868 undetected_chromedriver + 6662248
+19  libsystem_pthread.dylib             0x00007ff8066b018b _pthread_start + 99
+20  libsystem_pthread.dylib             0x00007ff8066abae3 thread_start + 15
+
+2024-11-23 13:26:00,982 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-23 13:26:26,512 - INFO - patching driver executable /Users/killswitch/Library/Application Support/undetected_chromedriver/undetected_chromedriver
+2024-11-23 13:26:47,046 - ERROR - Произошла ошибка: Message: 
+Stacktrace:
+0   undetected_chromedriver             0x0000000103288e82 undetected_chromedriver + 6696578
+1   undetected_chromedriver             0x0000000103280c9a undetected_chromedriver + 6663322
+2   undetected_chromedriver             0x0000000102c88e3e undetected_chromedriver + 405054
+3   undetected_chromedriver             0x0000000102cd9815 undetected_chromedriver + 735253
+4   undetected_chromedriver             0x0000000102cd9d11 undetected_chromedriver + 736529
+5   undetected_chromedriver             0x0000000102d24314 undetected_chromedriver + 1041172
+6   undetected_chromedriver             0x0000000102cfe89d undetected_chromedriver + 886941
+7   undetected_chromedriver             0x0000000102d213f4 undetected_chromedriver + 1029108
+8   undetected_chromedriver             0x0000000102cfe613 undetected_chromedriver + 886291
+9   undetected_chromedriver             0x0000000102ccb950 undetected_chromedriver + 678224
+10  undetected_chromedriver             0x0000000102ccc34e undetected_chromedriver + 680782
+11  undetected_chromedriver             0x0000000103256770 undetected_chromedriver + 6489968
+12  undetected_chromedriver             0x0000000103259219 undetected_chromedriver + 6500889
+13  undetected_chromedriver             0x0000000103258d3b undetected_chromedriver + 6499643
+14  undetected_chromedriver             0x00000001032596a5 undetected_chromedriver + 6502053
+15  undetected_chromedriver             0x0000000103241524 undetected_chromedriver + 6403364
+16  undetected_chromedriver             0x000000010325998f undetected_chromedriver + 6502799
+17  undetected_chromedriver             0x0000000103232954 undetected_chromedriver + 6342996
+18  undetected_chromedriver             0x0000000103271378 undetected_chromedriver + 6599544
+19  undetected_chromedriver             0x0000000103271535 undetected_chromedriver + 6599989
+20  undetected_chromedriver             0x0000000103280868 undetected_chromedriver + 6662248
+21  libsystem_pthread.dylib             0x00007ff8066b018b _pthread_start + 99
+22  libsystem_pthread.dylib             0x00007ff8066abae3 thread_start + 15
+
+2024-11-23 13:26:47,489 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.

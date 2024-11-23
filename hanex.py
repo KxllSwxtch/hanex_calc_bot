@@ -21,12 +21,17 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoAlertPresentException
 
 
-# CapSolver API key
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
-SITE_KEY = os.getenv("SITE_KEY")
-CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
 # CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
-COOKIES_FILE = "cookies.pkl"
+CHROMEDRIVER_PATH = "./chromedriver"
+
+PROXY_HOST = "45.118.250.2"
+PROXY_PORT = "8000"
+PROXY_USER = "B01vby"
+PROXY_PASS = "GBno0x"
+
+PROXY_HOSTPORT = PROXY_HOST + PROXY_PORT
 
 session = requests.Session()
 
@@ -220,51 +225,6 @@ def send_error_message(message, error_text):
     logging.error(f"Error sent to user {message.chat.id}: {error_text}")
 
 
-def save_cookies(driver):
-    with open(COOKIES_FILE, "wb") as file:
-        pickle.dump(driver.get_cookies(), file)
-
-
-# Load cookies from file
-def load_cookies(driver):
-    if os.path.exists(COOKIES_FILE):
-        with open(COOKIES_FILE, "rb") as file:
-            cookies = pickle.load(file)
-            for cookie in cookies:
-                driver.add_cookie(cookie)
-
-
-def solve_recaptcha_v3():
-    payload = {
-        "clientKey": CAPSOLVER_API_KEY,
-        "task": {
-            "type": "ReCaptchaV3TaskProxyLess",
-            "websiteKey": SITE_KEY,
-            "websiteURL": "http://www.encar.com:80",
-            "pageAction": "/dc/dc_cardetailview_do",
-        },
-    }
-    res = requests.post("https://api.capsolver.com/createTask", json=payload)
-    resp = res.json()
-    task_id = resp.get("taskId")
-    if not task_id:
-        print("Не удалось создать задачу:", res.text)
-        return None
-    print(f"Получен taskId: {task_id} / Ожидание результата...")
-
-    while True:
-        time.sleep(1)
-        payload = {"clientKey": CAPSOLVER_API_KEY, "taskId": task_id}
-        res = requests.post("https://api.capsolver.com/getTaskResult", json=payload)
-        resp = res.json()
-        if resp.get("status") == "ready":
-            print("reCAPTCHA успешно решена")
-            return resp.get("solution", {}).get("gRecaptchaResponse")
-        if resp.get("status") == "failed" or resp.get("errorId"):
-            print("Решение не удалось! Ответ:", res.text)
-            return None
-
-
 def check_and_handle_alert(driver):
     try:
         WebDriverWait(driver, 5).until(EC.alert_is_present())
@@ -283,7 +243,7 @@ def get_car_info(url):
 
     chrome_options = uc.ChromeOptions()
     chrome_options.add_argument("--disable-gpu")
-    # chrome_options.add_argument("--headless")
+    chrome_options.add_argument(f"--proxy-server={PROXY_HOSTPORT}")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
@@ -300,18 +260,13 @@ def get_car_info(url):
         # Загружаем страницу
         driver.get(url)
         check_and_handle_alert(driver)
-        load_cookies(driver)
 
         # Проверка на reCAPTCHA
-        if "reCAPTCHA" in driver.page_source:
-            print("Обнаружена reCAPTCHA. Пытаемся решить...")
-            driver.refresh()
-            time.sleep(2)
-            print("Страница обновлена после reCAPTCHA.")
-            check_and_handle_alert(driver)
-
-        save_cookies(driver)
-        print("Куки сохранены.")
+        # if "reCAPTCHA" in driver.page_source:
+        #     print("Обнаружена reCAPTCHA. Пытаемся решить...")
+        #     driver.refresh()
+        #     print("Страница обновлена после reCAPTCHA.")
+        #     check_and_handle_alert(driver)
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
@@ -335,7 +290,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 6).until(
+            product_left = WebDriverWait(driver, 5).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
