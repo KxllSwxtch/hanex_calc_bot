@@ -270,10 +270,12 @@ def get_car_info(url):
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
-            print("Страница обновлена после reCAPTCHA.")
             driver.refresh()
+            print("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)
-            time.sleep(2)
+
+        driver.get(url)
+        check_and_handle_alert(driver)
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
