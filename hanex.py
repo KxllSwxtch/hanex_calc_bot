@@ -261,7 +261,6 @@ def get_car_info(url):
     service = Service(CHROMEDRIVER_PATH)
     driver = uc.Chrome(
         options=chrome_options,
-        seleniumwire_options=seleniumwire_options,
         service=service,
     )
 
