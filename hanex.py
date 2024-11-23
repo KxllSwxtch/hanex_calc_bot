@@ -220,7 +220,7 @@ def send_error_message(message, error_text):
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 5).until(EC.alert_is_present())
+        WebDriverWait(driver, 3).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()  # Закрывает alert
@@ -231,7 +231,7 @@ def check_and_handle_alert(driver):
         print(f"Ошибка при обработке alert: {alert_exception}")
 
 
-def wait_for_page_to_load(driver, timeout=5):
+def wait_for_page_to_load(driver, timeout=10):
     """Функция для ожидания полной загрузки страницы."""
     WebDriverWait(driver, timeout).until(
         lambda d: d.execute_script("return document.readyState") == "complete"
@@ -287,9 +287,7 @@ def get_car_info(url):
 
         # Проверка элемента areaLeaseRent
         try:
-            lease_area = WebDriverWait(driver, 4).until(
-                EC.presence_of_element_located((By.ID, "areaLeaseRent"))
-            )
+            lease_area = driver.find_element(By.ID, "areaLeaseRent")
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
@@ -303,9 +301,7 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
-            product_left = WebDriverWait(driver, 7).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, "div.product_left"))
-            )
+            product_left = driver.find_element(By.CSS_SELECTOR, "div.product_left")
             product_left_splitted = product_left.text.split("\n")
 
             car_title = product_left.find_element(
