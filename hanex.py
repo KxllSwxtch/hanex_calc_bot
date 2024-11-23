@@ -287,6 +287,8 @@ def get_car_info(url):
 
         # Проверка элемента areaLeaseRent
         try:
+            print("Проверка на areaLeaseRent")
+
             lease_area = driver.find_element(By.ID, "areaLeaseRent")
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
@@ -301,6 +303,8 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
+            print("Проверка на gallery_photo")
+
             gallery_element = WebDriverWait(driver, 10).until(
                 EC.visibility_of_element_located((By.CLASS_NAME, "gallery_photo"))
             )
@@ -336,6 +340,8 @@ def get_car_info(url):
 
         # Проверка элемента product_left
         try:
+            print("Проверка на product_left")
+
             product_left = WebDriverWait(driver, 7).until(
                 EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
             )
@@ -372,7 +378,6 @@ def get_car_info(url):
             return [new_url, car_title]
         except Exception as e:
             print(f"Ошибка при обработке product_left: {e}")
-            # Переход к gallery_photo
 
         # Форматирование значений для URL
         formatted_price = car_price.replace(",", "") if car_price else "0"
