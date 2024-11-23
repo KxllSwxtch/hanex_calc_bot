@@ -35,8 +35,7 @@ proxy = f"{PROXY_USER}:{PROXY_PASS}@{PROXY_HOST}:{PROXY_PORT}"
 seleniumwire_options = {
     "proxy": {
         "http": f"http://{proxy}",
-        "https": f"http://{proxy}",
-        "no_proxy": "localhost,127.0.0.1",
+        "https": f"https://{proxy}",
     }
 }
 
