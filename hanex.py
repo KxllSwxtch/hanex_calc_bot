@@ -31,7 +31,7 @@ PROXY_PORT = "8000"
 PROXY_USER = "B01vby"
 PROXY_PASS = "GBno0x"
 
-PROXY_HOSTPORT = PROXY_HOST + PROXY_PORT
+PROXY_HOSTPORT = f"http://{PROXY_HOST}:{PROXY_PORT}"
 
 session = requests.Session()
 
