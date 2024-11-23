@@ -272,6 +272,7 @@ def get_car_info(url):
             print("Страница обновлена после reCAPTCHA.")
             driver.refresh()
             check_and_handle_alert(driver)
+            time.sleep(2)
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
@@ -281,7 +282,9 @@ def get_car_info(url):
 
         # Проверка элемента areaLeaseRent
         try:
-            lease_area = driver.find_element(By.ID, "areaLeaseRent")
+            lease_area = WebDriverWait(driver, 4).until(
+                EC.presence_of_element_located((By.ID, "areaLeaseRent"))
+            )
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
@@ -334,7 +337,9 @@ def get_car_info(url):
 
         # Проверка элемента gallery_photo
         try:
-            gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+            gallery_element = WebDriverWait(driver, 5).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo"))
+            )
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
             items = gallery_element.find_elements(By.XPATH, ".//*")
 
@@ -365,6 +370,8 @@ def get_car_info(url):
         except NoSuchElementException:
             print("Элемент gallery_photo также не найден.")
 
+        driver.quit()
+
         # Форматирование значений для URL
         formatted_price = car_price.replace(",", "") if car_price else "0"
         formatted_engine_capacity = (
@@ -379,7 +386,6 @@ def get_car_info(url):
         new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
 
         print(f"Данные о машине получены: {new_url}, {car_title}")
-        driver.quit()
         return [new_url, car_title]
 
     except Exception as e:
