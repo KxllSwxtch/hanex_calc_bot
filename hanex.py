@@ -281,186 +281,146 @@ def check_and_handle_alert(driver):
 def get_car_info(url):
     global car_id_external
 
-    # Получение carid из URL
-    parsed_url = urlparse(url)
-    query_params = parse_qs(parsed_url.query)
-    car_id = query_params.get("carid", [None])[0]
-    car_id_external = car_id
-
-    cookies = {
-        "_fwb": "135LTBG5J8fF3U9a94JRKHz.1728567297458",
-        "PCID": "17285672988485105630297",
-        "WMONID": "sdj1YHqWOY9",
-        "_gcl_au": "1.1.850544004.1728649039",
-        "afUserId": "5ebc975f-2b88-4751-89bd-39cf7d891726-o",
-        "PERSISTENT_USERTYPE": "1",
-        "cto_bundle": "sOq1Z19EN0E4Nzd5RTlvMFJtMFNLZmFJS0xhdHNyZUg1QVNOT3hUdHM1JTJCY3pLMEw0U0RMM3JodlE4VEE0JTJCVVglMkJoQmNsWWJzZ0gzVFJZbHpYajE4M0l0S05pNWs1T0lCenNiNlFBVmV2T2owVDQ2TFhoWnQzUWJOSzlDNWVzVHhEdmkzUTc1Q29yQlBobFJHclVOTSUyQnZacXdqdW15UUgweEg5aEhTMldlNENmOHFSZDZKaWJsSWhvTndsalBJeDZmbk1YSDgybndKWmRPM1hORnhGc1dIenlNV2dTNHVEaWJaSENDdkxMNWJuZjY0MXIyUGhZdkl2TlRVeWhrVWRRbkxkakp4TiUyQmhEcVNPR1czbmVBJTJGWDNNSXJUdSUyRkY3RDlhSW1mQzV6Rmp2ZTJyeVIlMkI0M3loVTAyVEtkajg2TWlpT3NaclQ",
-        "_ga_SX6YBF7MKB": "GS1.1.1729767508.1.0.1729767512.0.0.0",
-        "_ga_BQ7RK9J6BZ": "GS1.1.1729767508.1.0.1729767512.56.0.661845612",
-        "_ga": "GA1.2.1028699358.1728567299",
-        "OAX": "3Yy/ymcaLnwAAZxF",
-        "RecentViewTruck": "",
-        "_encar_hostname": "http://www.encar.com",
-        "_gid": "GA1.2.810344180.1731376990",
-        "AF_SYNC": "1732094525327",
-        "RecentViewAllCar": "38105916%2C38448199%2C37964106%2C38496016%2C38358876%2C38453939%2C38231510%2C37685632%2C38343848%2C38364849%2C37822719%2C38198326%2C38213585%2C37709153%2C37864643%2C38032511%2C38144941%2C38247200%2C38173474%2C38313470%2C37236029",
-        "RecentViewCar": "38105916%2C38448199%2C37964106%2C38496016%2C38358876%2C38453939%2C38231510%2C37685632%2C38343848%2C38364849%2C37822719%2C38198326%2C38213585%2C37709153%2C37864643%2C38032511%2C38144941%2C38247200%2C38173474%2C38313470",
-        "SEARCH_CONTENTS_CAR.prevModel": "{%22key%22:%22001004178%22%2C%22source%22:{%22carTypeValue%22:%22Y%22%2C%22carTypeName%22:%22kor%22%2C%22manufacturerCode%22:%22001%22%2C%22manufacturerName%22:%22%ED%98%84%EB%8C%80%22%2C%22modelGroupCode%22:%22004%22%2C%22modelGroupName%22:%22%EA%B7%B8%EB%9E%9C%EC%A0%80%22%2C%22modelCode%22:%22178%22%2C%22modelName%22:%22%EA%B7%B8%EB%9E%9C%EC%A0%80%20(GN7)%22%2C%22modelEndYear%22:%22%22}%2C%22buyerCount%22:-1%2C%22buyerCountGroup%22:-1}",
-        "RECENT_CAR_CARID_37551513_1": "37551513%253A%25EB%25A7%2581%25EC%25BB%25A8%2B%25EB%2585%25B8%25ED%258B%25B8%25EB%259F%25AC%25EC%258A%25A4%2B2%25EC%2584%25B8%25EB%258C%2580%2B2.0%2B%25EB%25A6%25AC%25EC%25A0%2580%25EB%25B8%258C%2BAWD%25241",
-        "RECENT_CAR_CARID_37447862_0": "37447862%253A%25EB%25A1%25A4%25EC%258A%25A4%25EB%25A1%259C%25EC%259D%25B4%25EC%258A%25A4%2B%25EC%25BB%25AC%25EB%25A6%25AC%25EB%2584%258C%2B6.7%2BV12%25241",
-        "RECENT_CAR_CARID_38391151_0": "38391151%253A%25EC%2595%2584%25EC%259A%25B0%25EB%2594%2594%2BA6%2B%2528C8%2529%2B40%2BTDI%2B%25EC%25BD%25B0%25ED%258A%25B8%25EB%25A1%259C%2B%25ED%2594%2584%25EB%25A6%25AC%25EB%25AF%25B8%25EC%2597%2584%25241",
-        "RECENT_CAR_CARID_37451232_0": "37451232%253ABMW%2B3%25EC%258B%259C%25EB%25A6%25AC%25EC%25A6%2588%2B%2528G20%2529%2B320i%2B%25ED%2588%25AC%25EC%2596%25B4%25EB%25A7%2581%25241",
-        "RECENT_CAR_CARID_38392119_1": "38392119%253A%25EC%2595%2584%25EC%259A%25B0%25EB%2594%2594%2BA7%2B%25284K%2529%2B55%2BTFSI%2B%25EC%25BD%25B0%25ED%258A%25B8%25EB%25A1%259C%2B%25ED%2594%2584%25EB%25A6%25AC%25EB%25AF%25B8%25EC%2597%2584%25241",
-        "RECENT_CAR_CARID_38584406_0": "38584406%253A%25EB%25AF%25B8%25EB%258B%2588%2B%25EC%25BF%25A0%25ED%258D%25BC%2BS%2BJCW%25241",
-        "RECENT_CAR_CARID_38552763_0": "38552763%253A%25EB%25B2%25A4%25EC%25B8%25A0%2BCLE-%25ED%2581%25B4%25EB%259E%2598%25EC%258A%25A4%2BC236%2BCLE450%2B4MATIC%2B%25EC%25BF%25A0%25ED%258E%2598%25241",
-        "RECENT_CAR_CARID_38150299_0": "38150299%253A%25EC%25BA%2590%25EB%2594%259C%25EB%259D%25BD%2BXT4%2B2.0%2B%25EC%258A%25A4%25ED%258F%25AC%25EC%25B8%25A0%2BAWD%25241",
-        "RECENT_CAR_CARID_38544841_0": "38544841%253A%25EB%25B2%25A4%25EC%25B8%25A0%2BEQE%2BV295%2BEQE350%2B4MATIC%25241",
-        "RECENT_CAR_CARID_38320411_0": "38320411%253A%25EB%25B2%25A4%25EC%25B8%25A0%2BE-%25ED%2581%25B4%25EB%259E%2598%25EC%258A%25A4%2BW213%2BE250%2B%25EC%259D%25B5%25EC%258A%25A4%25ED%2581%25B4%25EB%25A3%25A8%25EC%258B%259C%25EB%25B8%258C%25241",
-        "RECENT_CAR_CARID_38064836_1": "38064836%253A%25EC%2595%2584%25EC%259A%25B0%25EB%2594%2594%2BA6%2B%2528C8%2529%2B40%2BTDI%2B%25EC%25BD%25B0%25ED%258A%25B8%25EB%25A1%259C%2B%25ED%2594%2584%25EB%25A6%25AC%25EB%25AF%25B8%25EC%2597%2584%25241",
-        "RECENT_CAR_CARID_38395399_0": "38395399%253A%25EC%25A7%2580%25ED%2594%2584%2B%25EA%25B7%25B8%25EB%259E%259C%25EB%2593%259C%2B%25EC%25B2%25B4%25EB%25A1%259C%25ED%2582%25A4%2528WL%2529%2B4xe%2B%25EC%2584%259C%25EB%25B0%258B%2B%25EB%25A6%25AC%25EC%25A0%2580%25EB%25B8%258C%25241",
-        "RECENT_CAR_CARID_38414075_1": "38414075%253A%25EC%25A7%2580%25ED%2594%2584%2B%25EA%25B7%25B8%25EB%259E%259C%25EB%2593%259C%2B%25EC%25B2%25B4%25EB%25A1%259C%25ED%2582%25A4%2528WL%2529%2B3.6%2B%25EC%2598%25A4%25EB%25B2%2584%25EB%259E%259C%25EB%2593%259C%25240",
-        "RECENT_CAR_CARID_37607871_1": "37607871%253A%25EB%25B2%25A4%25EC%25B8%25A0%2BE-%25ED%2581%25B4%25EB%259E%2598%25EC%258A%25A4%2BW213%2BE250%2BAMG%2BLine%25241",
-        "RECENT_CAR_CARID_38473806_0": "38473806%253A%25EA%25B8%25B0%25EC%2595%2584%2B%25EC%25B9%25B4%25EB%258B%2588%25EB%25B0%259C%2B4%25EC%2584%25B8%25EB%258C%2580%2B%25EA%25B0%2580%25EC%2586%2594%25EB%25A6%25B0%2B9%25EC%259D%25B8%25EC%258A%25B9%2B%25EC%258B%259C%25EA%25B7%25B8%25EB%258B%2588%25EC%25B2%2598%25241",
-        "RECENT_CAR_CARID_38361918_1": "38361918%253A%25ED%2598%2584%25EB%258C%2580%2B%25EC%258F%2598%25EB%2582%2598%25ED%2583%2580%2B%25ED%2595%2598%25EC%259D%25B4%25EB%25B8%258C%25EB%25A6%25AC%25EB%2593%259C%2B%2528DN8%2529%2B%25ED%2594%2584%25EB%25A6%25AC%25EB%25AF%25B8%25EC%2597%2584%25241",
-        "RECENT_CAR_CARID_37749075_0": "37749075%253A%25EB%25B2%25A4%25EC%25B8%25A0%2BS-%25ED%2581%25B4%25EB%259E%2598%25EC%258A%25A4%2BW223%2BS350%2Bd%25241",
-        "RECENT_CAR_CARID_38563546_1": "38563546%253A%25EC%25A0%259C%25EB%2584%25A4%25EC%258B%259C%25EC%258A%25A4%2BG80%2B%2528RG3%2529%2B%25EA%25B0%2580%25EC%2586%2594%25EB%25A6%25B0%2B3.5%2B%25ED%2584%25B0%25EB%25B3%25B4%2BAWD%25241",
-        "RECENT_CAR_CARID_38135942_0": "38135942%253A%25EB%25B2%25A4%25EC%25B8%25A0%2BGLC-%25ED%2581%25B4%25EB%259E%2598%25EC%258A%25A4%2BX253%2BAMG%2BGLC43%2B4MATIC%2B%25EC%25BF%25A0%25ED%258E%2598%25241",
-        "RECENT_CAR_CARID_38473946_0": "38473946%253A%25ED%258F%25AC%25EB%2593%259C%2B%25EB%25A8%25B8%25EC%258A%25A4%25ED%2583%25B1%2B%25EC%25BB%25A8%25EB%25B2%2584%25ED%2584%25B0%25EB%25B8%2594%25241",
-        "wcs_bt": "4b4e532670e38c:1732255948",
-        "JSESSIONID": "clqOmLNElKad05iNVlna92c1F9HnrKYe1Coa8ogqwI16yGCOvtiVbKKafxXeMoXz.mono-was3-prod_servlet_encarWeb7",
-        "_ga_WY0RWR65ED": "GS1.2.1732251573.116.1.1732255949.0.0.0",
-    }
-
-    headers = {
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-        "Accept-Language": "en,ru;q=0.9,en-CA;q=0.8,la;q=0.7,fr;q=0.6,ko;q=0.5",
-        "Cache-Control": "no-cache",
-        "Connection": "keep-alive",
-        "Cookie": "_fwb=135LTBG5J8fF3U9a94JRKHz.1728567297458; PCID=17285672988485105630297; WMONID=sdj1YHqWOY9; _gcl_au=1.1.850544004.1728649039; afUserId=5ebc975f-2b88-4751-89bd-39cf7d891726-o; PERSISTENT_USERTYPE=1; cto_bundle=sOq1Z19EN0E4Nzd5RTlvMFJtMFNLZmFJS0xhdHNyZUg1QVNOT3hUdHM1JTJCY3pLMEw0U0RMM3JodlE4VEE0JTJCVVglMkJoQmNsWWJzZ0gzVFJZbHpYajE4M0l0S05pNWs1T0lCenNiNlFBVmV2T2owVDQ2TFhoWnQzUWJOSzlDNWVzVHhEdmkzUTc1Q29yQlBobFJHclVOTSUyQnZacXdqdW15UUgweEg5aEhTMldlNENmOHFSZDZKaWJsSWhvTndsalBJeDZmbk1YSDgybndKWmRPM1hORnhGc1dIenlNV2dTNHVEaWJaSENDdkxMNWJuZjY0MXIyUGhZdkl2TlRVeWhrVWRRbkxkakp4TiUyQmhEcVNPR1czbmVBJTJGWDNNSXJUdSUyRkY3RDlhSW1mQzV6Rmp2ZTJyeVIlMkI0M3loVTAyVEtkajg2TWlpT3NaclQ; _ga_SX6YBF7MKB=GS1.1.1729767508.1.0.1729767512.0.0.0; _ga_BQ7RK9J6BZ=GS1.1.1729767508.1.0.1729767512.56.0.661845612; _ga=GA1.2.1028699358.1728567299; OAX=3Yy/ymcaLnwAAZxF; RecentViewTruck=; _encar_hostname=http://www.encar.com; _gid=GA1.2.810344180.1731376990; AF_SYNC=1732094525327; RecentViewAllCar=38105916%2C38448199%2C37964106%2C38496016%2C38358876%2C38453939%2C38231510%2C37685632%2C38343848%2C38364849%2C37822719%2C38198326%2C38213585%2C37709153%2C37864643%2C38032511%2C38144941%2C38247200%2C38173474%2C38313470%2C37236029; RecentViewCar=38105916%2C38448199%2C37964106%2C38496016%2C38358876%2C38453939%2C38231510%2C37685632%2C38343848%2C38364849%2C37822719%2C38198326%2C38213585%2C37709153%2C37864643%2C38032511%2C38144941%2C38247200%2C38173474%2C38313470; SEARCH_CONTENTS_CAR.prevModel={%22key%22:%22001004178%22%2C%22source%22:{%22carTypeValue%22:%22Y%22%2C%22carTypeName%22:%22kor%22%2C%22manufacturerCode%22:%22001%22%2C%22manufacturerName%22:%22%ED%98%84%EB%8C%80%22%2C%22modelGroupCode%22:%22004%22%2C%22modelGroupName%22:%22%EA%B7%B8%EB%9E%9C%EC%A0%80%22%2C%22modelCode%22:%22178%22%2C%22modelName%22:%22%EA%B7%B8%EB%9E%9C%EC%A0%80%20(GN7)%22%2C%22modelEndYear%22:%22%22}%2C%22buyerCount%22:-1%2C%22buyerCountGroup%22:-1}; RECENT_CAR_CARID_37551513_1=37551513%253A%25EB%25A7%2581%25EC%25BB%25A8%2B%25EB%2585%25B8%25ED%258B%25B8%25EB%259F%25AC%25EC%258A%25A4%2B2%25EC%2584%25B8%25EB%258C%2580%2B2.0%2B%25EB%25A6%25AC%25EC%25A0%2580%25EB%25B8%258C%2BAWD%25241; RECENT_CAR_CARID_37447862_0=37447862%253A%25EB%25A1%25A4%25EC%258A%25A4%25EB%25A1%259C%25EC%259D%25B4%25EC%258A%25A4%2B%25EC%25BB%25AC%25EB%25A6%25AC%25EB%2584%258C%2B6.7%2BV12%25241; RECENT_CAR_CARID_38391151_0=38391151%253A%25EC%2595%2584%25EC%259A%25B0%25EB%2594%2594%2BA6%2B%2528C8%2529%2B40%2BTDI%2B%25EC%25BD%25B0%25ED%258A%25B8%25EB%25A1%259C%2B%25ED%2594%2584%25EB%25A6%25AC%25EB%25AF%25B8%25EC%2597%2584%25241; RECENT_CAR_CARID_37451232_0=37451232%253ABMW%2B3%25EC%258B%259C%25EB%25A6%25AC%25EC%25A6%2588%2B%2528G20%2529%2B320i%2B%25ED%2588%25AC%25EC%2596%25B4%25EB%25A7%2581%25241; RECENT_CAR_CARID_38392119_1=38392119%253A%25EC%2595%2584%25EC%259A%25B0%25EB%2594%2594%2BA7%2B%25284K%2529%2B55%2BTFSI%2B%25EC%25BD%25B0%25ED%258A%25B8%25EB%25A1%259C%2B%25ED%2594%2584%25EB%25A6%25AC%25EB%25AF%25B8%25EC%2597%2584%25241; RECENT_CAR_CARID_38584406_0=38584406%253A%25EB%25AF%25B8%25EB%258B%2588%2B%25EC%25BF%25A0%25ED%258D%25BC%2BS%2BJCW%25241; RECENT_CAR_CARID_38552763_0=38552763%253A%25EB%25B2%25A4%25EC%25B8%25A0%2BCLE-%25ED%2581%25B4%25EB%259E%2598%25EC%258A%25A4%2BC236%2BCLE450%2B4MATIC%2B%25EC%25BF%25A0%25ED%258E%2598%25241; RECENT_CAR_CARID_38150299_0=38150299%253A%25EC%25BA%2590%25EB%2594%259C%25EB%259D%25BD%2BXT4%2B2.0%2B%25EC%258A%25A4%25ED%258F%25AC%25EC%25B8%25A0%2BAWD%25241; RECENT_CAR_CARID_38544841_0=38544841%253A%25EB%25B2%25A4%25EC%25B8%25A0%2BEQE%2BV295%2BEQE350%2B4MATIC%25241; RECENT_CAR_CARID_38320411_0=38320411%253A%25EB%25B2%25A4%25EC%25B8%25A0%2BE-%25ED%2581%25B4%25EB%259E%2598%25EC%258A%25A4%2BW213%2BE250%2B%25EC%259D%25B5%25EC%258A%25A4%25ED%2581%25B4%25EB%25A3%25A8%25EC%258B%259C%25EB%25B8%258C%25241; RECENT_CAR_CARID_38064836_1=38064836%253A%25EC%2595%2584%25EC%259A%25B0%25EB%2594%2594%2BA6%2B%2528C8%2529%2B40%2BTDI%2B%25EC%25BD%25B0%25ED%258A%25B8%25EB%25A1%259C%2B%25ED%2594%2584%25EB%25A6%25AC%25EB%25AF%25B8%25EC%2597%2584%25241; RECENT_CAR_CARID_38395399_0=38395399%253A%25EC%25A7%2580%25ED%2594%2584%2B%25EA%25B7%25B8%25EB%259E%259C%25EB%2593%259C%2B%25EC%25B2%25B4%25EB%25A1%259C%25ED%2582%25A4%2528WL%2529%2B4xe%2B%25EC%2584%259C%25EB%25B0%258B%2B%25EB%25A6%25AC%25EC%25A0%2580%25EB%25B8%258C%25241; RECENT_CAR_CARID_38414075_1=38414075%253A%25EC%25A7%2580%25ED%2594%2584%2B%25EA%25B7%25B8%25EB%259E%259C%25EB%2593%259C%2B%25EC%25B2%25B4%25EB%25A1%259C%25ED%2582%25A4%2528WL%2529%2B3.6%2B%25EC%2598%25A4%25EB%25B2%2584%25EB%259E%259C%25EB%2593%259C%25240; RECENT_CAR_CARID_37607871_1=37607871%253A%25EB%25B2%25A4%25EC%25B8%25A0%2BE-%25ED%2581%25B4%25EB%259E%2598%25EC%258A%25A4%2BW213%2BE250%2BAMG%2BLine%25241; RECENT_CAR_CARID_38473806_0=38473806%253A%25EA%25B8%25B0%25EC%2595%2584%2B%25EC%25B9%25B4%25EB%258B%2588%25EB%25B0%259C%2B4%25EC%2584%25B8%25EB%258C%2580%2B%25EA%25B0%2580%25EC%2586%2594%25EB%25A6%25B0%2B9%25EC%259D%25B8%25EC%258A%25B9%2B%25EC%258B%259C%25EA%25B7%25B8%25EB%258B%2588%25EC%25B2%2598%25241; RECENT_CAR_CARID_38361918_1=38361918%253A%25ED%2598%2584%25EB%258C%2580%2B%25EC%258F%2598%25EB%2582%2598%25ED%2583%2580%2B%25ED%2595%2598%25EC%259D%25B4%25EB%25B8%258C%25EB%25A6%25AC%25EB%2593%259C%2B%2528DN8%2529%2B%25ED%2594%2584%25EB%25A6%25AC%25EB%25AF%25B8%25EC%2597%2584%25241; RECENT_CAR_CARID_37749075_0=37749075%253A%25EB%25B2%25A4%25EC%25B8%25A0%2BS-%25ED%2581%25B4%25EB%259E%2598%25EC%258A%25A4%2BW223%2BS350%2Bd%25241; RECENT_CAR_CARID_38563546_1=38563546%253A%25EC%25A0%259C%25EB%2584%25A4%25EC%258B%259C%25EC%258A%25A4%2BG80%2B%2528RG3%2529%2B%25EA%25B0%2580%25EC%2586%2594%25EB%25A6%25B0%2B3.5%2B%25ED%2584%25B0%25EB%25B3%25B4%2BAWD%25241; RECENT_CAR_CARID_38135942_0=38135942%253A%25EB%25B2%25A4%25EC%25B8%25A0%2BGLC-%25ED%2581%25B4%25EB%259E%2598%25EC%258A%25A4%2BX253%2BAMG%2BGLC43%2B4MATIC%2B%25EC%25BF%25A0%25ED%258E%2598%25241; RECENT_CAR_CARID_38473946_0=38473946%253A%25ED%258F%25AC%25EB%2593%259C%2B%25EB%25A8%25B8%25EC%258A%25A4%25ED%2583%25B1%2B%25EC%25BB%25A8%25EB%25B2%2584%25ED%2584%25B0%25EB%25B8%2594%25241; wcs_bt=4b4e532670e38c:1732255948; JSESSIONID=clqOmLNElKad05iNVlna92c1F9HnrKYe1Coa8ogqwI16yGCOvtiVbKKafxXeMoXz.mono-was3-prod_servlet_encarWeb7; _ga_WY0RWR65ED=GS1.2.1732251573.116.1.1732255949.0.0.0",
-        "Pragma": "no-cache",
-        "Referer": "http://www.encar.com/fc/fc_carsearchlist.do?carType=for",
-        "Upgrade-Insecure-Requests": "1",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-    }
-
-    params = {
-        "pageid": "fc_carsearch",
-        "listAdvType": "pic",
-        "carid": car_id,
-        "view_type": "hs_ad",
-        "wtClick_forList": "033",
-        "advClickPosition": "imp_pic_p1_g2",
-    }
-
-    response = requests.get(
-        "http://www.encar.com/dc/dc_cardetailview.do",
-        params=params,
-        cookies=cookies,
-        headers=headers,
-        verify=False,
+    chrome_options = Options()
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--window-size=1920,1080")
+    chrome_options.add_argument("--disable-infobars")
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_argument(
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
     )
 
-    time.sleep(5)
+    service = Service(CHROMEDRIVER_PATH)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
-    soup = BeautifulSoup(response.text, "html.parser")
-
-    # Инициализация переменных
-    car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
-
-    # Проверка лизинга или аренды
-    lease_area = soup.find(id="areaLeaseRent")
-    if lease_area:
-        title_element = lease_area.find(class_="title")
-        if title_element and (
-            "리스정보" in title_element.text or "렌트정보" in title_element.text
-        ):
-            logging.info("Машина в лизинге или аренде.")
-            result = [
-                "",
-                "Машина в лизинге или аренде. Свяжитесь с менеджером.",
-            ]
-
-            return result
-        else:
-            logging.info("Элемент title найден, но не содержит нужного текста.")
-    else:
-        logging.info("Элемент areaLeaseRent не найден. Проверяем далее.")
-
-    # Поиск элемента product_left
-    product_left = soup.find(class_="product_left")
-    if product_left:
-        # Извлечение названия автомобиля
-        car_title = (
-            product_left.find(class_="prod_name").get_text(strip=True)
-            if product_left.find(class_="prod_name")
-            else ""
-        )
-
-        # Извлечение текста и разделение на строки
-        product_left_text = product_left.get_text("\n").split("\n")
-
-        # Извлечение данных
-        car_date = product_left_text[3] if len(product_left_text) > 3 else ""
-        car_engine_capacity = product_left_text[6] if len(product_left_text) > 6 else ""
-        car_price = (
-            re.sub(r"\D", "", product_left_text[1])
-            if len(product_left_text) > 1
-            else "0"
-        )
-    else:
-        logging.info("Элемент product_left не найден.")
-
-    gallery_element = soup.select_one("div.gallery_photo")
-    if gallery_element:
-        # Извлечение всех дочерних элементов
-        items = gallery_element.find_all()
-
-        car_date = items[10].text.strip() if len(items) > 10 else ""
-        car_engine_capacity = items[18].text.strip() if len(items) > 18 else ""
-
-        # Извлечение цены
+    def extract_text_safe(element, by, value, default=""):
+        """Безопасно извлекает текст элемента."""
         try:
-            keyinfo_element = soup.select_one("div.wrap_keyinfo")
-            if keyinfo_element:
-                # Извлечение всех текстовых данных
+            return element.find_element(by, value).text.strip()
+        except NoSuchElementException:
+            return default
+
+    try:
+        # Загрузка страницы
+        driver.get(url)
+        load_cookies(driver)
+
+        # Проверка на reCAPTCHA
+        if "reCAPTCHA" in driver.page_source:
+            logging.info("Обнаружена reCAPTCHA. Перезагрузка страницы...")
+            driver.refresh()
+            time.sleep(4)
+            check_and_handle_alert(driver)
+
+        save_cookies(driver)
+        logging.info("Куки сохранены.")
+
+        # Получение carid из URL
+        parsed_url = urlparse(url)
+        query_params = parse_qs(parsed_url.query)
+        car_id = query_params.get("carid", [None])[0]
+        car_id_external = car_id
+
+        # Инициализация переменных
+        car_title, car_date, car_engine_capacity, car_price = "", "", "", ""
+
+        # Проверка лизинга или аренды
+        try:
+            lease_area = driver.find_element(By.ID, "areaLeaseRent")
+            title_element = lease_area.find_element(By.CLASS_NAME, "title")
+            if "리스정보" in title_element.text or "렌트정보" in title_element.text:
+                logging.info("Машина в лизинге или аренде.")
+                return [
+                    "",
+                    "Машина в лизинге или аренде. Свяжитесь с менеджером.",
+                ]
+        except NoSuchElementException:
+            logging.info("Элемент areaLeaseRent не найден. Проверяем далее.")
+
+        # Проверка элемента product_left
+        try:
+            product_left = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
+            )
+            car_title = extract_text_safe(product_left, By.CLASS_NAME, "prod_name")
+            product_left_text = product_left.text.split("\n")
+
+            # Извлечение данных
+            car_date = product_left_text[3] if len(product_left_text) > 3 else ""
+            car_engine_capacity = (
+                product_left_text[6] if len(product_left_text) > 6 else ""
+            )
+            car_price = (
+                re.sub(r"\D", "", product_left_text[1])
+                if len(product_left_text) > 1
+                else "0"
+            )
+        except Exception as e:
+            logging.error(f"Ошибка при обработке product_left: {e}")
+
+        # Проверка элемента gallery_photo
+        try:
+            gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+            items = gallery_element.find_elements(By.XPATH, ".//*")
+
+            if len(items) > 10:
+                car_date = items[10].text
+            if len(items) > 18:
+                car_engine_capacity = items[18].text
+
+            # Извлечение цены
+            try:
+                keyinfo_element = driver.find_element(
+                    By.CSS_SELECTOR, "div.wrap_keyinfo"
+                )
                 keyinfo_texts = [
-                    item.text.strip()
-                    for item in keyinfo_element.find_all()
+                    item.text
+                    for item in keyinfo_element.find_elements(By.XPATH, ".//*")
                     if item.text.strip()
                 ]
-
                 car_price = (
                     re.sub(r"\D", "", keyinfo_texts[12])
-                    if len(keyinfo_texts) > 13
-                    else "0"
+                    if len(keyinfo_texts) > 12
+                    else car_price
                 )
-            else:
+            except NoSuchElementException:
                 logging.warning("Элемент wrap_keyinfo не найден.")
         except Exception as e:
-            logging.warning(f"Ошибка при обработке wrap_keyinfo: {e}")
-    else:
-        logging.warning("Элемент gallery_photo не найден.")
+            logging.warning(f"Ошибка при обработке gallery_photo: {e}")
 
-    # Форматирование значений
-    formatted_price = car_price.replace(",", "") if car_price else "0"
-    formatted_engine_capacity = (
-        re.sub(r"\D+", "", car_engine_capacity.replace(",", "")[:-2])
-        if car_engine_capacity
-        else "0"
-    )
-    cleaned_date = "".join(filter(str.isdigit, car_date))
-    formatted_date = (
-        f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
-    )
+        # Форматирование значений
+        formatted_price = car_price.replace(",", "") if car_price else "0"
+        formatted_engine_capacity = (
+            car_engine_capacity.replace(",", "")[:-2] if car_engine_capacity else "0"
+        )
+        cleaned_date = "".join(filter(str.isdigit, car_date))
+        formatted_date = (
+            f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
+        )
 
-    # Создание URL
-    new_url = (
-        f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}"
-        f"?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
-    )
+        # Создание URL
+        new_url = (
+            f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}"
+            f"?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
+        )
 
-    logging.info(f"Данные получены: {new_url}, {car_title}")
-    return [new_url, car_title]
+        logging.info(f"Данные получены: {new_url}, {car_title}")
+        return [new_url, car_title]
+
+    except Exception as e:
+        logging.error(f"Произошла ошибка: {e}")
+        return None, None
+
+    finally:
+        try:
+            check_and_handle_alert(driver)
+            driver.quit()
+        except Exception as e:
+            logging.error(f"Ошибка при завершении драйвера: {e}")
 
 
 # Function to calculate the total cost
