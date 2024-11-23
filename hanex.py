@@ -117,10 +117,6 @@ def set_bot_commands():
     bot.set_my_commands(commands)
 
 
-# Вызов функции для установки команд
-set_bot_commands()
-
-
 # Функция для получения курсов валют с API
 def get_currency_rates():
     global usd_rate
@@ -261,6 +257,7 @@ def get_car_info(url):
     driver = uc.Chrome(
         options=chrome_options,
         service=service,
+        seleniumwire_options=seleniumwire_options,
     )
 
     driver.get(url)
