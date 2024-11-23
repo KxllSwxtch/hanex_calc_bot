@@ -20,8 +20,8 @@ from selenium.common.exceptions import TimeoutException, NoAlertPresentException
 
 
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
-CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 # CHROMEDRIVER_PATH = "chromedriver"
 
 PROXY_HOST = "45.118.250.2"
@@ -267,14 +267,12 @@ def get_car_info(url):
     try:
         # Загружаем страницу
         driver.get(url)
-        check_and_handle_alert(driver)
 
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
             print("Страница обновлена после reCAPTCHA.")
             driver.refresh()
-            check_and_handle_alert(driver)
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
