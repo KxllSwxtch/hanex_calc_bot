@@ -262,7 +262,11 @@ def get_car_info(url):
     driver.get(url)
     driver.refresh()
     check_and_handle_alert(driver)
-    print(driver.find_element(By.CSS_SELECTOR, "div.gallery_photo").text)
+    print(
+        WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "div.gallery_photo").text)
+        )
+    )
     driver.quit()
 
     # try:
