@@ -1,5 +1,4 @@
 import time
-import pickle
 import telebot
 import os
 import re
@@ -7,7 +6,6 @@ import requests
 import locale
 import datetime
 import logging
-import undetected_chromedriver as uc
 from telebot import types
 from dotenv import load_dotenv
 from selenium import webdriver
@@ -241,10 +239,11 @@ def check_and_handle_alert(driver):
 def get_car_info(url):
     global car_id_external
 
-    chrome_options = uc.ChromeOptions()
+    chrome_options = Options()
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument(f"--proxy-server={PROXY_HOSTPORT}")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
+    chrome_options.add_argument("--headless")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_argument(
@@ -253,8 +252,7 @@ def get_car_info(url):
 
     # Инициализация драйвера
     service = Service(CHROMEDRIVER_PATH)
-    # driver = webdriver.Chrome(service=service, options=chrome_options)
-    driver = uc.Chrome(headless=True, use_subprocess=False, options=chrome_options)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
     try:
         # Загружаем страницу
