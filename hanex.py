@@ -6,9 +6,9 @@ import requests
 import locale
 import datetime
 import logging
+import seleniumwire.undetected_chromedriver as uc
 from telebot import types
 from dotenv import load_dotenv
-from seleniumwire import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -36,6 +36,7 @@ seleniumwire_options = {
     "proxy": {
         "http": f"http://{proxy}",
         "https": f"http://{proxy}",
+        "no_proxy": "localhost,127.0.0.1",
     }
 }
 
@@ -246,7 +247,7 @@ def check_and_handle_alert(driver):
 def get_car_info(url):
     global car_id_external
 
-    chrome_options = Options()
+    chrome_options = uc.ChromeOptions()
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
     chrome_options.add_argument("--headless")  # Необходим для работы в Heroku
@@ -258,8 +259,7 @@ def get_car_info(url):
 
     # Инициализация драйвера
     service = Service(CHROMEDRIVER_PATH)
-    driver = webdriver.Chrome(
-        service=service,
+    driver = uc.Chrome(
         options=chrome_options,
         seleniumwire_options=seleniumwire_options,
     )
