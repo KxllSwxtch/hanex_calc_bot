@@ -243,7 +243,7 @@ def get_car_info(url):
 
     chrome_options = uc.ChromeOptions()
     chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument(f"--proxy-server={PROXY_HOSTPORT}")
+    # chrome_options.add_argument(f"--proxy-server={PROXY_HOSTPORT}")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
