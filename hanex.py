@@ -220,7 +220,7 @@ def send_error_message(message, error_text):
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 3).until(EC.alert_is_present())
+        WebDriverWait(driver, 5).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()  # Закрывает alert
@@ -229,6 +229,13 @@ def check_and_handle_alert(driver):
         print("Нет активного всплывающего окна.")
     except Exception as alert_exception:
         print(f"Ошибка при обработке alert: {alert_exception}")
+
+
+def wait_for_page_to_load(driver, timeout=5):
+    """Функция для ожидания полной загрузки страницы."""
+    WebDriverWait(driver, timeout).until(
+        lambda d: d.execute_script("return document.readyState") == "complete"
+    )
 
 
 def get_car_info(url):
@@ -244,7 +251,6 @@ def get_car_info(url):
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--log-level=3")  # Отключение логов
     chrome_options.add_argument("--disable-application-cache")
-    chrome_options.add_argument("--incognito")  # Режим инкогнито
     chrome_options.add_argument("--disable-web-security")
     chrome_options.add_argument("--allow-running-insecure-content")
     chrome_options.add_argument("--disable-autofill")
@@ -271,8 +277,7 @@ def get_car_info(url):
             print("Страница обновлена после reCAPTCHA.")
             check_and_handle_alert(driver)
 
-        driver.get(url)
-        check_and_handle_alert(driver)
+        wait_for_page_to_load(driver)
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
