@@ -304,6 +304,7 @@ def get_car_info(url):
         driver.get(url)
         check_and_handle_alert(driver)
         load_cookies(driver)
+        time.sleep(3)
 
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
@@ -474,6 +475,7 @@ def calculate_cost(link, message):
 
     # Получение данных о машине
     result = get_car_info(link)
+    time.sleep(4)
 
     if result is None:
         logging.error(f"Ошибка при вызове get_car_info для ссылки: {link}")
