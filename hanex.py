@@ -333,7 +333,12 @@ def get_car_info(url):
 
         # Проверка наличия класса product_left
         is_product_left_present = (
-            len(driver.find_elements(By.CLASS_NAME, "product_left")) > 0
+            len(
+                WebDriverWait(driver, 10).until(
+                    EC.presence_of_all_elements_located((By.CLASS_NAME, "product_left"))
+                )
+            )
+            > 0
         )
 
         if is_product_left_present:
