@@ -305,8 +305,8 @@ def get_car_info(url):
         try:
             print("Проверка на product_left")
 
-            product_left = WebDriverWait(driver, 8).until(
-                EC.visibility_of_element_located((By.CSS_SELECTOR, "div.product_left"))
+            product_left = WebDriverWait(driver, 10).until(
+                EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
 
