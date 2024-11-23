@@ -467,7 +467,7 @@ def get_car_info(url):
 def calculate_cost(link, message):
     global car_data
 
-    logging.info("ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ")
+    print_message("ЗАПРОС НА РАСЧЁТ АВТОМОБИЛЯ")
 
     # Отправляем сообщение и сохраняем его ID
     processing_message = bot.send_message(
