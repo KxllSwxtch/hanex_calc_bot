@@ -292,9 +292,12 @@ def get_car_info(url):
         try:
             print("Проверка на areaLeaseRent")
 
-            lease_area = WebDriverWait(driver, 5).until(
+            lease_area = WebDriverWait(driver, 8).until(
                 EC.visibility_of_element_located((By.ID, "areaLeaseRent"))
             )
+
+            print(lease_area.text)
+
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:
