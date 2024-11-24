@@ -343,6 +343,7 @@ def get_car_info(url):
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
             solve_recaptcha(driver, url)
+            time.sleep(4)
 
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
