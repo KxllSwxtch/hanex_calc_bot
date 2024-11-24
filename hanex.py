@@ -266,31 +266,20 @@ def get_car_info(url):
         service=service,
         options=chrome_options,
     )
-    actions = ActionChains(driver)
 
     try:
         # Загружаем страницу
         driver.get(url)
         check_and_handle_alert(driver)
-        actions.move_by_offset(
-            200, 300
-        ).perform()  # Перемещение курсора на 200 пикселей вправо и 300 пикселей вниз
 
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
-            # check_and_handle_alert(driver)
-            alert = driver.switch_to.alert
-            alert.accept()
-            driver.refresh()
+            check_and_handle_alert(driver)
             print("Страница обновлена после reCAPTCHA.")
 
         wait_for_page_to_load(driver)
-        actions.move_by_offset(
-            100, 100
-        ).perform()  # Перемещение на 100 пикселей вправо и 100 пикселей вниз
 
-        # Парсим URL для получения carid
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
@@ -320,6 +309,8 @@ def get_car_info(url):
         # Проверка элемента product_left
         ########
         try:
+            driver.get(url)
+            time.sleep(5)
             print("Проверка на product_left")
             print(driver.page_source)
 
