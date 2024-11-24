@@ -217,7 +217,7 @@ def send_error_message(message, error_text):
     logging.error(f"Error sent to user {message.chat.id}: {error_text}")
 
 
-def check_and_handle_alert_with_js(driver):
+def check_and_handle_alert(driver):
     try:
         # Ожидаем появления alert
         WebDriverWait(driver, 4).until(EC.alert_is_present())
