@@ -222,19 +222,6 @@ def send_error_message(message, error_text):
     logging.error(f"Error sent to user {message.chat.id}: {error_text}")
 
 
-def check_and_handle_alert(driver):
-    try:
-        WebDriverWait(driver, 4).until(EC.alert_is_present())
-        alert = driver.switch_to.alert
-        print(f"Обнаружено всплывающее окно: {alert.text}")
-        alert.accept()  # Закрывает alert
-        print("Всплывающее окно было закрыто.")
-    except TimeoutException:
-        print("Нет активного всплывающего окна.")
-    except Exception as alert_exception:
-        print(f"Ошибка при обработке alert: {alert_exception}")
-
-
 def wait_for_page_to_load(driver, timeout=5):
     """Функция для ожидания полной загрузки страницы."""
     print("Проверяем загрузилась ли страница...")
@@ -303,8 +290,8 @@ def solve_recaptcha(driver, url):
         )  # Передаем токен в JS для отправки через AJAX
 
         # Ожидаем перезагрузки страницы (если нужно)
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "element_id_after_submission"))
+        WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
         )
         print("Форма успешно отправлена.")
 
@@ -347,12 +334,13 @@ def get_car_info(url):
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
             solve_recaptcha(driver, url)
-            time.sleep(5)
 
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
         car_id_external = car_id
+
+        print(driver.page_source)
 
         ########
         # Проверка элемента areaLeaseRent
@@ -379,8 +367,6 @@ def get_car_info(url):
         ########
         try:
             print("Проверка на product_left")
-
-            print(driver.page_source)
 
             product_left = WebDriverWait(driver, 5).until(
                 EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
