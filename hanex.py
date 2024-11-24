@@ -239,62 +239,61 @@ def extract_sitekey(driver, url):
 
 
 def solve_recaptcha(driver, url):
-    """Решает reCAPTCHA, извлекая sitekey с помощью Selenium и TwoCaptcha."""
+    """Решает reCAPTCHA с проверками."""
     try:
         # Извлекаем sitekey
         site_key = extract_sitekey(driver, url)
+        if not site_key:
+            raise Exception("sitekey не найден.")
         print(f"Извлеченный sitekey: {site_key}")
 
-        # Инициализация solver
+        # Решение reCAPTCHA через TwoCaptcha
         solver = TwoCaptcha(TWOCAPTCHA_API_KEY)
-
-        # Отправка запроса на решение reCAPTCHA
         result = solver.recaptcha(sitekey=site_key, url=url)
-        print(f"reCAPTCHA решена: {result}")
+        if "code" not in result:
+            raise Exception(f"Ошибка в результате решения reCAPTCHA: {result}")
+        print(f"Результат reCAPTCHA: {result}")
 
-        if result is not None:
-            driver.execute_script(
-                f"document.getElementById('g-recaptcha-response').style.display = 'block'"
-            )
-            driver.execute_script(
-                f"document.getElementById('g-recaptcha-response').innerHTML = arguments[0];",
-                result["code"],
-            )
-            driver.execute_script(
-                f"document.getElementById('g-recaptcha-response').style.display = 'none'"
-            )
-
-            # Отправка данных через AJAX, как это происходит на странице
+        # Проверка наличия jQuery
+        is_jquery_available = driver.execute_script(
+            "return typeof jQuery !== 'undefined';"
+        )
+        if not is_jquery_available:
             driver.execute_script(
                 """
-                jQuery.ajax({
-                    url: '/validation_recaptcha.do?method=v3',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        token: arguments[0]
-                    },
-                    success: function(data) {
-                        result = data[0];
-                        if (result.success == true) {
-                            location.reload();
-                        } else {
-                            if (confirm('잠시후 다시 시도해주세요.')) {
-                                location.reload();
-                            }
-                        }
-                    },
-                    error: function(error) {
-                        console.log('Ошибка при отправке reCAPTCHA', error);
-                    }
-                });
-                """,
-                result["code"],
+                var script = document.createElement('script');
+                script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+                document.head.appendChild(script);
+            """
             )
+            print("jQuery добавлен на страницу.")
 
-            print("Форма успешно отправлена.")
+        # Выполнение AJAX-запроса
+        driver.execute_script(
+            """
+            $.ajax({
+                url: '/validation_recaptcha.do?method=v3',
+                type: 'POST',
+                dataType: 'json',
+                data: { token: arguments[0] },
+                success: function(data) {
+                    console.log('Ответ от сервера:', data);
+                    if (data[0].success) {
+                        location.reload();
+                    } else {
+                        alert('reCAPTCHA не прошла, попробуйте снова.');
+                    }
+                },
+                error: function(error) {
+                    console.error('Ошибка AJAX:', error);
+                }
+            });
+            """,
+            result["code"],
+        )
+        print("AJAX-запрос отправлен.")
     except Exception as e:
-        logging.error(f"Ошибка при решении reCAPTCHA или отправке формы: {e}")
+        logging.error(f"Ошибка в solve_recaptcha: {e}")
 
 
 def get_car_info(url):
