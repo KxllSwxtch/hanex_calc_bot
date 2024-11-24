@@ -278,13 +278,38 @@ def solve_recaptcha(driver, url):
             f"document.getElementById('g-recaptcha-response').innerHTML = '{result['code']}'"
         )
 
-        # Нажимаем кнопку отправки формы
-        submit_button = driver.find_element(
-            By.ID, "submit_button"
-        )  # Замените на ID вашей кнопки отправки
-        submit_button.click()
+        # Теперь отправляем токен на сервер с помощью AJAX
+        driver.execute_script(
+            """
+            jQuery.ajax({
+                url: "/validation_recaptcha.do?method=v3",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    token: arguments[0]
+                }
+            }).done(function(data) {
+                result = data[0];
+                if (result.success == true) {
+                    location.reload();
+                } else {
+                    if (confirm('잠시후 다시 시도해주세요.')) {
+                        location.reload();
+                    }
+                }
+            });
+        """,
+            result["code"],
+        )  # Передаем токен в JS для отправки через AJAX
+
+        # Ожидаем перезагрузки страницы (если нужно)
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "element_id_after_submission"))
+        )
+        print("Форма успешно отправлена.")
+
     except Exception as e:
-        logging.error(f"Ошибка при решении reCAPTCHA: {e}")
+        logging.error(f"Ошибка при решении reCAPTCHA или отправке формы: {e}")
 
 
 def get_car_info(url):
@@ -324,8 +349,6 @@ def get_car_info(url):
             solve_recaptcha(driver, url)
             time.sleep(5)
 
-        wait_for_page_to_load(driver)
-
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
@@ -334,29 +357,28 @@ def get_car_info(url):
         ########
         # Проверка элемента areaLeaseRent
         ########
-        # try:
-        #     print("Проверка на areaLeaseRent")
+        try:
+            print("Проверка на areaLeaseRent")
 
-        #     time.sleep(4)
-        #     lease_area = driver.find_element(By.ID, "areaLeaseRent")
-        #     title_element = lease_area.find_element(By.CLASS_NAME, "title")
+            time.sleep(4)
+            lease_area = driver.find_element(By.ID, "areaLeaseRent")
+            title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
-        #     if "리스정보" in title_element.text or "렌트정보" in title_element.text:
-        #         print("Данная машина находится в лизинге.")
-        #         return [
-        #             "",
-        #             "Данная машина находится в лизинге. Свяжитесь с менеджером.",
-        #         ]
+            if "리스정보" in title_element.text or "렌트정보" in title_element.text:
+                print("Данная машина находится в лизинге.")
+                return [
+                    "",
+                    "Данная машина находится в лизинге. Свяжитесь с менеджером.",
+                ]
 
-        # except NoSuchElementException:
-        #     print("Элемент areaLeaseRent не найден.")
+        except NoSuchElementException:
+            print("Элемент areaLeaseRent не найден.")
 
         ########
         # Проверка элемента product_left
         ########
         try:
             print("Проверка на product_left")
-            print(driver.page_source)
 
             product_left = WebDriverWait(driver, 5).until(
                 EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
