@@ -238,62 +238,76 @@ def extract_sitekey(driver, url):
         raise Exception("Не удалось найти sitekey.")
 
 
+def send_recaptcha_token(url, token, cookies=None, headers=None):
+    """
+    Отправляет reCAPTCHA токен через POST запрос на сервер.
+
+    :param url: URL для отправки запроса
+    :param token: Токен, полученный от reCAPTCHA
+    :param cookies: Словарь с cookies (если необходимо)
+    :param headers: Словарь с заголовками (если необходимо)
+    :return: Ответ сервера в формате JSON
+    """
+    try:
+        # Устанавливаем URL для reCAPTCHA обработки
+        post_url = f"{url}/validation_recaptcha.do?method=v3"
+
+        # Данные для POST-запроса
+        payload = {"token": token}
+
+        # Отправка POST-запроса
+        response = requests.post(
+            post_url, data=payload, cookies=cookies, headers=headers
+        )
+
+        # Проверка статуса ответа
+        if response.status_code == 200:
+            print("Запрос успешно отправлен.")
+            return response.json()
+        else:
+            print(f"Ошибка запроса: {response.status_code}")
+            print(f"Тело ответа: {response.text}")
+            return None
+    except Exception as e:
+        print(f"Ошибка при отправке POST-запроса: {e}")
+        return None
+
+
 def solve_recaptcha(driver, url):
-    """Решает reCAPTCHA с проверками."""
+    """Решает reCAPTCHA, извлекая sitekey с помощью Selenium и TwoCaptcha."""
     try:
         # Извлекаем sitekey
         site_key = extract_sitekey(driver, url)
-        if not site_key:
-            raise Exception("sitekey не найден.")
         print(f"Извлеченный sitekey: {site_key}")
 
-        # Решение reCAPTCHA через TwoCaptcha
+        # Инициализация solver
         solver = TwoCaptcha(TWOCAPTCHA_API_KEY)
+
+        # Решение reCAPTCHA
         result = solver.recaptcha(sitekey=site_key, url=url)
-        if "code" not in result:
-            raise Exception(f"Ошибка в результате решения reCAPTCHA: {result}")
-        print(f"Результат reCAPTCHA: {result}")
+        print(f"reCAPTCHA решена: {result}")
 
-        # Проверка наличия jQuery
-        is_jquery_available = driver.execute_script(
-            "return typeof jQuery !== 'undefined';"
-        )
-        if not is_jquery_available:
-            driver.execute_script(
-                """
-                var script = document.createElement('script');
-                script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
-                document.head.appendChild(script);
-            """
-            )
-            print("jQuery добавлен на страницу.")
+        # Извлечение cookies из Selenium
+        cookies = {cookie["name"]: cookie["value"] for cookie in driver.get_cookies()}
 
-        # Выполнение AJAX-запроса
-        driver.execute_script(
-            """
-            $.ajax({
-                url: '/validation_recaptcha.do?method=v3',
-                type: 'POST',
-                dataType: 'json',
-                data: { token: arguments[0] },
-                success: function(data) {
-                    console.log('Ответ от сервера:', data);
-                    if (data[0].success) {
-                        location.reload();
-                    } else {
-                        alert('reCAPTCHA не прошла, попробуйте снова.');
-                    }
-                },
-                error: function(error) {
-                    console.error('Ошибка AJAX:', error);
-                }
-            });
-            """,
-            result["code"],
+        # Установка заголовков (если необходимо)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
+        }
+
+        # Отправка reCAPTCHA токена через POST-запрос
+        response = send_recaptcha_token(
+            url, result["code"], cookies=cookies, headers=headers
         )
-        print("AJAX-запрос отправлен.")
+
+        # Проверка ответа
+        if response and response.get("success"):
+            print("reCAPTCHA успешно пройдена, перезагружаем страницу.")
+            driver.refresh()  # Перезагрузка страницы для завершения процесса
+        else:
+            print("Не удалось пройти reCAPTCHA.")
     except Exception as e:
-        logging.error(f"Ошибка в solve_recaptcha: {e}")
+        logging.error(f"Ошибка при решении reCAPTCHA или отправке формы: {e}")
 
 
 def get_car_info(url):
