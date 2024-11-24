@@ -343,7 +343,6 @@ def get_car_info(url):
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
             # solve_recaptcha(driver, url)
-            driver.refresh()
             time.sleep(4)
 
         parsed_url = urlparse(url)
@@ -356,7 +355,7 @@ def get_car_info(url):
         ########
         try:
             print("Проверка на areaLeaseRent")
-            lease_area = WebDriverWait(driver, 5).until(
+            lease_area = WebDriverWait(driver, 10).until(
                 EC.visibility_of_element_located((By.ID, "areaLeaseRent"))
             )
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
