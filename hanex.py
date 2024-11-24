@@ -290,7 +290,6 @@ def get_car_info(url):
     try:
         # Загружаем страницу
         driver.get(url)
-        check_and_handle_alert(driver)
 
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
@@ -330,7 +329,6 @@ def get_car_info(url):
         try:
             print("Проверка на product_left")
             print(driver.page_source)
-            driver.refresh()
 
             product_left = WebDriverWait(driver, 10).until(
                 EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
@@ -363,8 +361,6 @@ def get_car_info(url):
 
             # Создание URL
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
-
-            driver.quit()
 
             print(f"Данные о машине получены: {new_url}, {car_title}")
 
