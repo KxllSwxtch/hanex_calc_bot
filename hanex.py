@@ -310,6 +310,7 @@ def get_car_info(url):
         ########
         try:
             print("Проверка на product_left")
+            print(driver.page_source)
 
             time.sleep(6)
             product_left = driver.find_element(By.CLASS_NAME, "product_left")
