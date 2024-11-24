@@ -27,7 +27,6 @@ SITE_KEY = "6LdNq5wmAAAAAFbrCxo9h6CnZF2Zcl6T39tqvwbS"
 
 CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
 # CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
-# CHROMEDRIVER_PATH = "chromedriver"
 
 PROXY_HOST = "45.118.250.2"
 PROXY_PORT = "8000"
@@ -323,7 +322,7 @@ def get_car_info(url):
     chrome_options.add_argument("--disable-web-security")
     chrome_options.add_argument("--allow-running-insecure-content")
     chrome_options.add_argument("--disable-autofill")
-    chrome_options.add_argument(f"--proxy-server={http_proxy}")
+    # chrome_options.add_argument(f"--proxy-server={http_proxy}")
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
     )
@@ -355,9 +354,7 @@ def get_car_info(url):
         ########
         try:
             print("Проверка на areaLeaseRent")
-            lease_area = WebDriverWait(driver, 10).until(
-                EC.visibility_of_element_located((By.ID, "areaLeaseRent"))
-            )
+            lease_area = driver.find_element(By.ID, "areaLeaseRent")
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
             if "리스정보" in title_element.text or "렌트정보" in title_element.text:

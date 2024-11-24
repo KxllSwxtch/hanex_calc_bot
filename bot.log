@@ -6019,3 +6019,95 @@ Stacktrace:
 2024-11-24 14:08:03,887 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x104734390>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/3aeec2f6640d1e276f94e42cd8eb6180
 2024-11-24 14:08:03,888 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x104734990>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/3aeec2f6640d1e276f94e42cd8eb6180
 2024-11-24 14:08:03,888 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x104735150>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/3aeec2f6640d1e276f94e42cd8eb6180
+2024-11-24 16:24:44,403 - ERROR - Произошла ошибка: Message: 
+Stacktrace:
+0   chromedriver                        0x0000000104fc7ac4 cxxbridge1$str$ptr + 3651580
+1   chromedriver                        0x0000000104fc0314 cxxbridge1$str$ptr + 3620940
+2   chromedriver                        0x0000000104a284b4 cxxbridge1$string$len + 89224
+3   chromedriver                        0x0000000104a6c898 cxxbridge1$string$len + 368748
+4   chromedriver                        0x0000000104aa60fc cxxbridge1$string$len + 604368
+5   chromedriver                        0x0000000104a610b0 cxxbridge1$string$len + 321668
+6   chromedriver                        0x0000000104a61d00 cxxbridge1$string$len + 324820
+7   chromedriver                        0x0000000104f92e08 cxxbridge1$str$ptr + 3435328
+8   chromedriver                        0x0000000104f96120 cxxbridge1$str$ptr + 3448408
+9   chromedriver                        0x0000000104f7a17c cxxbridge1$str$ptr + 3333812
+10  chromedriver                        0x0000000104f969e0 cxxbridge1$str$ptr + 3450648
+11  chromedriver                        0x0000000104f6b988 cxxbridge1$str$ptr + 3274432
+12  chromedriver                        0x0000000104fb10f4 cxxbridge1$str$ptr + 3558956
+13  chromedriver                        0x0000000104fb1270 cxxbridge1$str$ptr + 3559336
+14  chromedriver                        0x0000000104fbff88 cxxbridge1$str$ptr + 3620032
+15  libsystem_pthread.dylib             0x000000019d501f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019d4fcd34 thread_start + 8
+
+2024-11-24 16:24:44,852 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 16:25:02,631 - ERROR - Произошла ошибка: Message: 
+Stacktrace:
+0   chromedriver                        0x00000001030c3ac4 cxxbridge1$str$ptr + 3651580
+1   chromedriver                        0x00000001030bc314 cxxbridge1$str$ptr + 3620940
+2   chromedriver                        0x0000000102b244b4 cxxbridge1$string$len + 89224
+3   chromedriver                        0x0000000102b68898 cxxbridge1$string$len + 368748
+4   chromedriver                        0x0000000102ba20fc cxxbridge1$string$len + 604368
+5   chromedriver                        0x0000000102b5d0b0 cxxbridge1$string$len + 321668
+6   chromedriver                        0x0000000102b5dd00 cxxbridge1$string$len + 324820
+7   chromedriver                        0x000000010308ee08 cxxbridge1$str$ptr + 3435328
+8   chromedriver                        0x0000000103092120 cxxbridge1$str$ptr + 3448408
+9   chromedriver                        0x000000010307617c cxxbridge1$str$ptr + 3333812
+10  chromedriver                        0x00000001030929e0 cxxbridge1$str$ptr + 3450648
+11  chromedriver                        0x0000000103067988 cxxbridge1$str$ptr + 3274432
+12  chromedriver                        0x00000001030ad0f4 cxxbridge1$str$ptr + 3558956
+13  chromedriver                        0x00000001030ad270 cxxbridge1$str$ptr + 3559336
+14  chromedriver                        0x00000001030bbf88 cxxbridge1$str$ptr + 3620032
+15  libsystem_pthread.dylib             0x000000019d501f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019d4fcd34 thread_start + 8
+
+2024-11-24 16:25:03,431 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 16:25:21,350 - ERROR - Произошла ошибка: Message: 
+Stacktrace:
+0   chromedriver                        0x0000000102c67ac4 cxxbridge1$str$ptr + 3651580
+1   chromedriver                        0x0000000102c60314 cxxbridge1$str$ptr + 3620940
+2   chromedriver                        0x00000001026c84b4 cxxbridge1$string$len + 89224
+3   chromedriver                        0x000000010270c898 cxxbridge1$string$len + 368748
+4   chromedriver                        0x00000001027460fc cxxbridge1$string$len + 604368
+5   chromedriver                        0x00000001027010b0 cxxbridge1$string$len + 321668
+6   chromedriver                        0x0000000102701d00 cxxbridge1$string$len + 324820
+7   chromedriver                        0x0000000102c32e08 cxxbridge1$str$ptr + 3435328
+8   chromedriver                        0x0000000102c36120 cxxbridge1$str$ptr + 3448408
+9   chromedriver                        0x0000000102c1a17c cxxbridge1$str$ptr + 3333812
+10  chromedriver                        0x0000000102c369e0 cxxbridge1$str$ptr + 3450648
+11  chromedriver                        0x0000000102c0b988 cxxbridge1$str$ptr + 3274432
+12  chromedriver                        0x0000000102c510f4 cxxbridge1$str$ptr + 3558956
+13  chromedriver                        0x0000000102c51270 cxxbridge1$str$ptr + 3559336
+14  chromedriver                        0x0000000102c5ff88 cxxbridge1$str$ptr + 3620032
+15  libsystem_pthread.dylib             0x000000019d501f94 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019d4fcd34 thread_start + 8
+
+2024-11-24 16:25:21,823 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 16:25:44,692 - ERROR - Произошла ошибка: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=131.0.6778.86)
+Stacktrace:
+0   chromedriver                        0x0000000102cefac4 cxxbridge1$str$ptr + 3651580
+1   chromedriver                        0x0000000102ce8314 cxxbridge1$str$ptr + 3620940
+2   chromedriver                        0x00000001027504b4 cxxbridge1$string$len + 89224
+3   chromedriver                        0x000000010272b994 core::str::slice_error_fail::ha0e52dbcb60e6bae + 3780
+4   chromedriver                        0x00000001027ba890 cxxbridge1$string$len + 524388
+5   chromedriver                        0x00000001027cd76c cxxbridge1$string$len + 601920
+6   chromedriver                        0x00000001027890b0 cxxbridge1$string$len + 321668
+7   chromedriver                        0x0000000102789d00 cxxbridge1$string$len + 324820
+8   chromedriver                        0x0000000102cbae08 cxxbridge1$str$ptr + 3435328
+9   chromedriver                        0x0000000102cbe120 cxxbridge1$str$ptr + 3448408
+10  chromedriver                        0x0000000102ca217c cxxbridge1$str$ptr + 3333812
+11  chromedriver                        0x0000000102cbe9e0 cxxbridge1$str$ptr + 3450648
+12  chromedriver                        0x0000000102c93988 cxxbridge1$str$ptr + 3274432
+13  chromedriver                        0x0000000102cd90f4 cxxbridge1$str$ptr + 3558956
+14  chromedriver                        0x0000000102cd9270 cxxbridge1$str$ptr + 3559336
+15  chromedriver                        0x0000000102ce7f88 cxxbridge1$str$ptr + 3620032
+16  libsystem_pthread.dylib             0x000000019d501f94 _pthread_start + 136
+17  libsystem_pthread.dylib             0x000000019d4fcd34 thread_start + 8
+
+2024-11-24 16:26:16,242 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x105734090>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/58af896e96f9ee581d74b63f1698ac88
+2024-11-24 16:26:16,243 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x105734ad0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/58af896e96f9ee581d74b63f1698ac88
+2024-11-24 16:26:16,243 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x105735290>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/58af896e96f9ee581d74b63f1698ac88
+2024-11-24 16:26:45,277 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102e74550>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/327c499abbf8fa82a79c158bc9e3e88a
+2024-11-24 16:26:45,278 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102e74ad0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/327c499abbf8fa82a79c158bc9e3e88a
+2024-11-24 16:26:45,278 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102e75290>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/327c499abbf8fa82a79c158bc9e3e88a
