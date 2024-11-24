@@ -292,7 +292,7 @@ def get_car_info(url):
         try:
             print("Проверка на areaLeaseRent")
 
-            time.sleep(3)
+            time.sleep(6)
             lease_area = driver.find_element(By.ID, "areaLeaseRent")
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
@@ -312,7 +312,7 @@ def get_car_info(url):
         try:
             print("Проверка на product_left")
 
-            time.sleep(5)
+            time.sleep(6)
             product_left = driver.find_element(By.CLASS_NAME, "product_left")
             product_left_splitted = product_left.text.split("\n")
 
@@ -348,6 +348,8 @@ def get_car_info(url):
             print(f"Данные о машине получены: {new_url}, {car_title}")
 
             return [new_url, car_title]
+        except NoSuchElementException:
+            print("Элемент product_left не найден, переходим к поиску gallery_photo")
         except Exception as e:
             print(f"Ошибка при обработке product_left: {e}")
 
@@ -357,7 +359,7 @@ def get_car_info(url):
         try:
             print("Проверка на gallery_photo")
 
-            time.sleep(5)
+            time.sleep(6)
             gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
             items = gallery_element.find_elements(By.XPATH, ".//*")
@@ -369,6 +371,9 @@ def get_car_info(url):
 
             # Извлечение информации о ключах
             try:
+                print("Проверка на элемент wrap_keyinfo")
+
+                time.sleep(5)
                 keyinfo_element = driver.find_element(
                     By.CSS_SELECTOR, "div.wrap_keyinfo"
                 )
