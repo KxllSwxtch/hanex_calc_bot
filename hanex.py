@@ -288,30 +288,28 @@ def get_car_info(url):
         ########
         # Проверка элемента areaLeaseRent
         ########
-        try:
-            print("Проверка на areaLeaseRent")
+        # try:
+        #     print("Проверка на areaLeaseRent")
 
-            time.sleep(4)
-            lease_area = driver.find_element(By.ID, "areaLeaseRent")
-            title_element = lease_area.find_element(By.CLASS_NAME, "title")
+        #     time.sleep(4)
+        #     lease_area = driver.find_element(By.ID, "areaLeaseRent")
+        #     title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
-            if "리스정보" in title_element.text or "렌트정보" in title_element.text:
-                print("Данная машина находится в лизинге.")
-                return [
-                    "",
-                    "Данная машина находится в лизинге. Свяжитесь с менеджером.",
-                ]
+        #     if "리스정보" in title_element.text or "렌트정보" in title_element.text:
+        #         print("Данная машина находится в лизинге.")
+        #         return [
+        #             "",
+        #             "Данная машина находится в лизинге. Свяжитесь с менеджером.",
+        #         ]
 
-        except NoSuchElementException:
-            print("Элемент areaLeaseRent не найден.")
+        # except NoSuchElementException:
+        #     print("Элемент areaLeaseRent не найден.")
 
         ########
         # Проверка элемента product_left
         ########
         try:
             print("Проверка на product_left")
-
-            print(driver.find_element(By.CLASS_NAME, "product_left"))
 
             time.sleep(6)
             product_left = driver.find_element(By.CLASS_NAME, "product_left")
