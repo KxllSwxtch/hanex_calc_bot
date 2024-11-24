@@ -7,6 +7,7 @@ import locale
 import datetime
 import logging
 
+from twocaptcha import TwoCaptcha
 from telebot import types
 from dotenv import load_dotenv
 from selenium import webdriver
@@ -21,7 +22,9 @@ from selenium.common.exceptions import TimeoutException, NoAlertPresentException
 from selenium.webdriver.common.action_chains import ActionChains
 
 
-CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
+TWOCAPTCHA_API_KEY = "89a8f41a0641f085c8ca6e861e0fa571"
+SITE_KEY = "6LdNq5wmAAAAAFbrCxo9h6CnZF2Zcl6T39tqvwbS"
+
 CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
 # CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 # CHROMEDRIVER_PATH = "chromedriver"
@@ -240,6 +243,23 @@ def wait_for_page_to_load(driver, timeout=5):
     )
 
 
+def solve_recaptcha(driver, site_key, url):
+    solver = TwoCaptcha(TWOCAPTCHA_API_KEY)
+    try:
+        result = solver.recaptcha(sitekey=site_key, url=url)
+        print(f"reCAPTCHA решена: {result}")
+        # Вставляем ответ в форму
+        driver.execute_script(
+            f"document.getElementById('g-recaptcha-response').innerHTML = '{result['code']}'"
+        )
+        submit_button = driver.find_element(
+            By.ID, "submit_button"
+        )  # Замените на ID вашей кнопки отправки
+        submit_button.click()
+    except Exception as e:
+        logging.error(f"Ошибка при решении reCAPTCHA: {e}")
+
+
 def get_car_info(url):
     global car_id_external
 
@@ -275,8 +295,7 @@ def get_car_info(url):
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
-            check_and_handle_alert(driver)
-            print("Страница обновлена после reCAPTCHA.")
+            solve_recaptcha(driver, SITE_KEY, url)
 
         wait_for_page_to_load(driver)
 
