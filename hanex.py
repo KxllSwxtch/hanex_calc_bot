@@ -342,10 +342,8 @@ def get_car_info(url):
     # Загружаем страницу
     driver.get(url)
 
-    # Проверка на reCAPTCHA
-    if "reCAPTCHA" in driver.page_source:
-        print("Обнаружена reCAPTCHA. Пытаемся решить...")
-        solve_recaptcha(driver, url)
+    solve_recaptcha(driver, url)
+    time.sleep(5)
 
     parsed_url = urlparse(url)
     query_params = parse_qs(parsed_url.query)
