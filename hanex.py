@@ -243,15 +243,42 @@ def wait_for_page_to_load(driver, timeout=5):
     )
 
 
-def solve_recaptcha(driver, site_key, url):
-    solver = TwoCaptcha(TWOCAPTCHA_API_KEY)
+def extract_sitekey(driver, url):
+    """Извлекает sitekey из iframe на странице."""
+    driver.get(url)  # Загружаем страницу
+    iframe = driver.find_element(
+        By.TAG_NAME, "iframe"
+    )  # Находим iframe, содержащий reCAPTCHA
+    iframe_src = iframe.get_attribute("src")  # Получаем src атрибут iframe
+
+    # Ищем sitekey в src iframe
+    match = re.search(r"k=([A-Za-z0-9_-]+)", iframe_src)
+    if match:
+        return match.group(1)
+    else:
+        raise Exception("Не удалось найти sitekey.")
+
+
+def solve_recaptcha(driver, url):
+    """Решает reCAPTCHA, извлекая sitekey с помощью Selenium и TwoCaptcha."""
     try:
+        # Извлекаем sitekey
+        site_key = extract_sitekey(driver, url)
+        print(f"Извлеченный sitekey: {site_key}")
+
+        # Инициализация solver
+        solver = TwoCaptcha(TWOCAPTCHA_API_KEY)
+
+        # Отправка запроса на решение reCAPTCHA
         result = solver.recaptcha(sitekey=site_key, url=url)
         print(f"reCAPTCHA решена: {result}")
+
         # Вставляем ответ в форму
         driver.execute_script(
             f"document.getElementById('g-recaptcha-response').innerHTML = '{result['code']}'"
         )
+
+        # Нажимаем кнопку отправки формы
         submit_button = driver.find_element(
             By.ID, "submit_button"
         )  # Замените на ID вашей кнопки отправки
@@ -330,7 +357,7 @@ def get_car_info(url):
             print("Проверка на product_left")
             print(driver.page_source)
 
-            product_left = WebDriverWait(driver, 10).until(
+            product_left = WebDriverWait(driver, 5).until(
                 EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
             )
             product_left_splitted = product_left.text.split("\n")
@@ -376,7 +403,6 @@ def get_car_info(url):
         try:
             print("Проверка на gallery_photo")
 
-            time.sleep(6)
             gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
             items = gallery_element.find_elements(By.XPATH, ".//*")
