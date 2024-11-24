@@ -25,14 +25,16 @@ from selenium.webdriver.common.action_chains import ActionChains
 TWOCAPTCHA_API_KEY = "89a8f41a0641f085c8ca6e861e0fa571"
 SITE_KEY = "6LdNq5wmAAAAAFbrCxo9h6CnZF2Zcl6T39tqvwbS"
 
-CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 # CHROMEDRIVER_PATH = "chromedriver"
 
 PROXY_HOST = "45.118.250.2"
 PROXY_PORT = "8000"
 PROXY_USER = "B01vby"
 PROXY_PASS = "GBno0x"
+
+http_proxy = f"http://{PROXY_USER}:{PROXY_PASS}@{PROXY_HOST}:{PROXY_PORT}"
 
 session = requests.Session()
 
@@ -274,7 +276,7 @@ def solve_recaptcha(driver, url):
 
         # Ожидаем перезагрузки страницы (если нужно)
         submit_bnt = WebDriverWait(driver, 5).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
+            EC.presence_of_element_located((By.ID, "recaptcha-verify-button"))
         )
 
         submit_bnt.click()

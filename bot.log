@@ -5961,3 +5961,61 @@ Stacktrace:
 2024-11-24 11:57:36,030 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x104124350>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/fd8862c678a3212a5c215d63d10bf85e
 2024-11-24 11:57:36,031 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x104124dd0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/fd8862c678a3212a5c215d63d10bf85e
 2024-11-24 11:57:36,031 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x104125590>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/fd8862c678a3212a5c215d63d10bf85e
+2024-11-24 13:54:41,146 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102563f90>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/98b08fb2328ca6149a7ea7d2cc3c2a50
+2024-11-24 13:54:41,147 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102574750>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/98b08fb2328ca6149a7ea7d2cc3c2a50
+2024-11-24 13:54:41,147 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102574f10>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/98b08fb2328ca6149a7ea7d2cc3c2a50
+2024-11-24 13:56:08,020 - ERROR - Произошла ошибка: cannot access local variable 'car_price' where it is not associated with a value
+2024-11-24 13:56:08,482 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 13:58:51,625 - ERROR - Произошла ошибка: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=131.0.6778.86)
+Stacktrace:
+0   chromedriver                        0x0000000100bf3ac4 cxxbridge1$str$ptr + 3651580
+1   chromedriver                        0x0000000100bec314 cxxbridge1$str$ptr + 3620940
+2   chromedriver                        0x00000001006544b4 cxxbridge1$string$len + 89224
+3   chromedriver                        0x000000010062f994 core::str::slice_error_fail::ha0e52dbcb60e6bae + 3780
+4   chromedriver                        0x00000001006be890 cxxbridge1$string$len + 524388
+5   chromedriver                        0x00000001006d176c cxxbridge1$string$len + 601920
+6   chromedriver                        0x000000010068d0b0 cxxbridge1$string$len + 321668
+7   chromedriver                        0x000000010068dd00 cxxbridge1$string$len + 324820
+8   chromedriver                        0x0000000100bbee08 cxxbridge1$str$ptr + 3435328
+9   chromedriver                        0x0000000100bc2120 cxxbridge1$str$ptr + 3448408
+10  chromedriver                        0x0000000100ba617c cxxbridge1$str$ptr + 3333812
+11  chromedriver                        0x0000000100bc29e0 cxxbridge1$str$ptr + 3450648
+12  chromedriver                        0x0000000100b97988 cxxbridge1$str$ptr + 3274432
+13  chromedriver                        0x0000000100bdd0f4 cxxbridge1$str$ptr + 3558956
+14  chromedriver                        0x0000000100bdd270 cxxbridge1$str$ptr + 3559336
+15  chromedriver                        0x0000000100bebf88 cxxbridge1$str$ptr + 3620032
+16  libsystem_pthread.dylib             0x000000019d501f94 _pthread_start + 136
+17  libsystem_pthread.dylib             0x000000019d4fcd34 thread_start + 8
+
+2024-11-24 13:58:52,093 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 13:59:29,024 - ERROR - Ошибка при решении reCAPTCHA или отправке формы: Message: javascript error: Cannot read properties of null (reading 'style')
+  (Session info: chrome=131.0.6778.86)
+Stacktrace:
+0   chromedriver                        0x0000000104d23ac4 cxxbridge1$str$ptr + 3651580
+1   chromedriver                        0x0000000104d1c314 cxxbridge1$str$ptr + 3620940
+2   chromedriver                        0x00000001047844b4 cxxbridge1$string$len + 89224
+3   chromedriver                        0x0000000104789398 cxxbridge1$string$len + 109420
+4   chromedriver                        0x000000010478b688 cxxbridge1$string$len + 118364
+5   chromedriver                        0x0000000104802950 cxxbridge1$string$len + 606500
+6   chromedriver                        0x00000001048020fc cxxbridge1$string$len + 604368
+7   chromedriver                        0x00000001047bd0b0 cxxbridge1$string$len + 321668
+8   chromedriver                        0x00000001047bdd00 cxxbridge1$string$len + 324820
+9   chromedriver                        0x0000000104ceee08 cxxbridge1$str$ptr + 3435328
+10  chromedriver                        0x0000000104cf2120 cxxbridge1$str$ptr + 3448408
+11  chromedriver                        0x0000000104cd617c cxxbridge1$str$ptr + 3333812
+12  chromedriver                        0x0000000104cf29e0 cxxbridge1$str$ptr + 3450648
+13  chromedriver                        0x0000000104cc7988 cxxbridge1$str$ptr + 3274432
+14  chromedriver                        0x0000000104d0d0f4 cxxbridge1$str$ptr + 3558956
+15  chromedriver                        0x0000000104d0d270 cxxbridge1$str$ptr + 3559336
+16  chromedriver                        0x0000000104d1bf88 cxxbridge1$str$ptr + 3620032
+17  libsystem_pthread.dylib             0x000000019d501f94 _pthread_start + 136
+18  libsystem_pthread.dylib             0x000000019d4fcd34 thread_start + 8
+
+2024-11-24 13:59:43,847 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1044f4250>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/dffc57df2e5f2a9117dc6d9c5508f21f
+2024-11-24 13:59:43,848 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1044f5a10>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/dffc57df2e5f2a9117dc6d9c5508f21f
+2024-11-24 13:59:43,848 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1044f61d0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/dffc57df2e5f2a9117dc6d9c5508f21f
+2024-11-24 14:08:03,887 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x104734390>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/3aeec2f6640d1e276f94e42cd8eb6180
+2024-11-24 14:08:03,888 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x104734990>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/3aeec2f6640d1e276f94e42cd8eb6180
+2024-11-24 14:08:03,888 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x104735150>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/3aeec2f6640d1e276f94e42cd8eb6180
