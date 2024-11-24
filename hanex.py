@@ -261,12 +261,12 @@ def get_car_info(url):
     )
 
     # Инициализация драйвера
-    actions = ActionChains(driver)
     service = Service(CHROMEDRIVER_PATH)
     driver = webdriver.Chrome(
         service=service,
         options=chrome_options,
     )
+    actions = ActionChains(driver)
 
     try:
         # Загружаем страницу
