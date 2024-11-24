@@ -231,8 +231,9 @@ def check_and_handle_alert(driver):
         print(f"Ошибка при обработке alert: {alert_exception}")
 
 
-def wait_for_page_to_load(driver, timeout=10):
+def wait_for_page_to_load(driver, timeout=5):
     """Функция для ожидания полной загрузки страницы."""
+    print("Проверяем загрузилась ли страница...")
     WebDriverWait(driver, timeout).until(
         lambda d: d.execute_script("return document.readyState") == "complete"
     )
@@ -285,11 +286,13 @@ def get_car_info(url):
         car_id = query_params.get("carid", [None])[0]
         car_id_external = car_id
 
+        ########
         # Проверка элемента areaLeaseRent
+        ########
         try:
             print("Проверка на areaLeaseRent")
 
-            lease_area = WebDriverWait(driver, 5).untl(
+            lease_area = WebDriverWait(driver, 5).until(
                 EC.visibility_of_element_located((By.ID, "areaLeaseRent"))
             )
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
@@ -300,10 +303,13 @@ def get_car_info(url):
                     "",
                     "Данная машина находится в лизинге. Свяжитесь с менеджером.",
                 ]
+
         except NoSuchElementException:
             print("Элемент areaLeaseRent не найден.")
 
+        ########
         # Проверка элемента product_left
+        ########
         try:
             print("Проверка на product_left")
 
@@ -347,7 +353,9 @@ def get_car_info(url):
         except Exception as e:
             print(f"Ошибка при обработке product_left: {e}")
 
+        ########
         # Проверка элемента gallery_photo
+        ########
         try:
             print("Проверка на gallery_photo")
 
