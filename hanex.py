@@ -292,7 +292,7 @@ def get_car_info(url):
         try:
             print("Проверка на areaLeaseRent")
 
-            lease_area = WebDriverWait(driver, 8).until(
+            lease_area = WebDriverWait(driver, 15).until(
                 EC.visibility_of_element_located((By.ID, "areaLeaseRent"))
             )
 
