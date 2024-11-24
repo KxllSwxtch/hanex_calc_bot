@@ -23,7 +23,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 TWOCAPTCHA_API_KEY = "89a8f41a0641f085c8ca6e861e0fa571"
-SITE_KEY = "6LdNq5wmAAAAAFbrCxo9h6CnZF2Zcl6T39tqvwbS"
 
 CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
 # CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
@@ -223,14 +222,6 @@ def send_error_message(message, error_text):
     logging.error(f"Error sent to user {message.chat.id}: {error_text}")
 
 
-def wait_for_page_to_load(driver, timeout=5):
-    """Функция для ожидания полной загрузки страницы."""
-    print("Проверяем загрузилась ли страница...")
-    WebDriverWait(driver, timeout).until(
-        lambda d: d.execute_script("return document.readyState") == "complete"
-    )
-
-
 def extract_sitekey(driver, url):
     """Извлекает sitekey из iframe на странице."""
     driver.get(url)  # Загружаем страницу
@@ -341,7 +332,7 @@ def get_car_info(url):
         # Проверка на reCAPTCHA
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
-            # solve_recaptcha(driver, url)
+            solve_recaptcha(driver, url)
             time.sleep(4)
 
         parsed_url = urlparse(url)
