@@ -277,7 +277,7 @@ def solve_recaptcha(driver, url):
         # Отправка данных через AJAX, как это происходит на странице
         driver.execute_script(
             """
-            $.ajax({
+            jQuery.ajax({
                 url: '/validation_recaptcha.do?method=v3',
                 type: 'POST',
                 dataType: 'json',
