@@ -268,18 +268,40 @@ def solve_recaptcha(driver, url):
         )
         driver.execute_script(
             f"document.getElementById('g-recaptcha-response').innerHTML = arguments[0];",
-            {result["code"]},
+            result["code"],
         )
         driver.execute_script(
             f"document.getElementById('g-recaptcha-response').style.display = 'none'"
         )
 
-        # Ожидаем перезагрузки страницы (если нужно)
-        submit_bnt = WebDriverWait(driver, 5).until(
-            EC.presence_of_element_located((By.ID, "recaptcha-verify-button"))
+        # Отправка данных через AJAX, как это происходит на странице
+        driver.execute_script(
+            """
+            $.ajax({
+                url: '/validation_recaptcha.do?method=v3',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    token: arguments[0]
+                },
+                success: function(data) {
+                    result = data[0];
+                    if (result.success == true) {
+                        location.reload();
+                    } else {
+                        if (confirm('잠시후 다시 시도해주세요.')) {
+                            location.reload();
+                        }
+                    }
+                },
+                error: function(error) {
+                    console.log('Ошибка при отправке reCAPTCHA', error);
+                }
+            });
+            """,
+            result["code"],
         )
 
-        submit_bnt.click()
         print("Форма успешно отправлена.")
 
     except Exception as e:
