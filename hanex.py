@@ -279,6 +279,8 @@ def get_car_info(url):
 
         wait_for_page_to_load(driver)
 
+        print(driver.page_source)
+
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
