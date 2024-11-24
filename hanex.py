@@ -380,6 +380,8 @@ def get_car_info(url):
         try:
             print("Проверка на product_left")
 
+            print(driver.page_source)
+
             product_left = WebDriverWait(driver, 5).until(
                 EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
             )
