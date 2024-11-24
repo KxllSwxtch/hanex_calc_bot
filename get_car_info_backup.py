@@ -1,3 +1,116 @@
+import time
+import re
+import requests
+import logging
+
+from twocaptcha import TwoCaptcha
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from urllib.parse import urlparse, parse_qs
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+TWOCAPTCHA_API_KEY = "89a8f41a0641f085c8ca6e861e0fa571"
+PROXY_HOST = "45.118.250.2"
+PROXY_PORT = "8000"
+PROXY_USER = "B01vby"
+PROXY_PASS = "GBno0x"
+
+http_proxy = f"http://{PROXY_USER}:{PROXY_PASS}@{PROXY_HOST}:{PROXY_PORT}"
+
+
+def extract_sitekey(driver, url):
+    """Извлекает sitekey из iframe на странице."""
+    driver.get(url)  # Загружаем страницу
+    iframe = driver.find_element(
+        By.TAG_NAME, "iframe"
+    )  # Находим iframe, содержащий reCAPTCHA
+    iframe_src = iframe.get_attribute("src")  # Получаем src атрибут iframe
+
+    # Ищем sitekey в src iframe
+    match = re.search(r"k=([A-Za-z0-9_-]+)", iframe_src)
+    if match:
+        return match.group(1)
+    else:
+        raise Exception("Не удалось найти sitekey.")
+
+
+def send_recaptcha_token(url, token, cookies=None, headers=None):
+    """
+    Отправляет reCAPTCHA токен через POST запрос на сервер.
+
+    :param url: URL для отправки запроса
+    :param token: Токен, полученный от reCAPTCHA
+    :param cookies: Словарь с cookies (если необходимо)
+    :param headers: Словарь с заголовками (если необходимо)
+    :return: Ответ сервера в формате JSON
+    """
+    try:
+        # Устанавливаем URL для reCAPTCHA обработки
+        post_url = f"{url}/validation_recaptcha.do?method=v3"
+
+        # Данные для POST-запроса
+        payload = {"token": token}
+
+        # Отправка POST-запроса
+        response = requests.post(
+            post_url, data=payload, cookies=cookies, headers=headers
+        )
+
+        # Проверка статуса ответа
+        if response.status_code == 200:
+            print("Запрос успешно отправлен.")
+            return response.json()
+        else:
+            print(f"Ошибка запроса: {response.status_code}")
+            print(f"Тело ответа: {response.text}")
+            return None
+    except Exception as e:
+        print(f"Ошибка при отправке POST-запроса: {e}")
+        return None
+
+
+def solve_recaptcha(driver, url):
+    """Решает reCAPTCHA, извлекая sitekey с помощью Selenium и TwoCaptcha."""
+    try:
+        # Извлекаем sitekey
+        site_key = extract_sitekey(driver, url)
+        print(f"Извлеченный sitekey: {site_key}")
+
+        # Инициализация solver
+        solver = TwoCaptcha(TWOCAPTCHA_API_KEY)
+
+        # Решение reCAPTCHA
+        result = solver.recaptcha(sitekey=site_key, url=url)
+        print(f"reCAPTCHA решена: {result}")
+
+        # Извлечение cookies из Selenium
+        cookies = {cookie["name"]: cookie["value"] for cookie in driver.get_cookies()}
+
+        # Установка заголовков (если необходимо)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
+        }
+
+        # Отправка reCAPTCHA токена через POST-запрос
+        response = send_recaptcha_token(
+            url, result["code"], cookies=cookies, headers=headers
+        )
+
+        # Проверка ответа
+        if response and response.get("success"):
+            print("reCAPTCHA успешно пройдена, перезагружаем страницу.")
+            driver.refresh()  # Перезагрузка страницы для завершения процесса
+        else:
+            print("Не удалось пройти reCAPTCHA.")
+    except Exception as e:
+        logging.error(f"Ошибка при решении reCAPTCHA или отправке формы: {e}")
+
+
 def get_car_info(url):
     global car_id_external
 
@@ -14,6 +127,7 @@ def get_car_info(url):
     chrome_options.add_argument("--disable-web-security")
     chrome_options.add_argument("--allow-running-insecure-content")
     chrome_options.add_argument("--disable-autofill")
+    chrome_options.add_argument(f"--proxy-server={http_proxy}")
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
     )
@@ -28,18 +142,9 @@ def get_car_info(url):
     try:
         # Загружаем страницу
         driver.get(url)
-        check_and_handle_alert(driver)
 
-        # Проверка на reCAPTCHA
-        if "reCAPTCHA" in driver.page_source:
-            print("Обнаружена reCAPTCHA. Пытаемся решить...")
-            driver.refresh()
-            print("Страница обновлена после reCAPTCHA.")
-            check_and_handle_alert(driver)
+        solve_recaptcha(driver, url)
 
-        wait_for_page_to_load(driver)
-
-        # Парсим URL для получения carid
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
@@ -50,8 +155,6 @@ def get_car_info(url):
         ########
         try:
             print("Проверка на areaLeaseRent")
-
-            time.sleep(6)
             lease_area = driver.find_element(By.ID, "areaLeaseRent")
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
@@ -61,7 +164,6 @@ def get_car_info(url):
                     "",
                     "Данная машина находится в лизинге. Свяжитесь с менеджером.",
                 ]
-
         except NoSuchElementException:
             print("Элемент areaLeaseRent не найден.")
 
@@ -71,8 +173,9 @@ def get_car_info(url):
         try:
             print("Проверка на product_left")
 
-            time.sleep(6)
-            product_left = driver.find_element(By.CLASS_NAME, "product_left")
+            product_left = WebDriverWait(driver, 5).until(
+                EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
+            )
             product_left_splitted = product_left.text.split("\n")
 
             car_title = product_left.find_element(
@@ -102,8 +205,6 @@ def get_car_info(url):
             # Создание URL
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
 
-            driver.quit()
-
             print(f"Данные о машине получены: {new_url}, {car_title}")
 
             return [new_url, car_title]
@@ -118,7 +219,6 @@ def get_car_info(url):
         try:
             print("Проверка на gallery_photo")
 
-            time.sleep(6)
             gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
             car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
             items = gallery_element.find_elements(By.XPATH, ".//*")
@@ -177,3 +277,6 @@ def get_car_info(url):
 
     finally:
         driver.quit()
+
+
+print(get_car_info("http://www.encar.com/dc/dc_cardetailview.do?carid=37837457"))
