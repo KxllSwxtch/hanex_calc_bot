@@ -217,13 +217,16 @@ def send_error_message(message, error_text):
     logging.error(f"Error sent to user {message.chat.id}: {error_text}")
 
 
-def check_and_handle_alert(driver):
+def check_and_handle_alert_with_js(driver):
     try:
+        # Ожидаем появления alert
         WebDriverWait(driver, 4).until(EC.alert_is_present())
-        alert = driver.switch_to.alert
-        print(f"Обнаружено всплывающее окно: {alert.text}")
-        alert.accept()  # Закрывает alert
-        print("Всплывающее окно было закрыто.")
+
+        # Выполним JS-скрипт для закрытия alert
+        driver.execute_script(
+            "window.alert = function() {};"
+        )  # Перезаписываем alert, чтобы он не появлялся
+        print("Всплывающее окно было закрыто через JS.")
     except TimeoutException:
         print("Нет активного всплывающего окна.")
     except Exception as alert_exception:
@@ -278,8 +281,6 @@ def get_car_info(url):
             check_and_handle_alert(driver)
 
         wait_for_page_to_load(driver)
-
-        print(driver.page_source)
 
         # Парсим URL для получения carid
         parsed_url = urlparse(url)
