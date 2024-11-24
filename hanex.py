@@ -25,8 +25,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 TWOCAPTCHA_API_KEY = "89a8f41a0641f085c8ca6e861e0fa571"
 SITE_KEY = "6LdNq5wmAAAAAFbrCxo9h6CnZF2Zcl6T39tqvwbS"
 
-# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 # CHROMEDRIVER_PATH = "chromedriver"
 
 PROXY_HOST = "45.118.250.2"
