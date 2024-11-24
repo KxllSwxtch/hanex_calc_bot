@@ -262,37 +262,22 @@ def solve_recaptcha(driver, url):
 
         # Вставляем ответ в форму
         driver.execute_script(
-            f"document.getElementById('g-recaptcha-response').innerHTML = '{result['code']}'"
+            f"document.getElementById('g-recaptcha-response').style.display = 'block'"
         )
-
-        # Теперь отправляем токен на сервер с помощью AJAX
         driver.execute_script(
-            """
-            jQuery.ajax({
-                url: "/validation_recaptcha.do?method=v3",
-                dataType: "json",
-                type: "POST",
-                data: {
-                    token: arguments[0]
-                }
-            }).done(function(data) {
-                result = data[0];
-                if (result.success == true) {
-                    location.reload();
-                } else {
-                    if (confirm('잠시후 다시 시도해주세요.')) {
-                        location.reload();
-                    }
-                }
-            });
-        """,
-            result["code"],
-        )  # Передаем токен в JS для отправки через AJAX
+            f"document.getElementById('g-recaptcha-response').innerHTML = arguments[0];",
+            {result["code"]},
+        )
+        driver.execute_script(
+            f"document.getElementById('g-recaptcha-response').style.display = 'none'"
+        )
 
         # Ожидаем перезагрузки страницы (если нужно)
-        WebDriverWait(driver, 5).until(
+        submit_bnt = WebDriverWait(driver, 5).until(
             EC.presence_of_element_located((By.CLASS_NAME, "product_left"))
         )
+
+        submit_bnt.click()
         print("Форма успешно отправлена.")
 
     except Exception as e:
