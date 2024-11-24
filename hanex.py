@@ -262,48 +262,47 @@ def solve_recaptcha(driver, url):
         result = solver.recaptcha(sitekey=site_key, url=url)
         print(f"reCAPTCHA решена: {result}")
 
-        # Вставляем ответ в форму
-        driver.execute_script(
-            f"document.getElementById('g-recaptcha-response').style.display = 'block'"
-        )
-        driver.execute_script(
-            f"document.getElementById('g-recaptcha-response').innerHTML = arguments[0];",
-            result["code"],
-        )
-        driver.execute_script(
-            f"document.getElementById('g-recaptcha-response').style.display = 'none'"
-        )
+        if result is not None:
+            driver.execute_script(
+                f"document.getElementById('g-recaptcha-response').style.display = 'block'"
+            )
+            driver.execute_script(
+                f"document.getElementById('g-recaptcha-response').innerHTML = arguments[0];",
+                result["code"],
+            )
+            driver.execute_script(
+                f"document.getElementById('g-recaptcha-response').style.display = 'none'"
+            )
 
-        # Отправка данных через AJAX, как это происходит на странице
-        driver.execute_script(
-            """
-            jQuery.ajax({
-                url: '/validation_recaptcha.do?method=v3',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    token: arguments[0]
-                },
-                success: function(data) {
-                    result = data[0];
-                    if (result.success == true) {
-                        location.reload();
-                    } else {
-                        if (confirm('잠시후 다시 시도해주세요.')) {
+            # Отправка данных через AJAX, как это происходит на странице
+            driver.execute_script(
+                """
+                jQuery.ajax({
+                    url: '/validation_recaptcha.do?method=v3',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        token: arguments[0]
+                    },
+                    success: function(data) {
+                        result = data[0];
+                        if (result.success == true) {
                             location.reload();
+                        } else {
+                            if (confirm('잠시후 다시 시도해주세요.')) {
+                                location.reload();
+                            }
                         }
+                    },
+                    error: function(error) {
+                        console.log('Ошибка при отправке reCAPTCHA', error);
                     }
-                },
-                error: function(error) {
-                    console.log('Ошибка при отправке reCAPTCHA', error);
-                }
-            });
-            """,
-            result["code"],
-        )
+                });
+                """,
+                result["code"],
+            )
 
-        print("Форма успешно отправлена.")
-
+            print("Форма успешно отправлена.")
     except Exception as e:
         logging.error(f"Ошибка при решении reCAPTCHA или отправке формы: {e}")
 
@@ -349,8 +348,6 @@ def get_car_info(url):
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
         car_id_external = car_id
-
-        print(driver.page_source)
 
         ########
         # Проверка элемента areaLeaseRent
@@ -500,7 +497,7 @@ def calculate_cost(link, message):
         car_id_match = re.findall(r"\d+", link)
         if car_id_match:
             car_id = car_id_match[0]  # Use the first match of digits
-            link = f"https://www.encar.com/dc/dc_cardetailview.do?carid={car_id}"
+            link = f"http://www.encar.com/dc/dc_cardetailview.do?carid={car_id}"
         else:
             send_error_message(message, "🚫 Не удалось извлечь carid из ссылки.")
             return
