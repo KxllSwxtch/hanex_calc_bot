@@ -245,7 +245,7 @@ def get_car_info(url):
     chrome_options = Options()
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
-    # chrome_options.add_argument("--headless")  # Необходим для работы в Heroku
+    chrome_options.add_argument("--headless")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
     chrome_options.add_argument("--disable-software-rasterizer")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
