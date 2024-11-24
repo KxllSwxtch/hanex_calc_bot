@@ -322,6 +322,7 @@ def get_car_info(url):
         if "reCAPTCHA" in driver.page_source:
             print("Обнаружена reCAPTCHA. Пытаемся решить...")
             solve_recaptcha(driver, SITE_KEY, url)
+            time.sleep(5)
 
         wait_for_page_to_load(driver)
 
