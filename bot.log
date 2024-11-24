@@ -5844,3 +5844,117 @@ Stacktrace:
 2024-11-23 16:20:28,321 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
 2024-11-23 16:21:06,043 - INFO - patching driver executable /Users/killswitch/Library/Application Support/undetected_chromedriver/undetected_chromedriver
 2024-11-23 16:21:12,482 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.
+2024-11-24 10:30:34,433 - ERROR - Произошла ошибка: cannot access local variable 'car_price' where it is not associated with a value
+2024-11-24 10:30:34,840 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 10:32:20,768 - ERROR - Произошла ошибка: cannot access local variable 'car_price' where it is not associated with a value
+2024-11-24 10:32:21,178 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 10:32:56,916 - ERROR - Произошла ошибка: cannot access local variable 'car_price' where it is not associated with a value
+2024-11-24 10:32:57,407 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 10:33:40,721 - ERROR - Произошла ошибка: cannot access local variable 'car_price' where it is not associated with a value
+2024-11-24 10:33:41,598 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 10:34:47,149 - ERROR - Произошла ошибка: cannot access local variable 'car_price' where it is not associated with a value
+2024-11-24 10:34:57,930 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 10:35:19,460 - ERROR - Произошла ошибка: cannot access local variable 'car_price' where it is not associated with a value
+2024-11-24 10:37:13,914 - ERROR - Произошла ошибка: cannot access local variable 'car_price' where it is not associated with a value
+2024-11-24 10:38:10,800 - ERROR - Произошла ошибка: cannot access local variable 'car_price' where it is not associated with a value
+2024-11-24 10:38:22,623 - ERROR - Произошла ошибка: cannot access local variable 'car_price' where it is not associated with a value
+2024-11-24 10:39:55,930 - ERROR - Произошла ошибка: cannot access local variable 'car_price' where it is not associated with a value
+2024-11-24 10:42:41,645 - ERROR - Произошла ошибка: cannot access local variable 'car_price' where it is not associated with a value
+2024-11-24 10:45:09,611 - ERROR - Произошла ошибка: Page.wait_for_selector() takes 2 positional arguments but 3 were given
+2024-11-24 10:46:15,148 - ERROR - Произошла ошибка: Page.wait_for_selector() takes 2 positional arguments but 3 were given
+2024-11-24 10:48:21,678 - ERROR - Произошла ошибка: Page.wait_for_selector() takes 2 positional arguments but 3 were given
+2024-11-24 10:50:09,486 - ERROR - Произошла ошибка: Page.wait_for_selector() takes 2 positional arguments but 3 were given
+2024-11-24 10:51:49,996 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 10:52:14,085 - ERROR - Произошла ошибка: Page.wait_for_selector() takes 2 positional arguments but 3 were given
+2024-11-24 10:53:26,662 - ERROR - Произошла ошибка: Page.wait_for_selector() takes 2 positional arguments but 3 were given
+2024-11-24 10:53:56,727 - ERROR - Произошла ошибка: Page.wait_for_selector() takes 2 positional arguments but 3 were given
+2024-11-24 10:54:02,151 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 10:55:43,538 - ERROR - Произошла ошибка: Page.goto: Timeout 6000ms exceeded.
+Call log:
+navigating to "http://www.encar.com/dc/dc_cardetailview.do?pageid=dc_carsearch&listAdvType=word&carid=37492068&view_type=normal&wtClick_korList=007&advClickPosition=kor_word_p1_g2", waiting until "load"
+
+2024-11-24 10:55:49,009 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 10:57:18,613 - ERROR - Произошла ошибка: Page.wait_for_selector: Timeout 5000ms exceeded.
+Call log:
+waiting for locator(".product_left") to be visible
+
+2024-11-24 10:57:24,073 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 10:58:01,343 - ERROR - Произошла ошибка: Page.wait_for_selector: Timeout 5000ms exceeded.
+Call log:
+waiting for locator(".g-recaptcha, .recaptcha") to be visible
+
+2024-11-24 10:58:06,851 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 10:58:41,709 - ERROR - Произошла ошибка: Page.wait_for_selector: Timeout 12000ms exceeded.
+Call log:
+waiting for locator(".product_left") to be visible
+
+2024-11-24 10:59:47,986 - ERROR - Произошла ошибка: Page.wait_for_selector: Timeout 12000ms exceeded.
+Call log:
+waiting for locator(".product_left") to be visible
+
+2024-11-24 10:59:58,401 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 11:01:10,620 - ERROR - Произошла ошибка: Page.wait_for_selector() takes 2 positional arguments but 3 were given
+2024-11-24 11:02:01,350 - ERROR - Произошла ошибка: Page.wait_for_selector: Timeout 10000ms exceeded.
+Call log:
+waiting for locator("div#areaLeaseRent") to be visible
+
+2024-11-24 11:02:51,137 - ERROR - Произошла ошибка: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=131.0.6778.86)
+Stacktrace:
+0   chromedriver                        0x00000001006a7ac4 cxxbridge1$str$ptr + 3651580
+1   chromedriver                        0x00000001006a0314 cxxbridge1$str$ptr + 3620940
+2   chromedriver                        0x00000001001084b4 cxxbridge1$string$len + 89224
+3   chromedriver                        0x00000001000e3994 core::str::slice_error_fail::ha0e52dbcb60e6bae + 3780
+4   chromedriver                        0x0000000100172890 cxxbridge1$string$len + 524388
+5   chromedriver                        0x000000010018576c cxxbridge1$string$len + 601920
+6   chromedriver                        0x00000001001410b0 cxxbridge1$string$len + 321668
+7   chromedriver                        0x0000000100141d00 cxxbridge1$string$len + 324820
+8   chromedriver                        0x0000000100672e08 cxxbridge1$str$ptr + 3435328
+9   chromedriver                        0x0000000100676120 cxxbridge1$str$ptr + 3448408
+10  chromedriver                        0x000000010065a17c cxxbridge1$str$ptr + 3333812
+11  chromedriver                        0x00000001006769e0 cxxbridge1$str$ptr + 3450648
+12  chromedriver                        0x000000010064b988 cxxbridge1$str$ptr + 3274432
+13  chromedriver                        0x00000001006910f4 cxxbridge1$str$ptr + 3558956
+14  chromedriver                        0x0000000100691270 cxxbridge1$str$ptr + 3559336
+15  chromedriver                        0x000000010069ff88 cxxbridge1$str$ptr + 3620032
+16  libsystem_pthread.dylib             0x000000019d501f94 _pthread_start + 136
+17  libsystem_pthread.dylib             0x000000019d4fcd34 thread_start + 8
+
+2024-11-24 11:02:51,629 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 11:03:58,864 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x109225d50>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/30b3a54b6eb7dabf3a6654ae6eb131fb
+2024-11-24 11:03:58,865 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102b05b90>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/30b3a54b6eb7dabf3a6654ae6eb131fb
+2024-11-24 11:03:58,865 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x109226750>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/30b3a54b6eb7dabf3a6654ae6eb131fb
+2024-11-24 11:13:02,145 - ERROR - Произошла ошибка: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=131.0.6778.86)
+Stacktrace:
+0   chromedriver                        0x0000000100a93ac4 cxxbridge1$str$ptr + 3651580
+1   chromedriver                        0x0000000100a8c314 cxxbridge1$str$ptr + 3620940
+2   chromedriver                        0x00000001004f44b4 cxxbridge1$string$len + 89224
+3   chromedriver                        0x00000001004cf994 core::str::slice_error_fail::ha0e52dbcb60e6bae + 3780
+4   chromedriver                        0x000000010055e890 cxxbridge1$string$len + 524388
+5   chromedriver                        0x000000010057176c cxxbridge1$string$len + 601920
+6   chromedriver                        0x000000010052d0b0 cxxbridge1$string$len + 321668
+7   chromedriver                        0x000000010052dd00 cxxbridge1$string$len + 324820
+8   chromedriver                        0x0000000100a5ee08 cxxbridge1$str$ptr + 3435328
+9   chromedriver                        0x0000000100a62120 cxxbridge1$str$ptr + 3448408
+10  chromedriver                        0x0000000100a4617c cxxbridge1$str$ptr + 3333812
+11  chromedriver                        0x0000000100a629e0 cxxbridge1$str$ptr + 3450648
+12  chromedriver                        0x0000000100a37988 cxxbridge1$str$ptr + 3274432
+13  chromedriver                        0x0000000100a7d0f4 cxxbridge1$str$ptr + 3558956
+14  chromedriver                        0x0000000100a7d270 cxxbridge1$str$ptr + 3559336
+15  chromedriver                        0x0000000100a8bf88 cxxbridge1$str$ptr + 3620032
+16  libsystem_pthread.dylib             0x000000019d501f94 _pthread_start + 136
+17  libsystem_pthread.dylib             0x000000019d4fcd34 thread_start + 8
+
+2024-11-24 11:13:02,629 - ERROR - Error sent to user 728438182: 🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.
+2024-11-24 11:13:46,270 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x106524190>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/9d8995eedf2a5e73885862c441ca2836
+2024-11-24 11:13:46,270 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1064ebb10>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/9d8995eedf2a5e73885862c441ca2836
+2024-11-24 11:13:46,270 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x106525250>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/9d8995eedf2a5e73885862c441ca2836
+2024-11-24 11:39:07,885 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x103f241d0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/d98d50c6c638b084472bef42fdc0a065
+2024-11-24 11:39:07,886 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x103f12710>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/d98d50c6c638b084472bef42fdc0a065
+2024-11-24 11:39:07,887 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x103f253d0>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/d98d50c6c638b084472bef42fdc0a065
+2024-11-24 11:39:52,805 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x103ef8e50>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/71d3a73b95513df089b2c7bd087b515b
+2024-11-24 11:39:52,805 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x103ef8150>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/71d3a73b95513df089b2c7bd087b515b
+2024-11-24 11:39:52,806 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x103f11250>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/71d3a73b95513df089b2c7bd087b515b

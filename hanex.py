@@ -21,8 +21,8 @@ from selenium.common.exceptions import TimeoutException, NoAlertPresentException
 
 
 CAPSOLVER_API_KEY = os.getenv("CAPSOLVER_API_KEY")  # Замените на ваш API-ключ CapSolver
-CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 # CHROMEDRIVER_PATH = "chromedriver"
 
 PROXY_HOST = "45.118.250.2"
@@ -220,7 +220,7 @@ def send_error_message(message, error_text):
 
 def check_and_handle_alert(driver):
     try:
-        WebDriverWait(driver, 3).until(EC.alert_is_present())
+        WebDriverWait(driver, 4).until(EC.alert_is_present())
         alert = driver.switch_to.alert
         print(f"Обнаружено всплывающее окно: {alert.text}")
         alert.accept()  # Закрывает alert
@@ -245,7 +245,7 @@ def get_car_info(url):
     chrome_options = Options()
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
-    chrome_options.add_argument("--headless")  # Необходим для работы в Heroku
+    # chrome_options.add_argument("--headless")  # Необходим для работы в Heroku
     chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
     chrome_options.add_argument("--disable-software-rasterizer")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
@@ -292,7 +292,7 @@ def get_car_info(url):
         try:
             print("Проверка на areaLeaseRent")
 
-            time.sleep(6)
+            time.sleep(4)
             lease_area = driver.find_element(By.ID, "areaLeaseRent")
             title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
@@ -904,4 +904,4 @@ def print_message(message):
 if __name__ == "__main__":
     get_currency_rates()
     set_bot_commands()
-    bot.polling(none_stop=True)
+    bot.polling(none_stop=True, timeout=20)
