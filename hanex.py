@@ -338,148 +338,149 @@ def get_car_info(url):
         options=chrome_options,
     )
 
-    try:
-        # Загружаем страницу
-        driver.get(url)
+    # try:
+    # Загружаем страницу
+    driver.get(url)
 
-        # Проверка на reCAPTCHA
-        if "reCAPTCHA" in driver.page_source:
-            print("Обнаружена reCAPTCHA. Пытаемся решить...")
-            solve_recaptcha(driver, url)
-            time.sleep(4)
+    # Проверка на reCAPTCHA
+    if "reCAPTCHA" in driver.page_source:
+        print("Обнаружена reCAPTCHA. Пытаемся решить...")
+        solve_recaptcha(driver, url)
 
-        parsed_url = urlparse(url)
-        query_params = parse_qs(parsed_url.query)
-        car_id = query_params.get("carid", [None])[0]
-        car_id_external = car_id
+    parsed_url = urlparse(url)
+    query_params = parse_qs(parsed_url.query)
+    car_id = query_params.get("carid", [None])[0]
+    car_id_external = car_id
 
-        ########
-        # Проверка элемента areaLeaseRent
-        ########
-        try:
-            print("Проверка на areaLeaseRent")
-            lease_area = driver.find_element(By.ID, "areaLeaseRent")
-            title_element = lease_area.find_element(By.CLASS_NAME, "title")
+    print(driver.page_source)
 
-            if "리스정보" in title_element.text or "렌트정보" in title_element.text:
-                print("Данная машина находится в лизинге.")
-                return [
-                    "",
-                    "Данная машина находится в лизинге. Свяжитесь с менеджером.",
-                ]
-        except NoSuchElementException:
-            print("Элемент areaLeaseRent не найден.")
+    ########
+    # Проверка элемента areaLeaseRent
+    ########
+    #     try:
+    #         print("Проверка на areaLeaseRent")
+    #         lease_area = driver.find_element(By.ID, "areaLeaseRent")
+    #         title_element = lease_area.find_element(By.CLASS_NAME, "title")
 
-        ########
-        # Проверка элемента product_left
-        ########
-        try:
-            print("Проверка на product_left")
+    #         if "리스정보" in title_element.text or "렌트정보" in title_element.text:
+    #             print("Данная машина находится в лизинге.")
+    #             return [
+    #                 "",
+    #                 "Данная машина находится в лизинге. Свяжитесь с менеджером.",
+    #             ]
+    #     except NoSuchElementException:
+    #         print("Элемент areaLeaseRent не найден.")
 
-            product_left = WebDriverWait(driver, 5).until(
-                EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
-            )
-            product_left_splitted = product_left.text.split("\n")
+    #     ########
+    #     # Проверка элемента product_left
+    #     ########
+    #     try:
+    #         print("Проверка на product_left")
 
-            car_title = product_left.find_element(
-                By.CLASS_NAME, "prod_name"
-            ).text.strip()
+    #         product_left = WebDriverWait(driver, 5).until(
+    #             EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
+    #         )
+    #         product_left_splitted = product_left.text.split("\n")
 
-            car_date = (
-                product_left_splitted[3] if len(product_left_splitted) > 3 else ""
-            )
-            car_engine_capacity = (
-                product_left_splitted[6] if len(product_left_splitted) > 6 else ""
-            )
-            car_price = re.sub(r"\D", "", product_left_splitted[1])
+    #         car_title = product_left.find_element(
+    #             By.CLASS_NAME, "prod_name"
+    #         ).text.strip()
 
-            # Форматирование
-            formatted_price = car_price.replace(",", "")
-            formatted_engine_capacity = (
-                car_engine_capacity.replace(",", "")[:-2]
-                if car_engine_capacity
-                else "0"
-            )
-            cleaned_date = "".join(filter(str.isdigit, car_date))
-            formatted_date = (
-                f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
-            )
+    #         car_date = (
+    #             product_left_splitted[3] if len(product_left_splitted) > 3 else ""
+    #         )
+    #         car_engine_capacity = (
+    #             product_left_splitted[6] if len(product_left_splitted) > 6 else ""
+    #         )
+    #         car_price = re.sub(r"\D", "", product_left_splitted[1])
 
-            # Создание URL
-            new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
+    #         # Форматирование
+    #         formatted_price = car_price.replace(",", "")
+    #         formatted_engine_capacity = (
+    #             car_engine_capacity.replace(",", "")[:-2]
+    #             if car_engine_capacity
+    #             else "0"
+    #         )
+    #         cleaned_date = "".join(filter(str.isdigit, car_date))
+    #         formatted_date = (
+    #             f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
+    #         )
 
-            print(f"Данные о машине получены: {new_url}, {car_title}")
+    #         # Создание URL
+    #         new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
 
-            return [new_url, car_title]
-        except NoSuchElementException:
-            print("Элемент product_left не найден, переходим к поиску gallery_photo")
-        except Exception as e:
-            print(f"Ошибка при обработке product_left: {e}")
+    #         print(f"Данные о машине получены: {new_url}, {car_title}")
 
-        ########
-        # Проверка элемента gallery_photo
-        ########
-        try:
-            print("Проверка на gallery_photo")
+    #         return [new_url, car_title]
+    #     except NoSuchElementException:
+    #         print("Элемент product_left не найден, переходим к поиску gallery_photo")
+    #     except Exception as e:
+    #         print(f"Ошибка при обработке product_left: {e}")
 
-            gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
-            car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
-            items = gallery_element.find_elements(By.XPATH, ".//*")
+    #     ########
+    #     # Проверка элемента gallery_photo
+    #     ########
+    #     try:
+    #         print("Проверка на gallery_photo")
 
-            if len(items) > 10:
-                car_date = items[10].text
-            if len(items) > 18:
-                car_engine_capacity = items[18].text
+    #         gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
+    #         car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
+    #         items = gallery_element.find_elements(By.XPATH, ".//*")
 
-            # Извлечение информации о ключах
-            try:
-                print("Проверка на элемент wrap_keyinfo")
+    #         if len(items) > 10:
+    #             car_date = items[10].text
+    #         if len(items) > 18:
+    #             car_engine_capacity = items[18].text
 
-                time.sleep(5)
-                keyinfo_element = driver.find_element(
-                    By.CSS_SELECTOR, "div.wrap_keyinfo"
-                )
-                keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
-                keyinfo_texts = [
-                    item.text for item in keyinfo_items if item.text.strip()
-                ]
+    #         # Извлечение информации о ключах
+    #         try:
+    #             print("Проверка на элемент wrap_keyinfo")
 
-                # Извлекаем цену, если элемент существует
-                car_price = (
-                    re.sub(r"\D", "", keyinfo_texts[12])
-                    if len(keyinfo_texts) > 12
-                    else None
-                )
-            except NoSuchElementException:
-                print("Элемент wrap_keyinfo не найден.")
+    #             time.sleep(5)
+    #             keyinfo_element = driver.find_element(
+    #                 By.CSS_SELECTOR, "div.wrap_keyinfo"
+    #             )
+    #             keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
+    #             keyinfo_texts = [
+    #                 item.text for item in keyinfo_items if item.text.strip()
+    #             ]
 
-        except NoSuchElementException:
-            print("Элемент gallery_photo также не найден.")
+    #             # Извлекаем цену, если элемент существует
+    #             car_price = (
+    #                 re.sub(r"\D", "", keyinfo_texts[12])
+    #                 if len(keyinfo_texts) > 12
+    #                 else None
+    #             )
+    #         except NoSuchElementException:
+    #             print("Элемент wrap_keyinfo не найден.")
 
-        # Форматирование значений для URL
-        formatted_price = car_price.replace(",", "") if car_price else "0"
-        formatted_engine_capacity = (
-            car_engine_capacity.replace(",", "")[:-2] if car_engine_capacity else "0"
-        )
-        cleaned_date = "".join(filter(str.isdigit, car_date))
-        formatted_date = (
-            f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
-        )
+    #     except NoSuchElementException:
+    #         print("Элемент gallery_photo также не найден.")
 
-        # Конечный URL
-        new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
+    #     # Форматирование значений для URL
+    #     formatted_price = car_price.replace(",", "") if car_price else "0"
+    #     formatted_engine_capacity = (
+    #         car_engine_capacity.replace(",", "")[:-2] if car_engine_capacity else "0"
+    #     )
+    #     cleaned_date = "".join(filter(str.isdigit, car_date))
+    #     formatted_date = (
+    #         f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
+    #     )
 
-        driver.quit()
+    #     # Конечный URL
+    #     new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
 
-        print(f"Данные о машине получены: {new_url}, {car_title}")
-        return [new_url, car_title]
+    #     driver.quit()
 
-    except Exception as e:
-        logging.error(f"Произошла ошибка: {e}")
-        return None, None
+    #     print(f"Данные о машине получены: {new_url}, {car_title}")
+    #     return [new_url, car_title]
 
-    finally:
-        driver.quit()
+    # except Exception as e:
+    #     logging.error(f"Произошла ошибка: {e}")
+    #     return None, None
+
+    # finally:
+    #     driver.quit()
 
 
 # Function to calculate the total cost
