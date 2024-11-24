@@ -311,11 +311,11 @@ def get_car_info(url):
         try:
             print("Проверка на product_left")
 
+            print(driver.find_element(By.CLASS_NAME, "product_left"))
+
             time.sleep(6)
             product_left = driver.find_element(By.CLASS_NAME, "product_left")
             product_left_splitted = product_left.text.split("\n")
-
-            print(driver.page_source)
 
             car_title = product_left.find_element(
                 By.CLASS_NAME, "prod_name"
