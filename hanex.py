@@ -356,10 +356,11 @@ def get_car_info(url):
         driver.get(
             "http://www.encar.com/index.do?conType=mtopc&WT.hit=footer_mtopc_index"
         )
-        time.sleep(3)
+        time.sleep(4)
 
         # Загружаем страницу
         driver.get(url)
+        time.sleep(4)
 
         # solve_recaptcha(driver, url)
 
