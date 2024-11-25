@@ -250,7 +250,7 @@ def send_recaptcha_token(url, token, cookies=None, headers=None):
     """
     try:
         # Устанавливаем URL для reCAPTCHA обработки
-        post_url = f"{url}/validation_recaptcha.do?method=v3"
+        post_url = "http://encar.com/validation_recaptcha.do?method=v3"
 
         # Данные для POST-запроса
         payload = {"token": token}
@@ -353,6 +353,10 @@ def get_car_info(url):
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
         car_id_external = car_id
+
+        print("\n\n")
+        print(driver.page_source)
+        print("\n\n")
 
         ########
         # Проверка элемента areaLeaseRent
