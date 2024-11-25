@@ -261,6 +261,10 @@ def send_recaptcha_token(url, token, cookies=None, headers=None):
         )
 
         # Проверка статуса ответа
+        print(f"Статус-код ответа: {response.status_code}")
+        print(f"Тело ответа: {response.text}")  # Добавлено для отладки
+
+        # Проверка статуса ответа
         if response.status_code == 200:
             print("Запрос успешно отправлен.")
             return response.json()
