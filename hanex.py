@@ -238,47 +238,51 @@ def extract_sitekey(driver, url):
         raise Exception("Не удалось найти sitekey.")
 
 
-def send_recaptcha_token(token, cookies=None, headers=None):
+def send_recaptcha_token(driver, token):
     """
-    Отправляет reCAPTCHA токен через POST запрос на сервер.
+    Отправляет reCAPTCHA токен через JavaScript с использованием Selenium.
 
-    :param url: URL для отправки запроса
+    :param driver: Экземпляр веб-драйвера Selenium
     :param token: Токен, полученный от reCAPTCHA
-    :param cookies: Словарь с cookies (если необходимо)
-    :param headers: Словарь с заголовками (если необходимо)
     :return: Ответ сервера в формате JSON
     """
     try:
-        # Устанавливаем URL для reCAPTCHA обработки
-        post_url = "https://encar.com/validation_recaptcha.do?method=v3"
+        # Отправка POST-запроса через execute_script
+        result = driver.execute_script(
+            """
+            return new Promise(function(resolve, reject) {
+                var token = arguments[0];  // Получаем токен из Python
+                jQuery.ajax({
+                    url: '/validation_recaptcha.do?method=v3',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { token: token },
+                    success: function(data) {
+                        resolve(data);  // Возвращаем результат
+                    },
+                    error: function(xhr, status, error) {
+                        reject('Ошибка запроса: ' + status + ' ' + error);
+                    }
+                });
+            });
+        """,
+            token,
+        )  # Передаем токен в JS
 
-        # Данные для POST-запроса
-        payload = {"token": token}
-        headers = headers or {"Content-Type": "application/x-www-form-urlencoded"}
-
-        # Отправка POST-запроса
-        response = requests.post(
-            post_url, data=payload, cookies=cookies, headers=headers, timeout=5
-        )
-
-        # Проверка статуса ответа
-        print(f"Статус-код ответа: {response.status_code}")
-        print(f"Тело ответа: {response.text}")  # Добавлено для отладки
-
-        # Проверка успешного ответа
-        if response.status_code == 200:
-            result = response.json()
-            if result.get("success") == True:
+        # Обработка результата
+        if result:
+            print(f"Ответ от сервера: {result}")
+            if result[0].get("success") == True:
                 print("Токен успешно подтвержден.")
-                return result
+                return result[0]
             else:
                 print("Ошибка валидации reCAPTCHA.")
                 return None
         else:
-            print(f"Ошибка запроса: {response.status_code}")
+            print("Не удалось получить ответ от сервера.")
             return None
     except Exception as e:
-        print(f"Ошибка при отправке POST-запроса: {e}")
+        print(f"Ошибка при выполнении запроса с помощью execute_script: {e}")
         return None
 
 
@@ -315,7 +319,8 @@ def solve_recaptcha(driver, url):
 
         # Отправка reCAPTCHA токена через POST-запрос
         response = send_recaptcha_token(
-            result["code"], cookies=cookies, headers=headers
+            driver,
+            result["code"],
         )
 
         # Проверка ответа
