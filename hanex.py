@@ -250,7 +250,7 @@ def send_recaptcha_token(token, cookies=None, headers=None):
     """
     try:
         # Устанавливаем URL для reCAPTCHA обработки
-        post_url = "https://encar.com/validation_recaptcha.do?method=v3"
+        post_url = "http://encar.com/validation_recaptcha.do?method=v3"
 
         # Данные для POST-запроса
         payload = {"token": token}
@@ -352,10 +352,16 @@ def get_car_info(url):
     )
 
     try:
+        # Загружаем домашнюю страницу
+        driver.get(
+            "http://www.encar.com/index.do?conType=mtopc&WT.hit=footer_mtopc_index"
+        )
+        time.sleep(3)
+
         # Загружаем страницу
         driver.get(url)
 
-        solve_recaptcha(driver, url)
+        # solve_recaptcha(driver, url)
 
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
@@ -389,9 +395,7 @@ def get_car_info(url):
         try:
             print("Проверка на product_left")
 
-            product_left = WebDriverWait(driver, 5).until(
-                EC.visibility_of_element_located((By.CLASS_NAME, "product_left"))
-            )
+            product_left = driver.find_element(By.CLASS_NAME, "product_left")
             product_left_splitted = product_left.text.split("\n")
 
             car_title = product_left.find_element(
@@ -448,7 +452,6 @@ def get_car_info(url):
             try:
                 print("Проверка на элемент wrap_keyinfo")
 
-                time.sleep(5)
                 keyinfo_element = driver.find_element(
                     By.CSS_SELECTOR, "div.wrap_keyinfo"
                 )
