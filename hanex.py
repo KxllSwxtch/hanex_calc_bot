@@ -301,12 +301,12 @@ def solve_recaptcha(driver, url):
         # Извлечение cookies из Selenium
         cookies = {cookie["name"]: cookie["value"] for cookie in driver.get_cookies()}
 
-        print("Теперь отправляем token на сервер")
-
         # Установка заголовков (если необходимо)
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
         }
+
+        print(cookies, headers)
 
         # Отправка reCAPTCHA токена через POST-запрос
         response = send_recaptcha_token(
@@ -352,18 +352,11 @@ def get_car_info(url):
     )
 
     try:
-        # Загружаем домашнюю страницу
-        driver.get(
-            "http://www.encar.com/index.do?conType=mtopc&WT.hit=footer_mtopc_index"
-        )
-        time.sleep(4)
-
-        # Загружаем страницу
+        # Загружаем страницу клиента
         driver.get(url)
-        time.sleep(4)
+        solve_recaptcha(driver, url)
 
-        # solve_recaptcha(driver, url)
-
+        # Достаём carid
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
         car_id = query_params.get("carid", [None])[0]
