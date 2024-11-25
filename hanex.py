@@ -238,7 +238,7 @@ def extract_sitekey(driver, url):
         raise Exception("Не удалось найти sitekey.")
 
 
-def send_recaptcha_token(url, token, cookies=None, headers=None):
+def send_recaptcha_token(token, cookies=None, headers=None):
     """
     Отправляет reCAPTCHA токен через POST запрос на сервер.
 
@@ -250,7 +250,7 @@ def send_recaptcha_token(url, token, cookies=None, headers=None):
     """
     try:
         # Устанавливаем URL для reCAPTCHA обработки
-        post_url = "http://encar.com/validation_recaptcha.do?method=v3"
+        post_url = "https://encar.com/validation_recaptcha.do?method=v3"
 
         # Данные для POST-запроса
         payload = {"token": token}
@@ -284,16 +284,24 @@ def solve_recaptcha(driver, url):
         site_key = extract_sitekey(driver, url)
         print(f"Извлеченный sitekey: {site_key}")
 
+        if not site_key:
+            print("Не удалось извлечь sitekey.")
+            return
+
         # Инициализация solver
         solver = TwoCaptcha(TWOCAPTCHA_API_KEY)
 
         # Решение reCAPTCHA
         result = solver.recaptcha(sitekey=site_key, url=url)
+        if "code" not in result:
+            print("Ошибка: код reCAPTCHA отсутствует в результате.")
+            return
         print(f"reCAPTCHA решена: {result}")
 
-        print("Теперь отправляем token на сервер")
         # Извлечение cookies из Selenium
         cookies = {cookie["name"]: cookie["value"] for cookie in driver.get_cookies()}
+
+        print("Теперь отправляем token на сервер")
 
         # Установка заголовков (если необходимо)
         headers = {
@@ -302,7 +310,7 @@ def solve_recaptcha(driver, url):
 
         # Отправка reCAPTCHA токена через POST-запрос
         response = send_recaptcha_token(
-            url, result["code"], cookies=cookies, headers=headers
+            result["code"], cookies=cookies, headers=headers
         )
 
         # Проверка ответа
