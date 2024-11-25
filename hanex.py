@@ -250,27 +250,32 @@ def send_recaptcha_token(token, cookies=None, headers=None):
     """
     try:
         # Устанавливаем URL для reCAPTCHA обработки
-        post_url = "http://encar.com/validation_recaptcha.do?method=v3"
+        post_url = "https://encar.com/validation_recaptcha.do?method=v3"
 
         # Данные для POST-запроса
         payload = {"token": token}
+        headers = headers or {"Content-Type": "application/x-www-form-urlencoded"}
 
         # Отправка POST-запроса
         response = requests.post(
-            post_url, data=payload, cookies=cookies, headers=headers
+            post_url, data=payload, cookies=cookies, headers=headers, timeout=5
         )
 
         # Проверка статуса ответа
         print(f"Статус-код ответа: {response.status_code}")
         print(f"Тело ответа: {response.text}")  # Добавлено для отладки
 
-        # Проверка статуса ответа
+        # Проверка успешного ответа
         if response.status_code == 200:
-            print("Запрос успешно отправлен.")
-            return response.json()
+            result = response.json()
+            if result.get("success") == True:
+                print("Токен успешно подтвержден.")
+                return result
+            else:
+                print("Ошибка валидации reCAPTCHA.")
+                return None
         else:
             print(f"Ошибка запроса: {response.status_code}")
-            print(f"Тело ответа: {response.text}")
             return None
     except Exception as e:
         print(f"Ошибка при отправке POST-запроса: {e}")
