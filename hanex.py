@@ -371,7 +371,17 @@ def get_car_info(url):
     try:
         # Загружаем страницу клиента
         driver.get(url)
-        solve_recaptcha(driver, url)
+
+        # Проверка на 404 ошибку
+        if "404" in driver.title or "Page Not Found" in driver.page_source:
+            print("Страница не найдена (404).")
+            driver.refresh()
+            driver.get(url)
+
+        # Проверка на наличие reCAPTCHA
+        if "reCAPTCHA" in driver.page_source:
+            print("Страница содержит reCAPTCHA.")
+            solve_recaptcha(driver, url)
 
         # Достаём carid
         parsed_url = urlparse(url)
