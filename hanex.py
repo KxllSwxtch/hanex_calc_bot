@@ -315,7 +315,14 @@ def solve_recaptcha(driver, url):
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
         }
 
-        print(cookies, headers)
+        # Выполняем действия с токеном через Selenium
+        driver.execute_script(
+            f"""
+            grecaptcha.execute('{site_key}', {{action: '/dc/dc_cardetailview_do'}}).then(function(token) {{
+                console.log(token);  // Вывод токена для отладки
+            }});
+        """
+        )
 
         # Отправка reCAPTCHA токена через POST-запрос
         response = send_recaptcha_token(
