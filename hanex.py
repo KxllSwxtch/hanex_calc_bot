@@ -1,4 +1,3 @@
-import time
 import telebot
 import os
 import re
@@ -10,22 +9,20 @@ import logging
 from twocaptcha import TwoCaptcha
 from telebot import types
 from dotenv import load_dotenv
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+from seleniumwire import webdriver
+from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from urllib.parse import urlparse, parse_qs
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, NoAlertPresentException
-from selenium.webdriver.common.action_chains import ActionChains
 
 
 TWOCAPTCHA_API_KEY = "89a8f41a0641f085c8ca6e861e0fa571"
 
-CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
-# CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
+# CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
+CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 
 PROXY_HOST = "45.118.250.2"
 PROXY_PORT = "8000"
@@ -33,6 +30,12 @@ PROXY_USER = "B01vby"
 PROXY_PASS = "GBno0x"
 
 http_proxy = f"http://{PROXY_USER}:{PROXY_PASS}@{PROXY_HOST}:{PROXY_PORT}"
+
+proxy = {
+    "http": "http://B01vby:GBno0x@45.118.250.2:8000",
+    "https": "http://B01vby:GBno0x@45.118.250.2:8000",
+    "no_proxy": "localhost,127.0.0.1",
+}
 
 session = requests.Session()
 
@@ -116,7 +119,7 @@ def set_bot_commands():
 def get_currency_rates():
     global usd_rate
 
-    print_message("КУРС ЦБ")
+    print_message("ПОЛУЧАЕМ КУРС ЦБ")
 
     url = "https://www.cbr-xml-daily.ru/daily_json.js"
     response = requests.get(url)
@@ -139,6 +142,8 @@ def get_currency_rates():
         f"KRW {krw:.4f} ₽\n"
         f"CNY {cny:.4f} ₽"
     )
+
+    print_message(rates_text)
 
     return rates_text
 
@@ -222,301 +227,171 @@ def send_error_message(message, error_text):
     logging.error(f"Error sent to user {message.chat.id}: {error_text}")
 
 
+def get_ip():
+    response = requests.get(
+        "https://api.ipify.org?format=json", verify=True, proxies=proxy
+    )
+    ip = response.json()["ip"]
+    return ip
+
+
+print(f"Current IP Address: {get_ip()}")
+
+
 def extract_sitekey(driver, url):
-    """Извлекает sitekey из iframe на странице."""
-    driver.get(url)  # Загружаем страницу
-    iframe = driver.find_element(
-        By.TAG_NAME, "iframe"
-    )  # Находим iframe, содержащий reCAPTCHA
-    iframe_src = iframe.get_attribute("src")  # Получаем src атрибут iframe
+    driver.get(url)
 
-    # Ищем sitekey в src iframe
+    iframe = driver.find_element(By.TAG_NAME, "iframe")
+    iframe_src = iframe.get_attribute("src")
     match = re.search(r"k=([A-Za-z0-9_-]+)", iframe_src)
+
     if match:
-        return match.group(1)
+        sitekey = match.group(1)
+        return sitekey
     else:
-        raise Exception("Не удалось найти sitekey.")
-
-
-def send_recaptcha_token(driver, token):
-    """
-    Отправляет reCAPTCHA токен через JavaScript с использованием Selenium.
-
-    :param driver: Экземпляр веб-драйвера Selenium
-    :param token: Токен, полученный от reCAPTCHA
-    :return: Ответ сервера в формате JSON
-    """
-    try:
-        # Отправка POST-запроса через execute_script
-        result = driver.execute_script(
-            """
-            return new Promise(function(resolve, reject) {
-                var token = arguments[0];  // Получаем токен из Python
-                jQuery.ajax({
-                    url: '/validation_recaptcha.do?method=v3',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: { token: token },
-                    success: function(data) {
-                        resolve(data);  // Возвращаем результат
-                    },
-                    error: function(xhr, status, error) {
-                        reject('Ошибка запроса: ' + status + ' ' + error);
-                    }
-                });
-            });
-        """,
-            token,
-        )  # Передаем токен в JS
-
-        # Обработка результата
-        if result:
-            print(f"Ответ от сервера: {result}")
-            if result[0].get("success") == True:
-                print("Токен успешно подтвержден.")
-                return result[0]
-            else:
-                print("Ошибка валидации reCAPTCHA.")
-                return None
-        else:
-            print("Не удалось получить ответ от сервера.")
-            return None
-    except Exception as e:
-        print(f"Ошибка при выполнении запроса с помощью execute_script: {e}")
         return None
 
 
-def solve_recaptcha(driver, url):
-    """Решает reCAPTCHA, извлекая sitekey с помощью Selenium и TwoCaptcha."""
+def send_recaptcha_token(token):
+    data = {"token": token, "action": "/dc/dc_cardetailview.do"}
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
+        "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Referer": "http://www.encar.com/index.do",
+    }
+
+    url = "https://www.encar.com/validation_recaptcha.do?method=v3"
+    # Отправляем POST-запрос с токеном
+    response = requests.post(
+        url, data=data, headers=headers, proxies=proxy, verify=True
+    )
+
+    # Выводим ответ для отладки
+    print("\n\nОтвет от сервера:")
+    print(f"Статус код: {response.status_code}")
+    print(f"Тело ответа: {response.text}\n\n")
+
     try:
-        # Извлекаем sitekey
-        site_key = extract_sitekey(driver, url)
-        print(f"Извлеченный sitekey: {site_key}")
+        result = response.json()
 
-        if not site_key:
-            print("Не удалось извлечь sitekey.")
-            return
-
-        # Инициализация solver
-        solver = TwoCaptcha(TWOCAPTCHA_API_KEY)
-
-        # Решение reCAPTCHA
-        result = solver.recaptcha(sitekey=site_key, url=url)
-        if "code" not in result:
-            print("Ошибка: код reCAPTCHA отсутствует в результате.")
-            return
-        print(f"reCAPTCHA решена: {result}")
-
-        # Извлечение cookies из Selenium
-        cookies = {cookie["name"]: cookie["value"] for cookie in driver.get_cookies()}
-
-        # Установка заголовков (если необходимо)
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
-        }
-
-        # Выполняем действия с токеном через Selenium
-        driver.execute_script(
-            f"""
-            grecaptcha.execute('{site_key}', {{action: '/dc/dc_cardetailview_do'}}).then(function(token) {{
-                console.log(token);  // Вывод токена для отладки
-            }});
-        """
-        )
-
-        # Отправка reCAPTCHA токена через POST-запрос
-        response = send_recaptcha_token(
-            driver,
-            result["code"],
-        )
-
-        # Проверка ответа
-        if response and response.get("success"):
-            print("reCAPTCHA успешно пройдена, перезагружаем страницу.")
-            driver.refresh()  # Перезагрузка страницы для завершения процесса
+        if result[0]["success"]:
+            print("reCAPTCHA успешно пройдена!")
+            return True
         else:
-            print("Не удалось пройти reCAPTCHA.")
+            print("Ошибка проверки reCAPTCHA.")
+            return False
+    except requests.exceptions.JSONDecodeError:
+        print("Ошибка: Ответ от сервера не является валидным JSON.")
+        return False
     except Exception as e:
-        logging.error(f"Ошибка при решении reCAPTCHA или отправке формы: {e}")
+        print(f"Произошла ошибка: {e}")
+        return False
+
+
+def create_driver():
+    chrome_options = Options()
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--window-size=800,600")
+    chrome_options.add_argument("--disable-infobars")
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--disable-javascript")  # Отключение JavaScript
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_options.add_argument("--enable-logging")
+    chrome_options.add_argument("--v=1")
+    chrome_options.add_argument("--remote-debugging-port=9222")
+    chrome_options.add_argument(
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    )
+
+    prefs = {
+        "profile.managed_default_content_settings.images": 2,  # Отключаем загрузку тяжёлых изображений
+        "profile.managed_default_content_settings.stylesheets": 2,  # Отключаем загрузку CSS
+        "profile.default_content_setting_values.notifications": 2,  # Отключить уведомления
+        "credentials_enable_service": False,
+        "profile.password_manager_enabled": False,
+    }
+    chrome_options.add_experimental_option("prefs", prefs)
+
+    seleniumwire_options = {"proxy": proxy}
+
+    # Запуск браузера
+    driver = webdriver.Chrome(
+        options=chrome_options, seleniumwire_options=seleniumwire_options
+    )
+    return driver
 
 
 def get_car_info(url):
     global car_id_external
 
-    chrome_options = Options()
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
-    chrome_options.add_argument("--headless")  # Необходим для работы в Heroku
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
-    chrome_options.add_argument("--disable-software-rasterizer")
-    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_argument("--disable-extensions")
-    chrome_options.add_argument("--log-level=3")  # Отключение логов
-    chrome_options.add_argument("--disable-application-cache")
-    chrome_options.add_argument("--disable-web-security")
-    chrome_options.add_argument("--allow-running-insecure-content")
-    chrome_options.add_argument("--disable-autofill")
-    # chrome_options.add_argument(f"--proxy-server={http_proxy}")
-    chrome_options.add_argument(
-        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
-    )
+    driver = create_driver()
 
-    # Инициализация драйвера
-    service = Service(CHROMEDRIVER_PATH)
-    driver = webdriver.Chrome(
-        service=service,
-        options=chrome_options,
-    )
+    # Извлекаем carid с URL encar
+    parsed_url = urlparse(url)
+    query_params = parse_qs(parsed_url.query)
+    car_id = query_params.get("carid", [None])[0]
+    car_id_external = car_id
 
     try:
-        # Загружаем страницу клиента
-        driver.get(url)
+        solver = TwoCaptcha("89a8f41a0641f085c8ca6e861e0fa571")
 
-        # Проверка на 404 ошибку
-        if "404" in driver.title or "Page Not Found" in driver.page_source:
-            print("Страница не найдена (404).")
-            driver.refresh()
-            driver.get(url)
+        is_recaptcha_solved = True
 
-        # Проверка на наличие reCAPTCHA
+        driver.get(f"https://www.encar.com/dc/dc_cardetailview.do?carid={car_id}")
+
         if "reCAPTCHA" in driver.page_source:
-            print("Страница содержит reCAPTCHA.")
-            solve_recaptcha(driver, url)
+            is_recaptcha_solved = False
+            print_message("Обнаружена reCAPTCHA, решаем...")
 
-        # Достаём carid
-        parsed_url = urlparse(url)
-        query_params = parse_qs(parsed_url.query)
-        car_id = query_params.get("carid", [None])[0]
-        car_id_external = car_id
+            sitekey = extract_sitekey(driver, url)
+            print(f"Sitekey: {sitekey}")
 
-        print("\n\n")
-        print(driver.page_source)
-        print("\n\n")
+            result = solver.recaptcha(sitekey, url)
+            print(f'reCAPTCHA result: {result["code"][0:50]}...')
 
-        ########
-        # Проверка элемента areaLeaseRent
-        ########
-        try:
-            print("Проверка на areaLeaseRent")
-            lease_area = driver.find_element(By.ID, "areaLeaseRent")
-            title_element = lease_area.find_element(By.CLASS_NAME, "title")
+            is_recaptcha_solved = send_recaptcha_token(result["code"])
 
-            if "리스정보" in title_element.text or "렌트정보" in title_element.text:
-                print("Данная машина находится в лизинге.")
-                return [
-                    "",
-                    "Данная машина находится в лизинге. Свяжитесь с менеджером.",
-                ]
-        except NoSuchElementException:
-            print("Элемент areaLeaseRent не найден.")
+        if is_recaptcha_solved:
+            # Достаём данные об авто после решения капчи
+            car_date, car_price, car_engine_displacement, car_title = "", "", "", ""
+            meta_elements = driver.find_elements(By.CSS_SELECTOR, "meta[name^='WT.']")
 
-        ########
-        # Проверка элемента product_left
-        ########
-        try:
-            print("Проверка на product_left")
+            meta_data = {}
+            for meta in meta_elements:
+                name = meta.get_attribute("name")
+                content = meta.get_attribute("content")
+                meta_data[name] = content
 
-            product_left = driver.find_element(By.CLASS_NAME, "product_left")
-            product_left_splitted = product_left.text.split("\n")
+            car_date = f'01{meta_data["WT.z_month"]}{meta_data["WT.z_year"][-2:]}'
+            car_price = meta_data["WT.z_price"]
+            car_title = f'{meta_data["WT.z_model_name"]} {meta_data["WT.z_model"]}'
 
-            car_title = product_left.find_element(
-                By.CLASS_NAME, "prod_name"
-            ).text.strip()
-
-            car_date = (
-                product_left_splitted[3] if len(product_left_splitted) > 3 else ""
-            )
-            car_engine_capacity = (
-                product_left_splitted[6] if len(product_left_splitted) > 6 else ""
-            )
-            car_price = re.sub(r"\D", "", product_left_splitted[1])
-
-            # Форматирование
-            formatted_price = car_price.replace(",", "")
-            formatted_engine_capacity = (
-                car_engine_capacity.replace(",", "")[:-2]
-                if car_engine_capacity
-                else "0"
-            )
-            cleaned_date = "".join(filter(str.isdigit, car_date))
-            formatted_date = (
-                f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
-            )
-
-            # Создание URL
-            new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
-
-            print(f"Данные о машине получены: {new_url}, {car_title}")
-
-            return [new_url, car_title]
-        except NoSuchElementException:
-            print("Элемент product_left не найден, переходим к поиску gallery_photo")
-        except Exception as e:
-            print(f"Ошибка при обработке product_left: {e}")
-
-        ########
-        # Проверка элемента gallery_photo
-        ########
-        try:
-            print("Проверка на gallery_photo")
-
-            gallery_element = driver.find_element(By.CSS_SELECTOR, "div.gallery_photo")
-            car_title = gallery_element.find_element(By.CLASS_NAME, "prod_name").text
-            items = gallery_element.find_elements(By.XPATH, ".//*")
-
-            if len(items) > 10:
-                car_date = items[10].text
-            if len(items) > 18:
-                car_engine_capacity = items[18].text
-
-            # Извлечение информации о ключах
             try:
-                print("Проверка на элемент wrap_keyinfo")
+                dsp_element = driver.find_element(By.ID, "dsp")
+                car_engine_displacement = dsp_element.get_attribute("value")
+            except Exception as e:
+                print(f"Ошибка при получении объема двигателя: {e}")
 
-                keyinfo_element = driver.find_element(
-                    By.CSS_SELECTOR, "div.wrap_keyinfo"
-                )
-                keyinfo_items = keyinfo_element.find_elements(By.XPATH, ".//*")
-                keyinfo_texts = [
-                    item.text for item in keyinfo_items if item.text.strip()
-                ]
+            print(car_title)
+            print(f"Registration Date: {car_date}")
+            print(f"Car Engine Displacement: {car_engine_displacement}")
+            print(f"Price: {car_price}")
 
-                # Извлекаем цену, если элемент существует
-                car_price = (
-                    re.sub(r"\D", "", keyinfo_texts[12])
-                    if len(keyinfo_texts) > 12
-                    else None
-                )
-            except NoSuchElementException:
-                print("Элемент wrap_keyinfo не найден.")
+            new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={car_price}&date={car_date}&volume={car_engine_displacement}"
 
-        except NoSuchElementException:
-            print("Элемент gallery_photo также не найден.")
+            driver.quit()
+            return [new_url, car_title]
 
-        # Форматирование значений для URL
-        formatted_price = car_price.replace(",", "") if car_price else "0"
-        formatted_engine_capacity = (
-            car_engine_capacity.replace(",", "")[:-2] if car_engine_capacity else "0"
-        )
-        cleaned_date = "".join(filter(str.isdigit, car_date))
-        formatted_date = (
-            f"01{cleaned_date[2:4]}{cleaned_date[:2]}" if cleaned_date else "010101"
-        )
-
-        # Конечный URL
-        new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={formatted_price}&date={formatted_date}&volume={formatted_engine_capacity}"
-
+    except WebDriverException as e:
+        print(f"Ошибка Selenium: {e}")
         driver.quit()
+        return ["", "Произошла ошибка получения данных..."]
 
-        print(f"Данные о машине получены: {new_url}, {car_title}")
-        return [new_url, car_title]
-
-    except Exception as e:
-        logging.error(f"Произошла ошибка: {e}")
-        return None, None
-
-    finally:
-        driver.quit()
+    return ["", ""]
 
 
 # Function to calculate the total cost
@@ -692,41 +567,20 @@ def calculate_cost(link, message):
 # Function to get insurance total
 def get_insurance_total():
     global car_id_external
+
     print_message("[ЗАПРОС] ТЕХНИЧЕСКИЙ ОТЧËТ ОБ АВТОМОБИЛЕ")
 
-    # Настройка WebDriver с нужными опциями
-    chrome_options = Options()
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")  # Необходим для работы в Heroku
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Решает проблемы с памятью
-    chrome_options.add_argument("--window-size=1920,1080")  # Устанавливает размер окна
-    chrome_options.add_argument("--disable-infobars")
-    chrome_options.add_argument("--disable-extensions")
-    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_argument("--enable-logging")
-    chrome_options.add_argument("--enable-javascript")
-    chrome_options.add_argument("--v=1")  # Уровень логирования
-    chrome_options.add_argument(
-        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
-    )
-
-    service = Service(CHROMEDRIVER_PATH)
-
-    # Формируем URL
-    url = f"http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id_external}&wtClick_carview=044"
+    driver = create_driver()
+    url = f"https://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id_external}&wtClick_carview=044"
 
     try:
         # Запускаем WebDriver
-        driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.get(url)
 
         print("car_id_external: ", car_id_external)
 
         try:
-            smlist_element = WebDriverWait(driver, 7).until(
-                EC.presence_of_element_located((By.CLASS_NAME, "smlist"))
-            )
+            smlist_element = driver.find_element(By.CLASS_NAME, "smlist")
         except NoSuchElementException:
             print("Элемент 'smlist' не найден.")
             return ["Нет данных", "Нет данных"]
@@ -853,8 +707,8 @@ def handle_callback_query(call):
         # Проверка на наличие ошибки
         if (
             insurance_info is None
-            or "Ошибка" in insurance_info[0]
-            or "Ошибка" in insurance_info[1]
+            or "Нет данных" in insurance_info[0]
+            or "Нет данных" in insurance_info[1]
         ):
             error_message = (
                 "Не удалось получить данные о страховых выплатах. \n\n"
