@@ -305,7 +305,6 @@ def create_driver():
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-javascript")  # Отключение JavaScript
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_argument("--memory-pressure-thresholds=low")
     chrome_options.add_argument("--remote-debugging-port=9222")
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
@@ -315,7 +314,6 @@ def create_driver():
         "profile.managed_default_content_settings.images": 2,  # Отключаем загрузку тяжёлых изображений
         "profile.managed_default_content_settings.stylesheets": 2,  # Отключаем загрузку CSS
         "profile.default_content_setting_values.notifications": 2,  # Отключить уведомления
-        "profile.default_content_setting_values.cookies": 2,  # Отключаем использование cookies
         "credentials_enable_service": False,
         "profile.password_manager_enabled": False,
     }
