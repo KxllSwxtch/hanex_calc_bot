@@ -12,10 +12,8 @@ from dotenv import load_dotenv
 from seleniumwire import webdriver
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from urllib.parse import urlparse, parse_qs
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
@@ -64,6 +62,13 @@ total_car_price = 0
 usd_rate = 0
 users = set()
 admins = [7311593407, 728438182]
+
+
+def print_message(message):
+    print("\n\n##############")
+    print(f"{message}")
+    print("##############\n\n")
+    return None
 
 
 # Функция для добавления пользователя в список
@@ -136,7 +141,6 @@ def get_currency_rates():
 
     # Форматируем текст
     rates_text = (
-        f"Курс валют ЦБ:\n\n"
         f"EUR {eur:.4f} ₽\n"
         f"USD {usd:.4f} ₽\n"
         f"KRW {krw:.4f} ₽\n"
@@ -227,6 +231,7 @@ def send_error_message(message, error_text):
     logging.error(f"Error sent to user {message.chat.id}: {error_text}")
 
 
+# Получаем текущий IP адрес
 def get_ip():
     response = requests.get(
         "https://api.ipify.org?format=json", verify=True, proxies=proxy
@@ -235,7 +240,7 @@ def get_ip():
     return ip
 
 
-print(f"Current IP Address: {get_ip()}")
+print_message(f"Current IP Address: {get_ip()}")
 
 
 def extract_sitekey(driver, url):
@@ -261,8 +266,8 @@ def send_recaptcha_token(token):
         "Referer": "http://www.encar.com/index.do",
     }
 
+    # Отправляем токен капчи на сервер
     url = "https://www.encar.com/validation_recaptcha.do?method=v3"
-    # Отправляем POST-запрос с токеном
     response = requests.post(
         url, data=data, headers=headers, proxies=proxy, verify=True
     )
@@ -300,8 +305,7 @@ def create_driver():
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-javascript")  # Отключение JavaScript
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_argument("--enable-logging")
-    chrome_options.add_argument("--v=1")
+    chrome_options.add_argument("--memory-pressure-thresholds=low")
     chrome_options.add_argument("--remote-debugging-port=9222")
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
@@ -311,6 +315,7 @@ def create_driver():
         "profile.managed_default_content_settings.images": 2,  # Отключаем загрузку тяжёлых изображений
         "profile.managed_default_content_settings.stylesheets": 2,  # Отключаем загрузку CSS
         "profile.default_content_setting_values.notifications": 2,  # Отключить уведомления
+        "profile.default_content_setting_values.cookies": 2,  # Отключаем использование cookies
         "credentials_enable_service": False,
         "profile.password_manager_enabled": False,
     }
@@ -844,13 +849,6 @@ def calculate_age(year):
 
 def format_number(number):
     return locale.format_string("%d", number, grouping=True)
-
-
-def print_message(message):
-    print("\n\n##############")
-    print(f"{message}")
-    print("##############\n\n")
-    return None
 
 
 # Run the bot
