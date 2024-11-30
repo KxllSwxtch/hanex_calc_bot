@@ -32,7 +32,6 @@ http_proxy = f"http://{PROXY_USER}:{PROXY_PASS}@{PROXY_HOST}:{PROXY_PORT}"
 proxy = {
     "http": "http://B01vby:GBno0x@45.118.250.2:8000",
     "https": "http://B01vby:GBno0x@45.118.250.2:8000",
-    "no_proxy": "localhost,127.0.0.1",
 }
 
 session = requests.Session()
