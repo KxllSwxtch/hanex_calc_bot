@@ -7830,3 +7830,5 @@ Stacktrace:
 2024-11-27 18:54:38,716 - INFO - Capturing request: https://static.encar.com/common/webfonts/css/pretendard.css
 2024-11-27 18:54:39,380 - INFO - Capturing response: https://static.encar.com/common/webfonts/css/pretendard.css 200 
 2024-11-27 18:54:39,421 - INFO - Capturing request: http://www.encar.com/favicon.ico
+2024-11-30 19:14:09,996 - INFO - Using default request storage
+2024-11-30 19:14:10,008 - INFO - Created proxy listening on ::ffff:127.0.0.1:51646
