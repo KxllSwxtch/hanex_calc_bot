@@ -732,13 +732,11 @@ def get_insurance_total():
     print_message("[ЗАПРОС] ТЕХНИЧЕСКИЙ ОТЧËТ ОБ АВТОМОБИЛЕ")
 
     driver = create_driver()
-    url = f"https://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id_external}&wtClick_carview=044"
+    url = f"http://www.encar.com/dc/dc_cardetailview.do?method=kidiFirstPop&carid={car_id_external}&wtClick_carview=044"
 
     try:
         # Запускаем WebDriver
         driver.get(url)
-
-        print("car_id_external: ", car_id_external)
 
         try:
             smlist_element = driver.find_element(By.CLASS_NAME, "smlist")
@@ -865,7 +863,10 @@ def handle_callback_query(call):
         ):
             error_message = (
                 "Не удалось получить данные о страховых выплатах. \n\n"
-                f'<a href="https://fem.encar.com/cars/report/accident/{car_id_external}">🔗 Посмотреть страховую историю вручную 🔗</a>'
+                f'<a href="https://fem.encar.com/cars/report/accident/{car_id_external}">🔗 Посмотреть страховую историю вручную 🔗</a>\n\n\n'
+                f"<b>Найдите две строки:</b>\n"
+                f"보험사고 이력 (내차 피해) - Выплаты по представленному автомобилю"
+                f"보험사고 이력 (타차 가해) - Выплаты по другим участникам ДТП"
             )
 
             # Inline buttons for further actions
