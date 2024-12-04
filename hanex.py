@@ -866,7 +866,7 @@ def handle_callback_query(call):
                 f'<a href="https://fem.encar.com/cars/report/accident/{car_id_external}">🔗 Посмотреть страховую историю вручную 🔗</a>\n\n\n'
                 f"<b>Найдите две строки:</b>\n"
                 f"보험사고 이력 (내차 피해) - Выплаты по представленному автомобилю"
-                f"보험사고 이력 (타차 가해) - Выплаты по другим участникам ДТП"
+                f"보험사고 이력 (타차 가해) - Выплаты другим участникам ДТП"
             )
 
             # Inline buttons for further actions
