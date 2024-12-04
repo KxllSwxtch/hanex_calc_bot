@@ -1,4 +1,5 @@
 import telebot
+import psycopg2
 import os
 import re
 import requests
@@ -19,6 +20,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 TWOCAPTCHA_API_KEY = "89a8f41a0641f085c8ca6e861e0fa571"
 
+
 # CHROMEDRIVER_PATH = "/app/.chrome-for-testing/chromedriver-linux64/chromedriver"
 CHROMEDRIVER_PATH = "/opt/homebrew/bin/chromedriver"
 
@@ -35,6 +37,10 @@ proxy = {
 }
 
 session = requests.Session()
+
+# Настройка БД
+DATABASE_URL = "postgres://uea5qru3fhjlj:p44343a46d4f1882a5ba2413935c9b9f0c284e6e759a34cf9569444d16832d4fe@c97r84s7psuajm.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d9pr93olpfl9bj"
+
 
 # Configure logging
 logging.basicConfig(
@@ -61,6 +67,79 @@ total_car_price = 0
 usd_rate = 0
 users = set()
 admins = [7311593407, 728438182]
+
+
+def initialize_db():
+    # Создаем подключение к базе данных PostgreSQL
+    conn = psycopg2.connect(DATABASE_URL, sslmode="require")
+    cursor = conn.cursor()
+
+    # Создание таблицы для хранения статистики пользователей, если её нет
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS user_stats (
+            user_id SERIAL PRIMARY KEY,
+            username TEXT,
+            first_name TEXT,
+            last_name TEXT,
+            join_date TEXT
+        )
+    """
+    )
+
+    # Сохраняем изменения
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
+# Функция для сохранения информации о пользователе
+def save_user_info(user):
+    conn = psycopg2.connect(DATABASE_URL, sslmode="require")
+    cursor = conn.cursor()
+
+    # Добавление информации о пользователе в таблицу
+    cursor.execute(
+        """
+        INSERT INTO user_stats (user_id, username, first_name, last_name, join_date)
+        VALUES (%s, %s, %s, %s, %s)
+        ON CONFLICT (user_id) DO NOTHING
+    """,
+        (
+            int(str(user.id)[0:5]),
+            user.username,
+            user.first_name,
+            user.last_name,
+            str(datetime.datetime.now()),
+        ),
+    )
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
+# Функция для получения всех пользователей
+def get_all_users():
+    conn = psycopg2.connect(DATABASE_URL, sslmode="require")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM user_stats")
+    users = cursor.fetchall()
+    conn.close()
+    return users
+
+
+@bot.message_handler(commands=["stats"])
+def handle_stats(message):
+    if is_admin(message.from_user.id):
+        users = get_all_users()
+        stats_message = "Список пользователей:\n"
+
+        for user in users:
+            stats_message += f"Никнейм: @{user[1]}\nИмя: {user[2]} {user[3]}\nДата начала пользования: {user[4]}\n\n"
+        bot.reply_to(message, stats_message)
+    else:
+        bot.reply_to(message, "Эта функция доступна только администратору")
 
 
 def print_message(message):
@@ -114,7 +193,7 @@ def set_bot_commands():
     commands = [
         types.BotCommand("start", "Запустить бота"),
         types.BotCommand("cbr", "Курсы валют"),
-        types.BotCommand("admin", "Меню администратора"),
+        types.BotCommand("stats", "Статистика"),
     ]
     bot.set_my_commands(commands)
 
@@ -201,9 +280,11 @@ def main_menu():
 # Start command handler
 @bot.message_handler(commands=["start"])
 def send_welcome(message):
-    user_first_name = message.from_user.first_name
+    user = message.from_user
+    user_first_name = user.first_name
 
-    add_user_to_list(message)
+    # Сохраняем данные о пользователях бота
+    save_user_info(user)
 
     welcome_message = (
         f"👋 Здравствуйте, {user_first_name}!\n"
@@ -239,7 +320,7 @@ def get_ip():
     return ip
 
 
-print_message(f"Current IP Address: {get_ip()}")
+# print_message(f"Current IP Address: {get_ip()}")
 
 
 def extract_sitekey(driver, url):
@@ -860,6 +941,7 @@ def format_number(number):
 
 # Run the bot
 if __name__ == "__main__":
+    initialize_db()
     get_currency_rates()
     set_bot_commands()
     bot.polling(none_stop=True)

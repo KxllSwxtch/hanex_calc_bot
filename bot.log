@@ -7832,3 +7832,361 @@ Stacktrace:
 2024-11-27 18:54:39,421 - INFO - Capturing request: http://www.encar.com/favicon.ico
 2024-11-30 19:14:09,996 - INFO - Using default request storage
 2024-11-30 19:14:10,008 - INFO - Created proxy listening on ::ffff:127.0.0.1:51646
+2024-12-04 12:29:15,319 - INFO - Using default request storage
+2024-12-04 12:29:15,347 - INFO - Created proxy listening on ::ffff:127.0.0.1:56310
+2024-12-04 12:29:18,690 - INFO - Capturing request: https://accounts.google.com/ListAccounts?gpsia=1&source=ChromiumBrowser&json=standard
+2024-12-04 12:29:19,320 - INFO - Capturing response: https://accounts.google.com/ListAccounts?gpsia=1&source=ChromiumBrowser&json=standard 200 
+2024-12-04 12:29:19,831 - INFO - Capturing request: https://www.encar.com/dc/dc_cardetailview.do?carid=38502371
+2024-12-04 12:29:20,346 - INFO - Capturing response: https://www.encar.com/dc/dc_cardetailview.do?carid=38502371 200 
+2024-12-04 12:29:20,374 - INFO - Capturing request: https://www.encar.com/css/common.css?v=1732695698339
+2024-12-04 12:29:20,376 - INFO - Capturing request: https://www.encar.com/css/index.css?v=1732695698339
+2024-12-04 12:29:21,097 - INFO - Capturing response: https://www.encar.com/css/index.css?v=1732695698339 200 OK
+2024-12-04 12:29:21,101 - INFO - Capturing request: https://www.encar.com/js/encarapp/helper/utils.js?v=1732579388793
+2024-12-04 12:29:21,109 - INFO - Capturing response: https://www.encar.com/css/common.css?v=1732695698339 200 OK
+2024-12-04 12:29:21,113 - INFO - Capturing request: https://www.encar.com/js/encarapp/commons.js?v=1732579388793
+2024-12-04 12:29:21,200 - INFO - Capturing request: https://www.googleadservices.com/pagead/conversion.js
+2024-12-04 12:29:21,608 - INFO - Capturing response: https://www.encar.com/js/encarapp/helper/utils.js?v=1732579388793 200 OK
+2024-12-04 12:29:21,611 - INFO - Capturing request: https://www.encar.com/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1732579388793
+2024-12-04 12:29:21,778 - INFO - Capturing response: https://www.googleadservices.com/pagead/conversion.js 200 
+2024-12-04 12:29:21,846 - INFO - Capturing response: https://www.encar.com/js/encarapp/commons.js?v=1732579388793 200 OK
+2024-12-04 12:29:21,849 - INFO - Capturing request: https://www.encar.com/js/encarapp/lib/doT/doT.min.js?v=1732579388793
+2024-12-04 12:29:22,203 - INFO - Capturing request: https://static.encar.com/common/webfonts/css/pretendard.css
+2024-12-04 12:29:22,341 - INFO - Capturing request: https://www.encar.com/js/ui/ui.js?v=1732579388793
+2024-12-04 12:29:22,342 - INFO - Capturing request: https://www.encar.com/js/encarapp/app/dc/ryvuss.lib.js?v=1732579388793
+2024-12-04 12:29:22,342 - INFO - Capturing request: https://www.encar.com/js/encarapp/gH1V8I7wR/yB6bh1K0a.js?v=1732579388793
+2024-12-04 12:29:22,350 - INFO - Capturing response: https://www.encar.com/js/encarapp/lib/doT/doT.min.js?v=1732579388793 200 OK
+2024-12-04 12:29:22,353 - INFO - Capturing request: https://www.encar.com/js/encarapp/gH1V8I7wR/loC4s6rO1.js?v=1732579388793
+2024-12-04 12:29:22,421 - INFO - Capturing request: https://www.encar.com/js/encarapp/gH1V8I7wR/kpPj7EJ74.js?v=1732579388793
+2024-12-04 12:29:22,566 - INFO - Capturing response: https://www.encar.com/js/encarapp/lib/jquery/jquery-1.11.3.min.js?v=1732579388793 200 OK
+2024-12-04 12:29:22,568 - INFO - Capturing request: https://www.encar.com/js/common/ssl.js?pageid=&Scheme=https
+2024-12-04 12:29:22,801 - INFO - Capturing response: https://static.encar.com/common/webfonts/css/pretendard.css 200 
+2024-12-04 12:29:22,845 - INFO - Capturing response: https://www.encar.com/js/encarapp/app/dc/ryvuss.lib.js?v=1732579388793 200 OK
+2024-12-04 12:29:22,854 - INFO - Capturing request: https://www.encar.com/js/common/util.js?v=1732579388793
+2024-12-04 12:29:23,055 - INFO - Capturing response: https://www.encar.com/js/common/ssl.js?pageid=&Scheme=https 200 OK
+2024-12-04 12:29:23,058 - INFO - Capturing request: https://www.encar.com/js/common/common_menu.js?v=1732579388793
+2024-12-04 12:29:23,110 - INFO - Capturing response: https://www.encar.com/js/encarapp/gH1V8I7wR/loC4s6rO1.js?v=1732579388793 200 OK
+2024-12-04 12:29:23,111 - INFO - Capturing response: https://www.encar.com/js/encarapp/gH1V8I7wR/yB6bh1K0a.js?v=1732579388793 200 OK
+2024-12-04 12:29:23,116 - INFO - Capturing request: https://www.encar.com/js/menu/_menu.js?v=1732579388793
+2024-12-04 12:29:23,118 - INFO - Capturing request: https://www.encar.com/js/encarapp/lib/json/json2.js?v=1732579388793
+2024-12-04 12:29:23,176 - INFO - Capturing response: https://www.encar.com/js/encarapp/gH1V8I7wR/kpPj7EJ74.js?v=1732579388793 200 OK
+2024-12-04 12:29:23,284 - INFO - Capturing response: https://www.encar.com/js/ui/ui.js?v=1732579388793 200 OK
+2024-12-04 12:29:23,323 - INFO - Capturing request: https://www.encar.com/dc/dc_cardetailview.do?carid=38502371
+2024-12-04 12:29:23,546 - INFO - Capturing response: https://www.encar.com/js/common/common_menu.js?v=1732579388793 200 OK
+2024-12-04 12:29:23,584 - INFO - Capturing response: https://www.encar.com/js/common/util.js?v=1732579388793 200 OK
+2024-12-04 12:29:23,599 - INFO - Capturing response: https://www.encar.com/js/menu/_menu.js?v=1732579388793 404 Not Found
+2024-12-04 12:29:23,831 - INFO - Capturing response: https://www.encar.com/js/encarapp/lib/json/json2.js?v=1732579388793 200 OK
+2024-12-04 12:29:24,018 - INFO - Capturing response: https://www.encar.com/dc/dc_cardetailview.do?carid=38502371 302 
+2024-12-04 12:29:24,022 - INFO - Capturing request: http://www.encar.com/dc/dc_cardetailview.do?carid=38502371
+2024-12-04 12:29:24,431 - INFO - Capturing request: https://www.google.com/recaptcha/api.js
+2024-12-04 12:29:25,086 - INFO - Capturing response: https://www.google.com/recaptcha/api.js 200 
+2024-12-04 12:29:25,928 - INFO - Capturing request: https://www.gstatic.com/recaptcha/releases/pPK749sccDmVW_9DSeTMVvh2/recaptcha__en.js
+2024-12-04 12:29:26,030 - INFO - Capturing response: http://www.encar.com/dc/dc_cardetailview.do?carid=38502371 200 
+2024-12-04 12:29:26,055 - INFO - Capturing request: http://www.encar.com/css/common.css?v=1732695698339
+2024-12-04 12:29:26,057 - INFO - Capturing request: http://www.encar.com/js/ui/ui.js?v=1732579388793
+2024-12-04 12:29:26,058 - INFO - Capturing request: http://www.encar.com/css/dc_cardetail.css?v=1732695698339
+2024-12-04 12:29:26,059 - INFO - Capturing request: http://www.encar.com/js/encarapp/gH1V8I7wR/loC4s6rO1.js?v=1732579388793
+2024-12-04 12:29:26,060 - INFO - Capturing request: http://www.encar.com/js/encarapp/gH1V8I7wR/yB6bh1K0a.js?v=1732579388793
+2024-12-04 12:29:26,060 - INFO - Capturing request: http://www.encar.com/js/prototype.js?v=1732579388793
+2024-12-04 12:29:27,279 - INFO - Capturing response: http://www.encar.com/css/dc_cardetail.css?v=1732695698339 200 OK
+2024-12-04 12:29:27,281 - INFO - Capturing request: http://www.encar.com/js/encarapp/gH1V8I7wR/kpPj7EJ74.js?v=1732579388793
+2024-12-04 12:29:27,282 - INFO - Capturing response: http://www.encar.com/js/encarapp/gH1V8I7wR/yB6bh1K0a.js?v=1732579388793 200 OK
+2024-12-04 12:29:27,283 - INFO - Capturing request: http://www.encar.com/js/common/ssl.js?pageid=dc_carsearch&Scheme=http
+2024-12-04 12:29:27,285 - INFO - Capturing response: http://www.encar.com/js/encarapp/gH1V8I7wR/loC4s6rO1.js?v=1732579388793 200 OK
+2024-12-04 12:29:27,287 - INFO - Capturing request: http://www.encar.com/js/common/util.js?v=1732579388793
+2024-12-04 12:29:27,331 - INFO - Capturing response: http://www.encar.com/css/common.css?v=1732695698339 200 OK
+2024-12-04 12:29:27,334 - INFO - Capturing request: http://www.encar.com/js/common/common_menu.js?v=1732579388793
+2024-12-04 12:29:27,484 - INFO - Capturing response: http://www.encar.com/js/prototype.js?v=1732579388793 200 OK
+2024-12-04 12:29:27,486 - INFO - Capturing request: http://www.encar.com/js/menu/dc_menu.js?v=1732579388793
+2024-12-04 12:29:27,539 - INFO - Capturing response: http://www.encar.com/js/ui/ui.js?v=1732579388793 200 OK
+2024-12-04 12:29:27,542 - INFO - Capturing request: http://www.encar.com/js/encarapp/lib/json/json2.js?v=1732579388793
+2024-12-04 12:29:28,372 - INFO - Capturing request: https://static.encar.com/common/webfonts/css/pretendard.css
+2024-12-04 12:29:28,521 - INFO - Capturing request: https://optimizationguide-pa.googleapis.com/v1:GetModels?key=AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw
+2024-12-04 12:29:28,564 - INFO - Capturing response: http://www.encar.com/js/common/ssl.js?pageid=dc_carsearch&Scheme=http 200 OK
+2024-12-04 12:29:28,565 - INFO - Capturing response: http://www.encar.com/js/encarapp/gH1V8I7wR/kpPj7EJ74.js?v=1732579388793 200 OK
+2024-12-04 12:29:28,570 - INFO - Capturing request: http://www.encar.com/js/encarapp/helper/utils.js?v=1732579388793
+2024-12-04 12:29:28,571 - INFO - Capturing request: http://www.encar.com/js/encarapp/commons.js?v=1732579388793
+2024-12-04 12:29:28,576 - INFO - Capturing response: http://www.encar.com/js/common/util.js?v=1732579388793 200 OK
+2024-12-04 12:29:28,578 - INFO - Capturing request: http://www.encar.com/js/common/commonCombo.js?v=1732579388793
+2024-12-04 12:29:28,624 - INFO - Capturing response: http://www.encar.com/js/common/common_menu.js?v=1732579388793 200 OK
+2024-12-04 12:29:28,626 - INFO - Capturing request: http://www.encar.com/js/common/carSearchCombo.js?v=1732579388793
+2024-12-04 12:29:28,804 - INFO - Capturing response: http://www.encar.com/js/menu/dc_menu.js?v=1732579388793 200 OK
+2024-12-04 12:29:28,806 - INFO - Capturing request: http://www.encar.com/js/dc/send_enquiry.js?v=1&v=1732579388793
+2024-12-04 12:29:28,884 - INFO - Capturing response: http://www.encar.com/js/encarapp/lib/json/json2.js?v=1732579388793 200 OK
+2024-12-04 12:29:28,886 - INFO - Capturing request: http://www.encar.com/js/encarapp/lib/doT/doT.min.js?v=1732579388793
+2024-12-04 12:29:28,962 - INFO - Capturing response: https://static.encar.com/common/webfonts/css/pretendard.css 200 
+2024-12-04 12:29:29,006 - INFO - Capturing request: http://www.encar.com/co/loginCheck.do
+2024-12-04 12:29:29,284 - INFO - Capturing response: http://www.encar.com/js/encarapp/helper/utils.js?v=1732579388793 200 OK
+2024-12-04 12:29:29,286 - INFO - Capturing request: http://www.encar.com/banner.do?method=carDetailMulti&pageid=dc_carsearchview&state=detail&make=Hyundai&modelGroup=Grandeur&clsheadcd=001&price=4090&category=%B4%EB%C7%FC%C2%F7&detailMileage=2651&detailYear=202404&fuel=001&detailGrade=2&detailBrand=N&service=ExtendWarranty&detailOfficeAddrb=%B0%E6%B1%E2
+2024-12-04 12:29:29,297 - INFO - Capturing response: https://optimizationguide-pa.googleapis.com/v1:GetModels?key=AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw 200 
+2024-12-04 12:29:29,345 - INFO - Capturing response: http://www.encar.com/js/common/carSearchCombo.js?v=1732579388793 200 OK
+2024-12-04 12:29:29,347 - INFO - Capturing request: http://www.encar.com/js/encarapp/module/cmm/analytics.js?v=1732579388793
+2024-12-04 12:29:29,527 - INFO - Capturing response: http://www.encar.com/js/dc/send_enquiry.js?v=1&v=1732579388793 200 OK
+2024-12-04 12:29:29,529 - INFO - Capturing request: http://www.encar.com/js/jquery-1.10.2.min.js?v=1732579388793
+2024-12-04 12:29:29,784 - INFO - Capturing response: http://www.encar.com/js/encarapp/commons.js?v=1732579388793 200 OK
+2024-12-04 12:29:29,786 - INFO - Capturing request: http://www.encar.com/js/md/cm/leaseRentBinding.js?v=1732579388793
+2024-12-04 12:29:29,832 - INFO - Capturing response: http://www.encar.com/js/common/commonCombo.js?v=1732579388793 200 OK
+2024-12-04 12:29:29,834 - INFO - Capturing request: http://www.encar.com/js/encarapp/lib/localForage/dist/localforage.min.js
+2024-12-04 12:29:30,005 - INFO - Capturing response: http://www.encar.com/banner.do?method=carDetailMulti&pageid=dc_carsearchview&state=detail&make=Hyundai&modelGroup=Grandeur&clsheadcd=001&price=4090&category=%B4%EB%C7%FC%C2%F7&detailMileage=2651&detailYear=202404&fuel=001&detailGrade=2&detailBrand=N&service=ExtendWarranty&detailOfficeAddrb=%B0%E6%B1%E2 200 
+2024-12-04 12:29:30,007 - INFO - Capturing request: http://www.encar.com/js/encarapp/lib/clipboard/clipboard.min.js
+2024-12-04 12:29:30,064 - INFO - Capturing response: http://www.encar.com/js/encarapp/module/cmm/analytics.js?v=1732579388793 200 OK
+2024-12-04 12:29:30,066 - INFO - Capturing request: http://www.encar.com/js/common/nethru/wl6.js
+2024-12-04 12:29:30,124 - INFO - Capturing response: http://www.encar.com/js/encarapp/lib/doT/doT.min.js?v=1732579388793 200 OK
+2024-12-04 12:29:30,126 - INFO - Capturing request: http://www.encar.com/js/external/conversion_event.js?v=1732579388793
+2024-12-04 12:29:30,244 - INFO - Capturing response: http://www.encar.com/co/loginCheck.do 200 
+2024-12-04 12:29:30,265 - INFO - Capturing request: http://www.encar.com/images/spr/spr_gnb24.png?2410141748
+2024-12-04 12:29:30,270 - INFO - Capturing request: http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js
+2024-12-04 12:29:30,271 - INFO - Capturing request: http://automotive.encar.com/RealMedia/ads/adstream_jx.ads/encar.com/dc_detail@TopRight,Right?pageid=dc&company=detail_Hyundai&modelGroup=detail_Hyundai_Grandeur&price=PM4000&detail_ca_Big=checked&detail_fuel=001&mileage=section1&year=2024&seller=dealer&service=ExtendWarranty&city=002
+2024-12-04 12:29:30,500 - INFO - Capturing response: http://www.encar.com/js/md/cm/leaseRentBinding.js?v=1732579388793 200 OK
+2024-12-04 12:29:30,724 - INFO - Capturing response: http://www.encar.com/js/encarapp/lib/clipboard/clipboard.min.js 200 OK
+2024-12-04 12:29:30,785 - INFO - Capturing response: http://www.encar.com/js/common/nethru/wl6.js 200 OK
+2024-12-04 12:29:30,846 - INFO - Capturing response: http://www.encar.com/js/external/conversion_event.js?v=1732579388793 200 OK
+2024-12-04 12:29:30,964 - INFO - Capturing response: http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js 200 OK
+2024-12-04 12:29:31,044 - INFO - Capturing response: http://www.encar.com/js/jquery-1.10.2.min.js?v=1732579388793 200 OK
+2024-12-04 12:29:31,083 - INFO - Capturing response: http://www.encar.com/js/encarapp/lib/localForage/dist/localforage.min.js 200 OK
+2024-12-04 12:29:31,103 - INFO - Capturing request: http://www.encar.com/dc/dc_ajaxstatscount.do?method=insWantBuyNew&carid=38502371&carType=kor&fromPage=etc&viewType=checked
+2024-12-04 12:29:31,108 - INFO - Capturing request: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x78?btn_company=Hyundai
+2024-12-04 12:29:31,109 - INFO - Capturing request: http://www.encar.com/dc/dc_ajaxclean.do?method=checkUncleanCar&rgsid=38502371&uncleanCars=
+2024-12-04 12:29:31,114 - INFO - Capturing request: http://www.encar.com/banner.do?method=banner9&pageid=dc_carsearch&fuel=001
+2024-12-04 12:29:31,116 - INFO - Capturing request: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x79?btn_company=Hyundai
+2024-12-04 12:29:31,116 - INFO - Capturing request: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x65?btn_company=Hyundai
+2024-12-04 12:29:31,117 - INFO - Capturing request: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x66?btn_company=Hyundai
+2024-12-04 12:29:31,153 - INFO - Capturing request: http://www.encar.com/images/cardetail/bg_carimage_white.png?190801
+2024-12-04 12:29:31,160 - INFO - Capturing request: http://www.encar.com/images/dc/bg_dot.gif
+2024-12-04 12:29:31,169 - INFO - Capturing request: http://www.googleadservices.com/pagead/conversion.js
+2024-12-04 12:29:31,171 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_008.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:31,172 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_024.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:31,179 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_020.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:31,182 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_010.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:31,185 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_022.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:31,189 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_021.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:31,445 - INFO - Capturing request: https://static.encar.com/common/webfonts/font/Pretendard-Medium.subset.woff2
+2024-12-04 12:29:31,447 - INFO - Capturing request: https://static.encar.com/common/webfonts/font/Pretendard-SemiBold.subset.woff2
+2024-12-04 12:29:31,448 - INFO - Capturing request: https://static.encar.com/common/webfonts/font/Pretendard-Bold.subset.woff2
+2024-12-04 12:29:31,504 - INFO - Capturing response: http://www.encar.com/images/spr/spr_gnb24.png?2410141748 200 OK
+2024-12-04 12:29:31,506 - INFO - Capturing request: http://www.encar.com/images/spr/spr_cardetail.png?240304022
+2024-12-04 12:29:31,522 - INFO - Capturing response: http://automotive.encar.com/RealMedia/ads/adstream_jx.ads/encar.com/dc_detail@TopRight,Right?pageid=dc&company=detail_Hyundai&modelGroup=detail_Hyundai_Grandeur&price=PM4000&detail_ca_Big=checked&detail_fuel=001&mileage=section1&year=2024&seller=dealer&service=ExtendWarranty&city=002 200 OK
+2024-12-04 12:29:31,534 - INFO - Capturing request: http://daimg.encar.com/da/202411/house/encar_house_listex_default_241121.jpg
+2024-12-04 12:29:31,535 - INFO - Capturing request: http://daimg.encar.com/da/202004/volkswagen_used/volkswagen_used_rtss_200422_2.jpg
+2024-12-04 12:29:31,535 - INFO - Capturing request: http://daimg.encar.com/da/202411/house/encar_house_listex_expand_241121.jpg
+2024-12-04 12:29:31,865 - INFO - Capturing response: http://www.encar.com/banner.do?method=banner9&pageid=dc_carsearch&fuel=001 200 
+2024-12-04 12:29:31,867 - INFO - Capturing response: http://www.googleadservices.com/pagead/conversion.js 200 OK
+2024-12-04 12:29:31,872 - INFO - Capturing request: http://www.encar.com/images/common/icon/assurance_b.png?190530
+2024-12-04 12:29:31,872 - INFO - Capturing response: http://www.encar.com/images/dc/bg_dot.gif 200 OK
+2024-12-04 12:29:31,882 - INFO - Capturing request: http://automotive.encar.com/RealMedia/ads/adstream_jx.ads/www.encar.com/dc_detail@x02?company=&modelGroup=&nearnew=&detail_fuel=001
+2024-12-04 12:29:31,885 - INFO - Capturing request: http://wcs.naver.net/wcslog.js
+2024-12-04 12:29:31,886 - INFO - Capturing request: http://www.encar.com/images/dc/thumb_ew.png
+2024-12-04 12:29:31,887 - INFO - Capturing request: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x51
+2024-12-04 12:29:32,112 - INFO - Capturing response: http://www.encar.com/dc/dc_ajaxstatscount.do?method=insWantBuyNew&carid=38502371&carType=kor&fromPage=etc&viewType=checked 200 
+2024-12-04 12:29:32,123 - INFO - Capturing request: http://www.encar.com/banner.do?method=banner&pageid=dc_carsearchview
+2024-12-04 12:29:32,145 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_024.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:32,145 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_008.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:32,146 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_022.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:32,157 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_007.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:32,158 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_015.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:32,158 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_018.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:32,159 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_010.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:32,162 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_016.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:32,188 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_021.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:32,190 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_001.jpg?impolicy=heightRate&rh=653&cw=1160&ch=653&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&t=20241108142839
+2024-12-04 12:29:32,191 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_020.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:32,194 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_005.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:32,284 - INFO - Capturing response: http://daimg.encar.com/da/202411/house/encar_house_listex_default_241121.jpg 200 OK
+2024-12-04 12:29:32,344 - INFO - Capturing response: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x79?btn_company=Hyundai 200 OK
+2024-12-04 12:29:32,345 - INFO - Capturing response: http://www.encar.com/dc/dc_ajaxclean.do?method=checkUncleanCar&rgsid=38502371&uncleanCars= 200 
+2024-12-04 12:29:32,347 - INFO - Capturing response: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x65?btn_company=Hyundai 200 OK
+2024-12-04 12:29:32,347 - INFO - Capturing response: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x66?btn_company=Hyundai 200 OK
+2024-12-04 12:29:32,354 - INFO - Capturing response: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x78?btn_company=Hyundai 200 OK
+2024-12-04 12:29:32,356 - INFO - Capturing response: http://daimg.encar.com/da/202004/volkswagen_used/volkswagen_used_rtss_200422_2.jpg 200 OK
+2024-12-04 12:29:32,359 - INFO - Capturing request: http://www.encar.com/dc/dc_cardetailview.do?method=ajaxInspectView&rgsid=38502371&sdFlag=N
+2024-12-04 12:29:32,360 - INFO - Capturing request: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x53
+2024-12-04 12:29:32,361 - INFO - Capturing request: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x52
+2024-12-04 12:29:32,380 - INFO - Capturing request: http://daimg.encar.com/da/202109/encar/db_insur_btn2_v3.jpg
+2024-12-04 12:29:32,381 - INFO - Capturing request: http://daimg.encar.com/da/202311/samsungfire_direct/samsungfire_direct_insur_231103.jpg
+2024-12-04 12:29:32,585 - INFO - Capturing response: http://www.encar.com/images/dc/thumb_ew.png 200 OK
+2024-12-04 12:29:32,588 - INFO - Capturing request: http://www.encar.com/banner.do?method=carDetailBottom&pageid=dc_carsearchview&state=detail&make=Hyundai&modelGroup=Grandeur&clsheadcd=001&price=4090&category=%B4%EB%C7%FC%C2%F7&detailMileage=2651&detailYear=202404&fuel=001&detailGrade=2&detailBrand=N&service=ExtendWarranty&detailOfficeAddrb=%B0%E6%B1%E2
+2024-12-04 12:29:32,599 - INFO - Capturing response: http://www.encar.com/images/common/icon/assurance_b.png?190530 200 OK
+2024-12-04 12:29:32,601 - INFO - Capturing request: http://www.encar.com/images/common/btn/quick_imgs.gif?140912
+2024-12-04 12:29:32,618 - INFO - Capturing response: http://www.encar.com/images/cardetail/bg_carimage_white.png?190801 200 OK
+2024-12-04 12:29:32,704 - INFO - Capturing response: http://daimg.encar.com/da/202411/house/encar_house_listex_expand_241121.jpg 200 OK
+2024-12-04 12:29:32,832 - INFO - Capturing response: http://daimg.encar.com/da/202311/samsungfire_direct/samsungfire_direct_insur_231103.jpg 200 OK
+2024-12-04 12:29:32,877 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_018.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:32,878 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_007.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:32,879 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_015.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:32,881 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_016.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:32,898 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_002.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:32,898 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_003.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:32,898 - INFO - Capturing response: http://daimg.encar.com/da/202109/encar/db_insur_btn2_v3.jpg 200 OK
+2024-12-04 12:29:32,899 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_009.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:32,900 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_023.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:32,954 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_005.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:32,957 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_019.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:33,064 - INFO - Capturing response: http://wcs.naver.net/wcslog.js 200 OK
+2024-12-04 12:29:33,110 - INFO - Capturing response: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x51 200 OK
+2024-12-04 12:29:33,114 - INFO - Capturing request: http://daimg.encar.com/da/201710/encar/db_quick_btn2.gif
+2024-12-04 12:29:33,201 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_001.jpg?impolicy=heightRate&rh=653&cw=1160&ch=653&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&t=20241108142839 200 OK
+2024-12-04 12:29:33,204 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_001.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:33,222 - INFO - Capturing request: http://www.encar.com/images/common/list/bg_ad_mouseover.gif
+2024-12-04 12:29:33,310 - INFO - Capturing response: http://www.encar.com/banner.do?method=carDetailBottom&pageid=dc_carsearchview&state=detail&make=Hyundai&modelGroup=Grandeur&clsheadcd=001&price=4090&category=%B4%EB%C7%FC%C2%F7&detailMileage=2651&detailYear=202404&fuel=001&detailGrade=2&detailBrand=N&service=ExtendWarranty&detailOfficeAddrb=%B0%E6%B1%E2 200 
+2024-12-04 12:29:33,314 - INFO - Capturing request: http://www.encar.com/images/common/list/bg_ad_mouse.png
+2024-12-04 12:29:33,318 - INFO - Capturing request: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/encar.com/dc_detail@Bottom?pageid=dc&company=detail_Hyundai&modelGroup=detail_Hyundai_Grandeur&price=PM4000&detail_ca_Big=checked&detail_fuel=001&mileage=section1&year=2024&seller=dealer&service=ExtendWarranty&city=002
+2024-12-04 12:29:33,318 - INFO - Capturing response: http://www.encar.com/images/common/btn/quick_imgs.gif?140912 200 OK
+2024-12-04 12:29:33,320 - INFO - Capturing request: http://www.encar.com/images/common/list/bg_ad_mouse_on.png
+2024-12-04 12:29:33,335 - INFO - Capturing response: http://automotive.encar.com/RealMedia/ads/adstream_jx.ads/www.encar.com/dc_detail@x02?company=&modelGroup=&nearnew=&detail_fuel=001 200 OK
+2024-12-04 12:29:33,342 - INFO - Capturing request: http://code.jquery.com/jquery.min.js
+2024-12-04 12:29:33,343 - INFO - Capturing request: http://daimg.encar.com/da/201707/encar/blank.png
+2024-12-04 12:29:33,364 - INFO - Capturing response: http://www.encar.com/banner.do?method=banner&pageid=dc_carsearchview 200 
+2024-12-04 12:29:33,391 - INFO - Capturing request: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@Left
+2024-12-04 12:29:33,590 - INFO - Capturing response: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x52 200 OK
+2024-12-04 12:29:33,593 - INFO - Capturing response: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@x53 200 OK
+2024-12-04 12:29:33,594 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_023.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:33,594 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_002.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:33,597 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_009.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:33,603 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_003.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:33,612 - INFO - Capturing request: http://daimg.encar.com/da/201811/encar/anycar_quick.gif
+2024-12-04 12:29:33,616 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_006.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:33,617 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_017.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:33,618 - INFO - Capturing response: http://daimg.encar.com/da/201710/encar/db_quick_btn2.gif 200 OK
+2024-12-04 12:29:33,618 - INFO - Capturing request: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_004.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839
+2024-12-04 12:29:33,619 - INFO - Capturing request: http://daimg.encar.com/da/202108/hyundai/btn_hdc_quick.png
+2024-12-04 12:29:33,664 - INFO - Capturing response: http://www.encar.com/dc/dc_cardetailview.do?method=ajaxInspectView&rgsid=38502371&sdFlag=N 200 
+2024-12-04 12:29:33,720 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_019.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:33,803 - INFO - Capturing response: http://daimg.encar.com/da/201707/encar/blank.png 200 OK
+2024-12-04 12:29:33,953 - INFO - Capturing response: http://www.encar.com/images/common/list/bg_ad_mouseover.gif 200 OK
+2024-12-04 12:29:33,967 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_001.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:34,024 - INFO - Capturing response: http://www.encar.com/images/common/list/bg_ad_mouse.png 200 OK
+2024-12-04 12:29:34,085 - INFO - Capturing response: http://www.encar.com/images/common/list/bg_ad_mouse_on.png 200 OK
+2024-12-04 12:29:34,144 - INFO - Capturing request: https://content-autofill.googleapis.com/v1/pages/ChRDaHJvbWUvMTMxLjAuNjc3OC44NhJmCbug7xjFpAj9EgUNk6iQ-BIFDbpD5Q4SBQ30HqqFEgUNLfY6gxIFDUdrUcESBQ1vBvrxEgUNQ9SDBxIFDbkrZ_8SBQ1TyB_eEgUNehUMjRIFDejtK8cSBQ2gQdTLIciY_sRQ1u2SEhkJAL_JaRCJQWcSBQ2JiwS6IXuemT56xGcM?alt=proto
+2024-12-04 12:29:34,147 - INFO - Capturing request: https://content-autofill.googleapis.com/v1/pages/ChRDaHJvbWUvMTMxLjAuNjc3OC44NhIZCQC_yWkQiUFnEgUNiYsEuiF7npk-esRnDA==?alt=proto
+2024-12-04 12:29:34,325 - INFO - Capturing response: http://daimg.encar.com/da/202108/hyundai/btn_hdc_quick.png 200 OK
+2024-12-04 12:29:34,326 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_006.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:34,326 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_017.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:34,329 - INFO - Capturing response: http://ci.encar.com/carpicture/carpicture10/pic3850/38502371_004.jpg?impolicy=heightRate&rh=56&cw=76&ch=56&cg=Center&wtmk=http://ci.encar.com/wt_mark/w_mark_04.png&wtmkg=SouthEast&wtmkw=35&wtmkh=15&t=20241108142839 200 OK
+2024-12-04 12:29:34,330 - INFO - Capturing response: http://daimg.encar.com/da/201811/encar/anycar_quick.gif 200 OK
+2024-12-04 12:29:34,353 - INFO - Capturing response: http://code.jquery.com/jquery.min.js 200 OK
+2024-12-04 12:29:34,386 - INFO - Capturing request: https://daimg.encar.com/da/202411/kamaru/kamaru_random_241029.png
+2024-12-04 12:29:34,564 - INFO - Capturing response: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/encar.com/dc_detail@Bottom?pageid=dc&company=detail_Hyundai&modelGroup=detail_Hyundai_Grandeur&price=PM4000&detail_ca_Big=checked&detail_fuel=001&mileage=section1&year=2024&seller=dealer&service=ExtendWarranty&city=002 200 OK
+2024-12-04 12:29:34,569 - INFO - Capturing request: http://t1.daumcdn.net/kas/static/ba.min.js
+2024-12-04 12:29:34,677 - INFO - Capturing response: http://automotive.encar.com/RealMedia/ads/adstream_sx.ads/www.encar.com/dc_detail@Left 200 OK
+2024-12-04 12:29:34,682 - INFO - Capturing request: http://daimg.encar.com/da/202404/samsungfire_direct/samsungfire_direct_rtss_240403.jpg
+2024-12-04 12:29:34,746 - INFO - Capturing response: https://content-autofill.googleapis.com/v1/pages/ChRDaHJvbWUvMTMxLjAuNjc3OC44NhIZCQC_yWkQiUFnEgUNiYsEuiF7npk-esRnDA==?alt=proto 200 
+2024-12-04 12:29:34,749 - INFO - Capturing response: https://content-autofill.googleapis.com/v1/pages/ChRDaHJvbWUvMTMxLjAuNjc3OC44NhJmCbug7xjFpAj9EgUNk6iQ-BIFDbpD5Q4SBQ30HqqFEgUNLfY6gxIFDUdrUcESBQ1vBvrxEgUNQ9SDBxIFDbkrZ_8SBQ1TyB_eEgUNehUMjRIFDejtK8cSBQ2gQdTLIciY_sRQ1u2SEhkJAL_JaRCJQWcSBQ2JiwS6IXuemT56xGcM?alt=proto 200 
+2024-12-04 12:29:34,854 - INFO - Capturing request: https://content-autofill.googleapis.com/v1/pages/ChRDaHJvbWUvMTMxLjAuNjc3OC44NhIZCQC_yWkQiUFnEgUNiYsEuiF7npk-esRnDA==?alt=proto
+2024-12-04 12:29:34,951 - INFO - Capturing response: https://daimg.encar.com/da/202411/kamaru/kamaru_random_241029.png 200 
+2024-12-04 12:29:35,285 - INFO - Capturing response: https://content-autofill.googleapis.com/v1/pages/ChRDaHJvbWUvMTMxLjAuNjc3OC44NhIZCQC_yWkQiUFnEgUNiYsEuiF7npk-esRnDA==?alt=proto 200 
+2024-12-04 12:29:35,331 - INFO - Capturing response: http://www.encar.com/images/spr/spr_cardetail.png?240304022 200 OK
+2024-12-04 12:29:35,368 - INFO - Capturing response: http://daimg.encar.com/da/202404/samsungfire_direct/samsungfire_direct_rtss_240403.jpg 200 OK
+2024-12-04 12:29:36,064 - INFO - Capturing response: http://t1.daumcdn.net/kas/static/ba.min.js 200 OK
+2024-12-04 12:29:37,034 - INFO - Capturing response: https://static.encar.com/common/webfonts/font/Pretendard-Medium.subset.woff2 200 
+2024-12-04 12:29:37,044 - INFO - Capturing request: http://www.encar.com/images/rs/gif_loading.gif
+2024-12-04 12:29:37,045 - INFO - Capturing request: http://ci.encar.com/userdata/dealer/photo/chj1130.jpg?resize=160px:160px
+2024-12-04 12:29:37,743 - INFO - Capturing response: http://ci.encar.com/userdata/dealer/photo/chj1130.jpg?resize=160px:160px 200 OK
+2024-12-04 12:29:37,746 - INFO - Capturing request: http://www.encar.com/images/cardetail/appdown_1.png
+2024-12-04 12:29:37,757 - INFO - Capturing response: http://www.encar.com/images/rs/gif_loading.gif 200 OK
+2024-12-04 12:29:37,760 - INFO - Capturing request: http://www.encar.com/images/cardetail/appdown_2.png
+2024-12-04 12:29:38,059 - INFO - Capturing response: https://static.encar.com/common/webfonts/font/Pretendard-SemiBold.subset.woff2 200 
+2024-12-04 12:29:38,076 - INFO - Capturing request: http://www.encar.com/images/cardetail/qrcode_playstore.png
+2024-12-04 12:29:38,078 - INFO - Capturing request: http://www.encar.com/images/common/btn/quick_img_loan.png?20221216
+2024-12-04 12:29:38,078 - INFO - Capturing request: http://www.encar.com/images/cardetail/qrcode_appstore.png
+2024-12-04 12:29:38,263 - INFO - Capturing response: https://static.encar.com/common/webfonts/font/Pretendard-Bold.subset.woff2 200 
+2024-12-04 12:29:38,274 - INFO - Capturing request: http://www.googletagmanager.com/gtm.js?id=GTM-W9QQ2T
+2024-12-04 12:29:38,276 - INFO - Capturing request: http://www.encar.com/images/module/sprite_q.png
+2024-12-04 12:29:38,277 - INFO - Capturing request: http://imgcar.encar.com/diagnosis/sellingpoint/20241108/b5ff16a5-a351-4d45-9c05-bfc01ef1cd6d.jpg?d=756x425
+2024-12-04 12:29:38,704 - INFO - Capturing response: http://www.encar.com/images/cardetail/appdown_2.png 200 OK
+2024-12-04 12:29:38,706 - INFO - Capturing request: http://www.encar.com/images/cardetail/bg_ew_a.png
+2024-12-04 12:29:38,736 - INFO - Capturing request: https://display.ad.daum.net/sdk/banner?id=DAN-pTFEaZASLtj5bwEw&cnt=1&pxratio=2&pwidth=1440&pheight=900&containerid=kakao_ad_VavN9Q&ppi=96&lmt=N&containerwidth=0&test=N&ctag=%7B%7D&sdktype=web&sdkver=4.28.0&sdkid=90acbac0-c05d-4501-99cc-3df080f83b40&secretmode=N&network=5&surl=http%3A%2F%2Fwww.encar.com%2F&cookiedisabled=N&rfseq=1&browser=chrome&browserver=130&refurl=http%3A%2F%2Fwww.encar.com%2F
+2024-12-04 12:29:38,764 - INFO - Capturing response: http://www.encar.com/images/cardetail/appdown_1.png 200 OK
+2024-12-04 12:29:38,770 - INFO - Capturing request: http://www.encar.com/images/cardetail/sedan/frame_0.png
+2024-12-04 12:29:38,779 - INFO - Capturing response: http://www.encar.com/images/cardetail/qrcode_playstore.png 200 OK
+2024-12-04 12:29:38,782 - INFO - Capturing request: http://www.encar.com/images/cardetail/sedan/frame_1.png
+2024-12-04 12:29:38,802 - INFO - Capturing response: http://www.encar.com/images/cardetail/qrcode_appstore.png 200 OK
+2024-12-04 12:29:38,805 - INFO - Capturing request: http://www.encar.com/images/module/uibtn_arr.png
+2024-12-04 12:29:38,988 - INFO - Capturing response: http://www.googletagmanager.com/gtm.js?id=GTM-W9QQ2T 302 Found
+2024-12-04 12:29:38,990 - INFO - Capturing response: http://www.encar.com/images/module/sprite_q.png 200 OK
+2024-12-04 12:29:38,994 - INFO - Capturing request: http://www.encar.com/images/cardetail/bg_dot_bf.png
+2024-12-04 12:29:39,296 - INFO - Capturing response: http://www.encar.com/images/common/btn/quick_img_loan.png?20221216 200 OK
+2024-12-04 12:29:39,299 - INFO - Capturing request: http://www.encar.com/images/cardetail/finance_won.png
+2024-12-04 12:29:39,544 - INFO - Capturing response: https://display.ad.daum.net/sdk/banner?id=DAN-pTFEaZASLtj5bwEw&cnt=1&pxratio=2&pwidth=1440&pheight=900&containerid=kakao_ad_VavN9Q&ppi=96&lmt=N&containerwidth=0&test=N&ctag=%7B%7D&sdktype=web&sdkver=4.28.0&sdkid=90acbac0-c05d-4501-99cc-3df080f83b40&secretmode=N&network=5&surl=http%3A%2F%2Fwww.encar.com%2F&cookiedisabled=N&rfseq=1&browser=chrome&browserver=130&refurl=http%3A%2F%2Fwww.encar.com%2F 200 OK
+2024-12-04 12:29:39,547 - INFO - Capturing response: http://www.encar.com/images/module/uibtn_arr.png 200 OK
+2024-12-04 12:29:39,551 - INFO - Capturing request: http://www.encar.com/images/cardetail/bg_dot_999.png
+2024-12-04 12:29:39,658 - INFO - Capturing request: https://t1.daumcdn.net/kas/static/safeframe.html
+2024-12-04 12:29:39,726 - INFO - Capturing response: http://www.encar.com/images/cardetail/sedan/frame_1.png 200 OK
+2024-12-04 12:29:39,726 - INFO - Capturing response: http://www.encar.com/images/cardetail/bg_dot_bf.png 200 OK
+2024-12-04 12:29:39,731 - INFO - Capturing request: http://www.encar.com/images/module/spr_input.png?20200402
+2024-12-04 12:29:39,732 - INFO - Capturing request: http://www.encar.com/images/common/btn/ico_layer_close.png
+2024-12-04 12:29:39,749 - INFO - Capturing response: http://www.encar.com/images/cardetail/sedan/frame_0.png 200 OK
+2024-12-04 12:29:39,751 - INFO - Capturing request: http://www.encar.com/images/dc/ir_share.png
+2024-12-04 12:29:39,815 - INFO - Capturing request: https://www.googletagmanager.com/gtm.js?id=GTM-W9QQ2T
+2024-12-04 12:29:40,076 - INFO - Capturing response: http://www.encar.com/images/cardetail/finance_won.png 200 OK
+2024-12-04 12:29:40,078 - INFO - Capturing request: http://www.encar.com/images/common/icon/photo_m.jpg
+2024-12-04 12:29:40,272 - INFO - Capturing response: http://www.encar.com/images/cardetail/bg_dot_999.png 200 OK
+2024-12-04 12:29:40,274 - INFO - Capturing request: http://www.encar.com/images/spr/spr_footer.png?2003271528
+2024-12-04 12:29:40,443 - INFO - Capturing response: http://www.encar.com/images/common/btn/ico_layer_close.png 200 OK
+2024-12-04 12:29:40,446 - INFO - Capturing request: http://www.encar.com/images/common/icon/bar_1pxh10_gray.gif
+2024-12-04 12:29:40,504 - INFO - Capturing response: http://www.encar.com/images/module/spr_input.png?20200402 200 OK
+2024-12-04 12:29:40,504 - INFO - Capturing response: http://www.encar.com/images/dc/ir_share.png 200 OK
+2024-12-04 12:29:40,804 - INFO - Capturing response: http://www.encar.com/images/common/icon/photo_m.jpg 200 OK
+2024-12-04 12:29:40,827 - INFO - Capturing response: http://www.encar.com/images/cardetail/bg_ew_a.png 200 OK
+2024-12-04 12:29:40,991 - INFO - Capturing response: http://www.encar.com/images/spr/spr_footer.png?2003271528 200 OK
+2024-12-04 12:29:40,993 - INFO - Capturing response: https://t1.daumcdn.net/kas/static/safeframe.html 200 
+2024-12-04 12:29:41,108 - INFO - Capturing request: https://t1.daumcdn.net/biz/ui/ad/ADmark/i_mark_200803.png
+2024-12-04 12:29:41,111 - INFO - Capturing request: https://t1.daumcdn.net/biz/ui/ad/ico_cm72890_1.png
+2024-12-04 12:29:41,163 - INFO - Capturing response: http://www.encar.com/images/common/icon/bar_1pxh10_gray.gif 200 OK
+2024-12-04 12:29:41,193 - INFO - Capturing response: https://www.googletagmanager.com/gtm.js?id=GTM-W9QQ2T 200 
+2024-12-04 12:29:41,315 - INFO - Capturing request: https://www.googletagmanager.com/gtag/js?id=AW-699743361
+2024-12-04 12:29:41,408 - INFO - Capturing request: https://googleads.g.doubleclick.net/pagead/viewthroughconversion/940324643/?random=1733282971872&cv=9&fst=1733282971872&num=1&guid=ON&resp=GooglemKTybQhCsO&eid=375603260%2C466465925%2C512247838&u_h=900&u_w=1440&u_ah=900&u_aw=1440&u_cd=30&u_his=2&u_tz=540&u_java=false&u_nplug=5&u_nmime=2&sendb=1&ig=1&frm=0&url=http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do%3Fcarid%3D38502371&tiba=%ED%98%84%EB%8C%80%20%EA%B7%B8%EB%9E%9C%EC%A0%80%20(GN7)%202.5%20%EA%B0%80%EC%86%94%EB%A6%B0%202WD%20%EA%B2%BD%EA%B8%B0%20%7C%20%EC%97%94%EC%B9%B4%20-%20%EC%97%94%EC%B9%B4%EB%AF%BF%EA%B3%A0%208%EA%B3%A04%EA%B3%A0&hn=www.googleadservices.com&rfmt=3&fmt=4
+2024-12-04 12:29:41,825 - INFO - Capturing response: https://t1.daumcdn.net/biz/ui/ad/ADmark/i_mark_200803.png 200 
+2024-12-04 12:29:41,827 - INFO - Capturing response: https://t1.daumcdn.net/biz/ui/ad/ico_cm72890_1.png 200 
+2024-12-04 12:29:41,830 - INFO - Capturing request: https://ssl.pstatic.net/melona/libs/gfp-nac-module/synchronizer.js
+2024-12-04 12:29:41,988 - INFO - Capturing request: https://img1.daumcdn.net/thumb/S500x500/?fname=https://t1.kakaocdn.net/kakao_ka_public/creative/320427-292635f1-95b1-4d54-8307-c93dd5d146f8.jpg&scode=b2_01
+2024-12-04 12:29:41,989 - INFO - Capturing request: https://wcs.naver.com/b
+2024-12-04 12:29:42,050 - INFO - Capturing response: https://googleads.g.doubleclick.net/pagead/viewthroughconversion/940324643/?random=1733282971872&cv=9&fst=1733282971872&num=1&guid=ON&resp=GooglemKTybQhCsO&eid=375603260%2C466465925%2C512247838&u_h=900&u_w=1440&u_ah=900&u_aw=1440&u_cd=30&u_his=2&u_tz=540&u_java=false&u_nplug=5&u_nmime=2&sendb=1&ig=1&frm=0&url=http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do%3Fcarid%3D38502371&tiba=%ED%98%84%EB%8C%80%20%EA%B7%B8%EB%9E%9C%EC%A0%80%20(GN7)%202.5%20%EA%B0%80%EC%86%94%EB%A6%B0%202WD%20%EA%B2%BD%EA%B8%B0%20%7C%20%EC%97%94%EC%B9%B4%20-%20%EC%97%94%EC%B9%B4%EB%AF%BF%EA%B3%A0%208%EA%B3%A04%EA%B3%A0&hn=www.googleadservices.com&rfmt=3&fmt=4 200 
+2024-12-04 12:29:42,053 - INFO - Capturing request: http://www.googletagmanager.com/gtag/js?id=AW-699743361&l=dataLayer&cx=c&gtm=45He4bk0v6915879za200
+2024-12-04 12:29:42,077 - INFO - Capturing response: https://www.googletagmanager.com/gtag/js?id=AW-699743361 200 
+2024-12-04 12:29:42,085 - INFO - Capturing request: http://nethru.encar.com/wlo/Logging?dv=856567052|ver=1.0.0|sid=www.encar.com|r=http://www.encar.com/dc/dc_cardetailview.do?carid=38502371|rf=|c=PCID=17332829812109091329510;%20n_ss=1440x900;%20n_cs=en-us;%20|a=Mozilla/5.0%20(Windows%20NT%2010.0;%20Win64;%20x64)%20AppleWebKit/537.36%20(KHTML,%20like%20Gecko)%20Chrome/130.0.6723.92%20Safari/537.36
+2024-12-04 12:29:42,200 - INFO - Capturing request: https://sdk.amazonaws.com/js/aws-sdk-2.285.1.min.js
+2024-12-04 12:29:42,300 - INFO - Capturing request: https://www.google-analytics.com/analytics.js
+2024-12-04 12:29:42,308 - INFO - Capturing request: https://static.hotjar.com/c/hotjar-598731.js?sv=7
+2024-12-04 12:29:42,417 - INFO - Capturing response: https://ssl.pstatic.net/melona/libs/gfp-nac-module/synchronizer.js 200 
+2024-12-04 12:29:42,419 - INFO - Capturing request: http://t1.daumcdn.net/adfit/static/kp.js
+2024-12-04 12:29:42,544 - INFO - Capturing response: http://www.googletagmanager.com/gtag/js?id=AW-699743361&l=dataLayer&cx=c&gtm=45He4bk0v6915879za200 302 Found
+2024-12-04 12:29:42,647 - INFO - Capturing request: https://www.googletagmanager.com/gtag/js?id=AW-699743361&l=dataLayer&cx=c&gtm=45He4bk0v6915879za200
+2024-12-04 12:29:42,963 - INFO - Capturing response: https://www.google-analytics.com/analytics.js 200 
+2024-12-04 12:29:42,969 - INFO - Capturing response: https://static.hotjar.com/c/hotjar-598731.js?sv=7 200 
+2024-12-04 12:29:43,008 - INFO - Capturing response: https://wcs.naver.com/b 204 
+2024-12-04 12:29:43,079 - INFO - Capturing request: https://www.google-analytics.com/j/collect?v=1&_v=j101&a=644886468&t=pageview&_s=1&dl=http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do%3Fcarid%3D38502371&ul=en-us&de=EUC-KR&dt=%ED%98%84%EB%8C%80%20%EA%B7%B8%EB%9E%9C%EC%A0%80%20(GN7)%202.5%20%EA%B0%80%EC%86%94%EB%A6%B0%202WD%20%EA%B2%BD%EA%B8%B0%20%7C%20%EC%97%94%EC%B9%B4%20-%20%EC%97%94%EC%B9%B4%EB%AF%BF%EA%B3%A0%208%EA%B3%A04%EA%B3%A0&sd=30-bit&sr=1440x900&vp=1440x813&je=0&_u=YEBAAAABAAAAAC~&jid=600805200&gjid=1700676033&cid=1642135331.1733282983&tid=UA-56065139-3&_gid=632311508.1733282983&_r=1&_slc=1&gtm=45He4bk0n71W9QQ2Tv6915879za200&gcd=13l3l3l2l1l1&dma_cps=syphamo&dma=1&npa=1&z=1034262777
+2024-12-04 12:29:43,102 - INFO - Capturing response: http://nethru.encar.com/wlo/Logging?dv=856567052|ver=1.0.0|sid=www.encar.com|r=http://www.encar.com/dc/dc_cardetailview.do?carid=38502371|rf=|c=PCID=17332829812109091329510;%20n_ss=1440x900;%20n_cs=en-us;%20|a=Mozilla/5.0%20(Windows%20NT%2010.0;%20Win64;%20x64)%20AppleWebKit/537.36%20(KHTML,%20like%20Gecko)%20Chrome/130.0.6723.92%20Safari/537.36 200 OK
+2024-12-04 12:29:43,223 - INFO - Capturing response: http://t1.daumcdn.net/adfit/static/kp.js 200 OK
+2024-12-04 12:29:43,323 - INFO - Capturing request: https://nam.veta.naver.com/nac/2
+2024-12-04 12:29:43,340 - INFO - Capturing request: https://t1.daumcdn.net/kas/static/third-party/cookie/ct2.html
+2024-12-04 12:29:43,382 - INFO - Capturing response: https://www.google-analytics.com/j/collect?v=1&_v=j101&a=644886468&t=pageview&_s=1&dl=http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do%3Fcarid%3D38502371&ul=en-us&de=EUC-KR&dt=%ED%98%84%EB%8C%80%20%EA%B7%B8%EB%9E%9C%EC%A0%80%20(GN7)%202.5%20%EA%B0%80%EC%86%94%EB%A6%B0%202WD%20%EA%B2%BD%EA%B8%B0%20%7C%20%EC%97%94%EC%B9%B4%20-%20%EC%97%94%EC%B9%B4%EB%AF%BF%EA%B3%A0%208%EA%B3%A04%EA%B3%A0&sd=30-bit&sr=1440x900&vp=1440x813&je=0&_u=YEBAAAABAAAAAC~&jid=600805200&gjid=1700676033&cid=1642135331.1733282983&tid=UA-56065139-3&_gid=632311508.1733282983&_r=1&_slc=1&gtm=45He4bk0n71W9QQ2Tv6915879za200&gcd=13l3l3l2l1l1&dma_cps=syphamo&dma=1&npa=1&z=1034262777 200 
+2024-12-04 12:29:43,612 - INFO - Capturing response: https://www.googletagmanager.com/gtag/js?id=AW-699743361&l=dataLayer&cx=c&gtm=45He4bk0v6915879za200 200 
+2024-12-04 12:29:43,719 - INFO - Capturing request: https://www.googletagmanager.com/gtag/js?id=G-WY0RWR65ED&cx=c&_slc=1
+2024-12-04 12:29:43,859 - INFO - Capturing response: https://sdk.amazonaws.com/js/aws-sdk-2.285.1.min.js 200 OK
+2024-12-04 12:29:43,920 - INFO - Capturing response: https://nam.veta.naver.com/nac/2 200 
+2024-12-04 12:29:44,206 - INFO - Capturing response: https://img1.daumcdn.net/thumb/S500x500/?fname=https://t1.kakaocdn.net/kakao_ka_public/creative/320427-292635f1-95b1-4d54-8307-c93dd5d146f8.jpg&scode=b2_01 200 
+2024-12-04 12:29:44,210 - INFO - Capturing response: http://imgcar.encar.com/diagnosis/sellingpoint/20241108/b5ff16a5-a351-4d45-9c05-bfc01ef1cd6d.jpg?d=756x425 200 OK
+2024-12-04 12:29:44,460 - INFO - Capturing request: https://www.google.com/ccm/collect?en=page_view&dl=http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do&scrsrc=www.googletagmanager.com&frm=0&rnd=1148434963.1733282982&auid=1457689156.1733282982&npa=1&gtm=45be4bk0v886382843za200zb6915879&gcd=13l3l3l2l1l1&dma_cps=syphamo&dma=1&tft=1733282982098&tfd=18784&apve=1
+2024-12-04 12:29:44,536 - INFO - Capturing request: https://connect.facebook.net/en_US/fbevents.js
+2024-12-04 12:29:44,589 - INFO - Capturing response: https://www.googletagmanager.com/gtag/js?id=G-WY0RWR65ED&cx=c&_slc=1 200 
+2024-12-04 12:29:45,065 - INFO - Capturing response: https://www.google.com/ccm/collect?en=page_view&dl=http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do&scrsrc=www.googletagmanager.com&frm=0&rnd=1148434963.1733282982&auid=1457689156.1733282982&npa=1&gtm=45be4bk0v886382843za200zb6915879&gcd=13l3l3l2l1l1&dma_cps=syphamo&dma=1&tft=1733282982098&tfd=18784&apve=1 200 
+2024-12-04 12:29:45,593 - INFO - Capturing request: https://bc.ad.daum.net/bc?d=%7B%22track_id%22%3A%226315438720142102521%22%2C%22event_code%22%3A%22PageView%22%2C%22params%22%3A%7B%7D%2C%22props%22%3A%7B%22lmt%22%3A%22N%22%7D%2C%22site%22%3A%7B%22identifier%22%3A%22www.encar.com%22%7D%2C%22sdk%22%3A%7B%22type%22%3A%22WEB%22%2C%22version%22%3A%221.6.2%22%7D%2C%22page%22%3A%7B%22url%22%3A%22http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do%3Fcarid%3D38502371%22%2C%22is_frame_env%22%3Afalse%7D%2C%22device%22%3A%7B%22dnt%22%3A%22N%22%2C%22device_type%22%3A%22pc%22%2C%22is_mobile%22%3A%22N%22%7D%7D
+2024-12-04 12:29:45,660 - INFO - Capturing request: https://region1.google-analytics.com/g/collect?v=2&tid=G-WY0RWR65ED&gtm=45je4bk0v9126308069za200&_p=1733282971088&gcd=13l3l3l2l3l1&npa=1&dma_cps=syphamo&dma=1&ul=en-us&sr=1440x900&cid=1642135331.1733282983&ir=1&are=1&frm=0&pscdl=noapi&_eu=EBAI&_s=1&dl=http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do%3Fcarid%3D38502371&dt=%ED%98%84%EB%8C%80%20%EA%B7%B8%EB%9E%9C%EC%A0%80%20(GN7)%202.5%20%EA%B0%80%EC%86%94%EB%A6%B0%202WD%20%EA%B2%BD%EA%B8%B0%20%7C%20%EC%97%94%EC%B9%B4%20-%20%EC%97%94%EC%B9%B4%EB%AF%BF%EA%B3%A0%208%EA%B3%A04%EA%B3%A0&sid=1733282984&sct=1&seg=0&en=page_view&_fv=1&_ss=1&_ee=1&tfd=21299
+2024-12-04 12:29:45,684 - INFO - Capturing response: https://connect.facebook.net/en_US/fbevents.js 200 
+2024-12-04 12:29:46,249 - INFO - Capturing response: https://region1.google-analytics.com/g/collect?v=2&tid=G-WY0RWR65ED&gtm=45je4bk0v9126308069za200&_p=1733282971088&gcd=13l3l3l2l3l1&npa=1&dma_cps=syphamo&dma=1&ul=en-us&sr=1440x900&cid=1642135331.1733282983&ir=1&are=1&frm=0&pscdl=noapi&_eu=EBAI&_s=1&dl=http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do%3Fcarid%3D38502371&dt=%ED%98%84%EB%8C%80%20%EA%B7%B8%EB%9E%9C%EC%A0%80%20(GN7)%202.5%20%EA%B0%80%EC%86%94%EB%A6%B0%202WD%20%EA%B2%BD%EA%B8%B0%20%7C%20%EC%97%94%EC%B9%B4%20-%20%EC%97%94%EC%B9%B4%EB%AF%BF%EA%B3%A0%208%EA%B3%A04%EA%B3%A0&sid=1733282984&sct=1&seg=0&en=page_view&_fv=1&_ss=1&_ee=1&tfd=21299 204 
+2024-12-04 12:29:46,269 - INFO - Capturing request: https://cognito-identity.ap-northeast-2.amazonaws.com/
+2024-12-04 12:29:46,373 - INFO - Capturing request: https://connect.facebook.net/signals/config/2582597645321002?v=2.9.176&r=stable&domain=www.encar.com&hme=872f04a0547459b3285cb03b0d7a47bfde40628f4b386809918a621e2688602f&ex_m=70%2C121%2C107%2C111%2C61%2C4%2C100%2C69%2C16%2C97%2C89%2C51%2C54%2C172%2C175%2C187%2C183%2C184%2C186%2C29%2C101%2C53%2C77%2C185%2C167%2C170%2C180%2C181%2C188%2C131%2C41%2C189%2C190%2C34%2C143%2C15%2C50%2C195%2C194%2C133%2C18%2C40%2C1%2C43%2C65%2C66%2C67%2C71%2C93%2C17%2C14%2C96%2C92%2C91%2C108%2C52%2C110%2C39%2C109%2C30%2C94%2C26%2C168%2C171%2C140%2C86%2C56%2C84%2C33%2C73%2C0%2C95%2C32%2C28%2C82%2C83%2C88%2C47%2C46%2C87%2C37%2C11%2C12%2C13%2C6%2C7%2C25%2C22%2C23%2C57%2C62%2C64%2C75%2C102%2C27%2C76%2C9%2C8%2C80%2C48%2C21%2C104%2C103%2C105%2C98%2C10%2C20%2C3%2C38%2C74%2C19%2C5%2C90%2C81%2C44%2C35%2C85%2C2%2C36%2C63%2C42%2C106%2C45%2C79%2C68%2C112%2C60%2C59%2C31%2C99%2C58%2C55%2C49%2C78%2C72%2C24%2C113
+2024-12-04 12:29:46,583 - INFO - Capturing response: https://bc.ad.daum.net/bc?d=%7B%22track_id%22%3A%226315438720142102521%22%2C%22event_code%22%3A%22PageView%22%2C%22params%22%3A%7B%7D%2C%22props%22%3A%7B%22lmt%22%3A%22N%22%7D%2C%22site%22%3A%7B%22identifier%22%3A%22www.encar.com%22%7D%2C%22sdk%22%3A%7B%22type%22%3A%22WEB%22%2C%22version%22%3A%221.6.2%22%7D%2C%22page%22%3A%7B%22url%22%3A%22http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do%3Fcarid%3D38502371%22%2C%22is_frame_env%22%3Afalse%7D%2C%22device%22%3A%7B%22dnt%22%3A%22N%22%2C%22device_type%22%3A%22pc%22%2C%22is_mobile%22%3A%22N%22%7D%7D 204 
+2024-12-04 12:29:46,874 - INFO - Capturing response: https://connect.facebook.net/signals/config/2582597645321002?v=2.9.176&r=stable&domain=www.encar.com&hme=872f04a0547459b3285cb03b0d7a47bfde40628f4b386809918a621e2688602f&ex_m=70%2C121%2C107%2C111%2C61%2C4%2C100%2C69%2C16%2C97%2C89%2C51%2C54%2C172%2C175%2C187%2C183%2C184%2C186%2C29%2C101%2C53%2C77%2C185%2C167%2C170%2C180%2C181%2C188%2C131%2C41%2C189%2C190%2C34%2C143%2C15%2C50%2C195%2C194%2C133%2C18%2C40%2C1%2C43%2C65%2C66%2C67%2C71%2C93%2C17%2C14%2C96%2C92%2C91%2C108%2C52%2C110%2C39%2C109%2C30%2C94%2C26%2C168%2C171%2C140%2C86%2C56%2C84%2C33%2C73%2C0%2C95%2C32%2C28%2C82%2C83%2C88%2C47%2C46%2C87%2C37%2C11%2C12%2C13%2C6%2C7%2C25%2C22%2C23%2C57%2C62%2C64%2C75%2C102%2C27%2C76%2C9%2C8%2C80%2C48%2C21%2C104%2C103%2C105%2C98%2C10%2C20%2C3%2C38%2C74%2C19%2C5%2C90%2C81%2C44%2C35%2C85%2C2%2C36%2C63%2C42%2C106%2C45%2C79%2C68%2C112%2C60%2C59%2C31%2C99%2C58%2C55%2C49%2C78%2C72%2C24%2C113 200 
+2024-12-04 12:29:46,924 - INFO - Capturing request: https://ka.ad.daum.net/rimp/Tpn9jrMaHHPsWmxn2b6D509CiRg9W_Dtmiv2X9WXMww1iNYreF837ArgAIwGFOzY1YXG1n_VdeKf2dZdOgs3Prt4wTzs_OQEpUC8vKLdykeuNMux4s9KcVJm2LFKBju9m9Y3WG2HF53mk5ebPzAEzdyDUDzP6OCoOJ1xYn2TYjYNmNzwXugZzfEoSwKaaQpSA7qh9WNm4Qc7FE_ecktCeOxiMQEDnJBdeXxIp7mK7Gw6wrK2Klj-0GqHXBYgtALiXzxuPhZ6d0FD-KtRfzeXogf8DhbD64M-pV1_FU6_GqipPwAa_sforp0lfcFjFZ4=?p=sQpNxiFHvT0PhrGT0XKY8pA0QS4jbCc09Oh-MnfUSZg&ac=UIiu1rFwHzKsXi8qpLzC5A9CjkppVqW5xmKkXYLAeAsqiNM1Kltsux7hDYoPGKLQ
+2024-12-04 12:29:47,050 - INFO - Capturing response: https://cognito-identity.ap-northeast-2.amazonaws.com/ 200 
+2024-12-04 12:29:47,060 - INFO - Capturing request: https://cognito-identity.ap-northeast-2.amazonaws.com/
+2024-12-04 12:29:47,708 - INFO - Capturing request: https://www.facebook.com/tr/?id=2582597645321002&ev=PageView&dl=http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do%3Fcarid%3D38502371&rl=&if=false&ts=1733282986891&sw=1440&sh=900&v=2.9.176&r=stable&ec=0&o=4126&fbp=fb.1.1733282986890.240436038148981937&ler=empty&cdl=API_unavailable&it=1733282985705&coo=false&rqm=GET
+2024-12-04 12:29:47,709 - INFO - Capturing request: https://www.facebook.com/privacy_sandbox/pixel/register/trigger/?id=2582597645321002&ev=PageView&dl=http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do%3Fcarid%3D38502371&rl=&if=false&ts=1733282986891&sw=1440&sh=900&v=2.9.176&r=stable&ec=0&o=4126&fbp=fb.1.1733282986890.240436038148981937&ler=empty&cdl=API_unavailable&it=1733282985705&coo=false&rqm=FGET
+2024-12-04 12:29:47,744 - INFO - Capturing request: https://aem-kakao-collector.onkakao.net/api/3307/store/?sentry_version=7&sentry_key=974753e2fca1433689ce92827ec28203
+2024-12-04 12:29:47,877 - INFO - Capturing response: https://ka.ad.daum.net/rimp/Tpn9jrMaHHPsWmxn2b6D509CiRg9W_Dtmiv2X9WXMww1iNYreF837ArgAIwGFOzY1YXG1n_VdeKf2dZdOgs3Prt4wTzs_OQEpUC8vKLdykeuNMux4s9KcVJm2LFKBju9m9Y3WG2HF53mk5ebPzAEzdyDUDzP6OCoOJ1xYn2TYjYNmNzwXugZzfEoSwKaaQpSA7qh9WNm4Qc7FE_ecktCeOxiMQEDnJBdeXxIp7mK7Gw6wrK2Klj-0GqHXBYgtALiXzxuPhZ6d0FD-KtRfzeXogf8DhbD64M-pV1_FU6_GqipPwAa_sforp0lfcFjFZ4=?p=sQpNxiFHvT0PhrGT0XKY8pA0QS4jbCc09Oh-MnfUSZg&ac=UIiu1rFwHzKsXi8qpLzC5A9CjkppVqW5xmKkXYLAeAsqiNM1Kltsux7hDYoPGKLQ 200 
+2024-12-04 12:29:47,879 - INFO - Capturing response: https://cognito-identity.ap-northeast-2.amazonaws.com/ 200 
+2024-12-04 12:29:48,116 - INFO - Capturing response: https://www.facebook.com/tr/?id=2582597645321002&ev=PageView&dl=http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do%3Fcarid%3D38502371&rl=&if=false&ts=1733282986891&sw=1440&sh=900&v=2.9.176&r=stable&ec=0&o=4126&fbp=fb.1.1733282986890.240436038148981937&ler=empty&cdl=API_unavailable&it=1733282985705&coo=false&rqm=GET 200 
+2024-12-04 12:29:48,296 - INFO - Capturing response: https://www.facebook.com/privacy_sandbox/pixel/register/trigger/?id=2582597645321002&ev=PageView&dl=http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do%3Fcarid%3D38502371&rl=&if=false&ts=1733282986891&sw=1440&sh=900&v=2.9.176&r=stable&ec=0&o=4126&fbp=fb.1.1733282986890.240436038148981937&ler=empty&cdl=API_unavailable&it=1733282985705&coo=false&rqm=FGET 200 
+2024-12-04 12:29:48,335 - INFO - Capturing request: http://www.encar.com/images/favicon.ico
+2024-12-04 12:29:48,433 - INFO - Capturing request: https://bc.ad.daum.net/bc?d=%7B%22track_id%22%3A%226315438720142102521%22%2C%22event_code%22%3A%22PageView%22%2C%22params%22%3A%7B%22tag%22%3A%22car_detail%22%7D%2C%22props%22%3A%7B%22lmt%22%3A%22N%22%7D%2C%22site%22%3A%7B%22identifier%22%3A%22www.encar.com%22%7D%2C%22sdk%22%3A%7B%22type%22%3A%22WEB%22%2C%22version%22%3A%221.6.2%22%7D%2C%22page%22%3A%7B%22url%22%3A%22http%3A%2F%2Fwww.encar.com%2Fdc%2Fdc_cardetailview.do%3Fcarid%3D38502371%22%2C%22is_frame_env%22%3Afalse%7D%2C%22device%22%3A%7B%22dnt%22%3A%22N%22%2C%22device_type%22%3A%22pc%22%2C%22is_mobile%22%3A%22N%22%7D%7D
+2024-12-04 12:29:48,472 - INFO - Capturing response: https://aem-kakao-collector.onkakao.net/api/3307/store/?sentry_version=7&sentry_key=974753e2fca1433689ce92827ec28203 429 
