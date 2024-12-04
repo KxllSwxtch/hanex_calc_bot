@@ -154,26 +154,6 @@ def get_users_for_week():
     return users
 
 
-# Удаление старых пользователей
-def delete_old_users():
-    today = datetime.date.today()
-    days_since_friday = today.weekday() - 4  # 4 — это пятница
-    last_friday = today - datetime.timedelta(days=days_since_friday)
-
-    conn = psycopg2.connect(DATABASE_URL, sslmode="require")
-    cursor = conn.cursor()
-    cursor.execute(
-        """
-        DELETE FROM user_stats
-        WHERE join_date < %s
-        """,
-        (last_friday,),
-    )
-    conn.commit()
-    cursor.close()
-    conn.close()
-
-
 @bot.message_handler(commands=["stats"])
 def handle_stats(message):
     if is_admin(message.from_user.id):
