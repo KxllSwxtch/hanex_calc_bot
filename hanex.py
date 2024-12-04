@@ -82,7 +82,7 @@ def initialize_db():
             username TEXT,
             first_name TEXT,
             last_name TEXT,
-            join_date TEXT
+            join_date DATE
         )
     """
     )
@@ -110,7 +110,7 @@ def save_user_info(user):
             user.username,
             user.first_name,
             user.last_name,
-            str(datetime.datetime.now()),
+            str(datetime.datetime.now().date()),
         ),
     )
 
@@ -129,11 +129,56 @@ def get_all_users():
     return users
 
 
+def get_users_for_week():
+    today = datetime.date.today()
+    # Находим последний день пятницы (текущая или предыдущая)
+    days_since_friday = today.weekday() - 4  # 4 — это пятница
+    last_friday = today - datetime.timedelta(days=days_since_friday)
+    # Находим следующую пятницу
+    next_friday = last_friday + datetime.timedelta(days=7)
+
+    # Запрос на получение пользователей с последней пятницы по следующую
+    conn = psycopg2.connect(DATABASE_URL, sslmode="require")
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        SELECT * FROM user_stats 
+        WHERE join_date >= %s AND join_date < %s
+        """,
+        (last_friday, next_friday),
+    )
+    users = cursor.fetchall()
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return users
+
+
+# Удаление старых пользователей
+def delete_old_users():
+    today = datetime.date.today()
+    days_since_friday = today.weekday() - 4  # 4 — это пятница
+    last_friday = today - datetime.timedelta(days=days_since_friday)
+
+    conn = psycopg2.connect(DATABASE_URL, sslmode="require")
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        DELETE FROM user_stats
+        WHERE join_date < %s
+        """,
+        (last_friday,),
+    )
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+
 @bot.message_handler(commands=["stats"])
 def handle_stats(message):
     if is_admin(message.from_user.id):
         users = get_all_users()
-        stats_message = "Список пользователей:\n"
+        stats_message = "Список пользователей:\n\n"
 
         for user in users:
             stats_message += f"Никнейм: @{user[1]}\nИмя: {user[2]} {user[3]}\nДата начала пользования: {user[4]}\n\n"
@@ -874,10 +919,14 @@ def handle_callback_query(call):
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
+    user = message.from_user
     user_message = message.text.strip()
 
     # Проверяем нажатие кнопки "Рассчитать автомобиль"
     if user_message == "Расчёт":
+        # Сохраняем пользователя в БД
+        save_user_info(user)
+
         bot.send_message(
             message.chat.id,
             "Пожалуйста, введите ссылку на автомобиль с сайта www.encar.com:",
