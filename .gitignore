@@ -5,3 +5,5 @@ hanex_backup.py
 __pycache__/
 profile/
 venv/
+get_all_cars.py
+get_car_info.py

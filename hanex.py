@@ -1,4 +1,5 @@
 import telebot
+import time
 import psycopg2
 import os
 import re
@@ -69,6 +70,7 @@ users = set()
 admins = [7311593407, 728438182]
 
 
+# Инициализируем БД
 def initialize_db():
     # Создаем подключение к базе данных PostgreSQL
     conn = psycopg2.connect(DATABASE_URL, sslmode="require")
@@ -84,7 +86,20 @@ def initialize_db():
             last_name TEXT,
             join_date DATE
         )
-    """
+        """
+    )
+
+    # Создание таблицы для хранения данных об автомобилях, если её нет
+    cursor.execute(
+        """
+        CREATE TABLE IF NOT EXISTS car_info (
+            car_id SERIAL PRIMARY KEY,
+            date TEXT NOT NULL,
+            engine_volume TEXT NOT NULL,
+            price TEXT NOT NULL,
+            UNIQUE (date, engine_volume, price) 
+        )
+        """
     )
 
     # Сохраняем изменения
@@ -409,9 +424,6 @@ def create_driver():
     chrome_options.add_argument("--disable-infobars")
     chrome_options.add_argument("--disable-extensions")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_argument("--enable-logging")
-    chrome_options.add_argument("--v=1")
-    chrome_options.add_argument("--remote-debugging-port=9222")
     chrome_options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.6723.92 Safari/537.36"
     )
@@ -429,17 +441,6 @@ def create_driver():
         options=chrome_options, seleniumwire_options=seleniumwire_options
     )
 
-    driver.execute_cdp_cmd(
-        "Page.addScriptToEvaluateOnNewDocument",
-        {
-            "source": """
-          Object.defineProperty(navigator, 'webdriver', {
-            get: () => undefined
-          })
-        """
-        },
-    )
-
     return driver
 
 
@@ -455,7 +456,7 @@ def get_car_info(url):
     car_id_external = car_id
 
     try:
-        solver = TwoCaptcha("89a8f41a0641f085c8ca6e861e0fa571")
+        # solver = TwoCaptcha("89a8f41a0641f085c8ca6e861e0fa571")
 
         is_recaptcha_solved = True
 
@@ -494,10 +495,26 @@ def get_car_info(url):
             except Exception as e:
                 print(f"Ошибка при получении объема двигателя: {e}")
 
+            print("АВТОМОБИЛЬ БЫЛ СОХРАНËН В БД")
             print(car_title)
             print(f"Registration Date: {car_date}")
             print(f"Car Engine Displacement: {car_engine_displacement}")
             print(f"Price: {car_price}")
+
+            # Сохранение данных в базу
+            conn = psycopg2.connect(DATABASE_URL, sslmode="require")
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                INSERT INTO car_info (car_id, date, engine_volume, price)
+                VALUES (%s, %s, %s, %s)
+                ON CONFLICT (car_id) DO NOTHING
+                """,
+                (car_id, car_date, car_engine_displacement, car_price),
+            )
+            conn.commit()
+            cursor.close()
+            conn.close()
 
             new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={car_price}&date={car_date}&volume={car_engine_displacement}"
 
@@ -523,6 +540,8 @@ def calculate_cost(link, message):
         message.chat.id, "Данные переданы в обработку. Пожалуйста подождите ⏳"
     )
 
+    car_id = None
+
     # Проверка ссылки на мобильную версию
     if "fem.encar.com" in link:
         car_id_match = re.findall(r"\d+", link)
@@ -532,21 +551,45 @@ def calculate_cost(link, message):
         else:
             send_error_message(message, "🚫 Не удалось извлечь carid из ссылки.")
             return
+    else:
+        # Извлекаем carid с URL encar
+        parsed_url = urlparse(link)
+        query_params = parse_qs(parsed_url.query)
+        car_id = query_params.get("carid", [None])[0]
 
-    result = get_car_info(link)
+    # Проверяем наличие автомобиля в базе данных
+    conn = psycopg2.connect(DATABASE_URL, sslmode="require")
+    cursor = conn.cursor()
 
-    if result is None:
-        print(f"Ошибка при вызове get_car_info для ссылки: {link}")
-        send_error_message(
-            message,
-            "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова или выберите действие ниже.",
+    cursor.execute(
+        "SELECT date, engine_volume, price FROM car_info WHERE car_id = %s", (car_id,)
+    )
+    car_from_db = cursor.fetchone()
+    new_url = ""
+    car_title = ""
+
+    if car_from_db:
+        # Автомобиль найден в БД, используем данные
+        date, engine_volume, price = car_from_db
+        print(
+            f"Автомобиль найден в базе данных: {car_id}, {date}, {engine_volume}, {price}"
         )
-        bot.delete_message(message.chat.id, processing_message.message_id)
-        return
+        new_url = f"https://plugin-back-versusm.amvera.io/car-ab-korea/{car_id}?price={price}&date={date}&volume={engine_volume}"
+    else:
+        print("Автомобиль не был найден в базе данных.")
+        # Автомобиля нет в базе, вызываем get_car_info
+        result = get_car_info(link)
+        new_url, car_title = result
 
-    new_url, car_title = result
+        if result is None:
+            print(f"Ошибка при вызове get_car_info для ссылки: {link}")
+            send_error_message(
+                message,
+                "🚫 Произошла ошибка при получении данных. Проверьте ссылку и попробуйте снова.",
+            )
+            bot.delete_message(message.chat.id, processing_message.message_id)
+            return
 
-    # Если данные не были получены
     if not new_url and car_title:
         keyboard = types.InlineKeyboardMarkup()
         keyboard.add(
@@ -775,27 +818,19 @@ def handle_callback_query(call):
 
         car_price_formatted = format_number(details["car_price_korea"])
         dealer_fee_formatted = format_number(details["dealer_fee"])
-        korea_logistics_formatted = format_number(details["korea_logistics"])
         delivery_fee_formatted = format_number(details["delivery_fee"])
         dealer_commission_formatted = format_number(details["dealer_commission"])
         russia_duty_formatted = format_number(details["russiaDuty"])
-        registration_formatted = format_number(details["registration"])
-        sbkts_formatted = format_number(details["sbkts"])
-        svh_expertise_formatted = format_number(details["svhAndExpertise"])
 
-        # Construct cost breakdown message
         detail_message = (
             "📝 Детализация расчёта:\n\n"
             f"Стоимость авто: <b>{car_price_formatted}₽</b>\n\n"
             f"Услуги HanExport: <b>{dealer_fee_formatted}₽</b>\n\n"
-            f"Услуги Брокера: <b>{format_number(110000)}₽</b>\n\n"
-            f"Логистика по Южной Корее: <b>{korea_logistics_formatted}₽</b>\n\n"
+            f"Услуги Брокера: <b>{format_number(115000)}₽</b>\n    - Оформление: <b>45,000₽</>\n    - Регистрация: <b>15,000₽</b>\n    - Услуга брокера: <b>15,000₽</b>\n    - Транспортные расходы: <b>10,000₽</b>\n    - Ставка ПРР от <b>35,000₽</b> до <b>37,000₽</b> в зависимости от склада\n\n"
+            f"Логистика по Южной Корее: <b>{format_number(30000)}₽</b>\n\n"
             f"Доставка до Владивостока: <b>{delivery_fee_formatted}₽</b>\n\n"
             f"Комиссия дилера: <b>{dealer_commission_formatted}₽</b>\n\n"
             f"Единая таможенная ставка (ЕТС): <b>{russia_duty_formatted}₽</b>\n\n"
-            f"Оформление: <b>{registration_formatted}₽</b>\n\n"
-            f"СБКТС: <b>{sbkts_formatted}₽</b>\n\n"
-            f"СВХ + Экспертиза: <b>{svh_expertise_formatted}₽</b>\n\n"
         )
 
         bot.send_message(call.message.chat.id, detail_message, parse_mode="HTML")
